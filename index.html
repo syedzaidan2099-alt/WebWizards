@@ -144,11 +144,13 @@
             </div>
             <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
                 <a href="#hero" class="hover:text-rose-gold transition-colors">Home</a>
+                <a href="#couple-setup" class="hover:text-rose-gold transition-colors">Setup</a>
                 <a href="#dashboard" class="hover:text-rose-gold transition-colors">Dashboard</a>
                 <a href="#budget" class="hover:text-rose-gold transition-colors">Budget</a>
                 <a href="#guests" class="hover:text-rose-gold transition-colors">Guests</a>
                 <a href="#checklist" class="hover:text-rose-gold transition-colors">Checklist</a>
                 <a href="#vendors" class="hover:text-rose-gold transition-colors">Vendors</a>
+                <a href="#timeline" class="hover:text-rose-gold transition-colors">Timeline</a>
             </nav>
             <a href="#dashboard" class="px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider bg-gradient-to-r from-rose-gold to-champagne text-deep-navy hover:shadow-lg hover:shadow-rose-gold/20 transition-all duration-300">
                 Open Planner
@@ -160,16 +162,19 @@
     <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center px-4 relative">
         <div class="max-w-3xl space-y-6 animate-fade-in">
             <p class="text-rose-gold uppercase tracking-[0.3em] text-sm font-medium">The Ultimate Suite by Web Wizards</p>
-            <h1 class="text-5xl md:text-7xl font-serif font-normal text-transparent bg-clip-text bg-gradient-to-r from-white via-champagne to-rose-gold leading-tight">
-                Crafting Your Forever Story
+            <h1 id="hero-title-display" class="text-5xl md:text-7xl font-serif font-normal text-transparent bg-clip-text bg-gradient-to-r from-white via-champagne to-rose-gold leading-tight">
+                Sophia & Alexander
             </h1>
-            <p class="text-gray-400 text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed">
-                An intuitive, luxury wedding planning experience powered by real-time budget tracking, guest management, timeline coordination, and vendor alignment.
+            <p id="hero-location-display" class="text-rose-gold/90 text-sm md:text-base tracking-widest uppercase">
+                Grand Palace Hall &bull; Paris, France
+            </p>
+            <p class="text-gray-400 text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed pt-2">
+                An intuitive, luxury wedding planning experience designed for both couples and professional wedding planners.
             </p>
             
-            <div class="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a href="#dashboard" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-rose-gold via-champagne to-rose-gold text-deep-navy font-semibold text-sm tracking-wider uppercase hover:scale-105 transition-transform duration-300 shadow-xl shadow-rose-gold/20">
-                    Explore Dashboard
+                    Open Command Center
                 </a>
             </div>
         </div>
@@ -191,8 +196,8 @@
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-rose-gold/15 pb-8">
                 <div>
                     <span class="text-rose-gold text-xs font-semibold uppercase tracking-widest">Live Overview</span>
-                    <h2 class="text-3xl sm:text-4xl font-serif font-normal text-white mt-1">Wedding Command Center</h2>
-                    <p class="text-gray-400 text-sm mt-1">Target Date: October 24, 2026 &bull; Grand Palace Hall</p>
+                    <h2 id="header-couple-display" class="text-3xl sm:text-4xl font-serif font-normal text-white mt-1">Sophia & Alexander's Wedding</h2>
+                    <p id="header-location-display" class="text-gray-400 text-sm mt-1">Target Date: October 24, 2026 &bull; Grand Palace Hall, Paris</p>
                 </div>
 
                 <!-- Countdown Timer Block -->
@@ -215,6 +220,35 @@
                     </div>
                 </div>
             </div>
+
+            <!-- SECTION 0: COUPLE & EVENT CUSTOMIZATION FORM -->
+            <section id="couple-setup" class="glass-card p-6 rounded-2xl space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-rose-gold/10 pb-3">
+                    <h3 class="text-xl font-serif text-white flex items-center gap-2">
+                        <svg class="w-5 h-5 text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                        Customize Couple & Event Details
+                    </h3>
+                    <span class="text-xs text-rose-gold/80">Editable for planners & couples</span>
+                </div>
+                <form id="setup-form" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+                    <div>
+                        <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Bride Name</label>
+                        <input type="text" id="input-bride" value="Sophia" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Groom Name</label>
+                        <input type="text" id="input-groom" value="Alexander" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Venue / Location</label>
+                        <input type="text" id="input-venue" value="Grand Palace Hall, Paris" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Wedding Date</label>
+                        <input type="date" id="input-date" value="2026-10-24" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                    </div>
+                </form>
+            </section>
 
             <!-- SECTION 1: BUDGET CALCULATOR & SUMMARY -->
             <section id="budget" class="space-y-6">
@@ -401,107 +435,101 @@
 
             <!-- SECTION 4: VENDOR DIRECTORY & CONTACT CARDS -->
             <section id="vendors" class="space-y-6">
-                <div>
-                    <h3 class="text-2xl font-serif text-white flex items-center gap-2">
-                        <svg class="w-6 h-6 text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V10m0 0V4.5M10 10l-2 2m2-2l2 2"></path></svg>
-                        Vendor Contacts & Directory
-                    </h3>
-                    <p class="text-xs text-gray-400 mt-1">Curated team of creative professionals handling your big day</p>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-2xl font-serif text-white flex items-center gap-2">
+                            <svg class="w-6 h-6 text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V10m0 0V4.5M10 10l-2 2m2-2l2 2"></path></svg>
+                            Vendor Contacts & Directory
+                        </h3>
+                        <p class="text-xs text-gray-400 mt-1">Curated team of creative professionals handling your big day</p>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Vendor 1 -->
-                    <div class="glass-card p-5 rounded-2xl space-y-3 relative group">
-                        <div class="flex justify-between items-start">
-                            <span class="p-2 rounded-xl bg-rose-gold/10 text-rose-gold text-xs font-semibold">Venue</span>
-                            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Booked</span>
-                        </div>
-                        <h4 class="text-base font-serif text-white">Grand Palace Hall</h4>
-                        <p class="text-xs text-gray-400">Contact: Julia Sterling</p>
-                        <p class="text-xs text-rose-gold">+1 (555) 234-5678</p>
-                        <p class="text-xs text-gray-500 pt-2 border-t border-rose-gold/10">Notes: Includes ballroom & outdoor garden setup.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Add Vendor Form -->
+                    <div class="glass-card p-6 rounded-2xl space-y-4">
+                        <h4 class="text-lg font-serif text-white">Add New Vendor</h4>
+                        <form id="add-vendor-form" class="space-y-3">
+                            <div>
+                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Business Name</label>
+                                <input type="text" id="vendor-name" placeholder="e.g. Lumière Atelier" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Category</label>
+                                <input type="text" id="vendor-category" placeholder="e.g. Photography, Catering" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Contact Person</label>
+                                <input type="text" id="vendor-contact" placeholder="Marc Antoine" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Phone / Email</label>
+                                <input type="text" id="vendor-phone" placeholder="+1 (555) 876-5432" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Booking Status</label>
+                                <select id="vendor-status" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                                    <option value="Booked">Booked</option>
+                                    <option value="In Talks">In Talks</option>
+                                    <option value="Pending Deposit">Pending Deposit</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Notes</label>
+                                <input type="text" id="vendor-notes" placeholder="10 Hours coverage + drone" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                            </div>
+                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-rose-gold to-champagne text-deep-navy font-semibold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity">
+                                Add Vendor Entry
+                            </button>
+                        </form>
                     </div>
 
-                    <!-- Vendor 2 -->
-                    <div class="glass-card p-5 rounded-2xl space-y-3 relative group">
-                        <div class="flex justify-between items-start">
-                            <span class="p-2 rounded-xl bg-rose-gold/10 text-rose-gold text-xs font-semibold">Photography</span>
-                            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Booked</span>
-                        </div>
-                        <h4 class="text-base font-serif text-white">Lumière Atelier</h4>
-                        <p class="text-xs text-gray-400">Contact: Marc Antoine</p>
-                        <p class="text-xs text-rose-gold">+1 (555) 876-5432</p>
-                        <p class="text-xs text-gray-500 pt-2 border-t border-rose-gold/10">Notes: 10 Hours coverage + drone cinematography.</p>
-                    </div>
-
-                    <!-- Vendor 3 -->
-                    <div class="glass-card p-5 rounded-2xl space-y-3 relative group">
-                        <div class="flex justify-between items-start">
-                            <span class="p-2 rounded-xl bg-rose-gold/10 text-rose-gold text-xs font-semibold">Floral & Decor</span>
-                            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">In Talks</span>
-                        </div>
-                        <h4 class="text-base font-serif text-white">Blush & Botanica</h4>
-                        <p class="text-xs text-gray-400">Contact: Sophia Chen</p>
-                        <p class="text-xs text-rose-gold">+1 (555) 345-6789</p>
-                        <p class="text-xs text-gray-500 pt-2 border-t border-rose-gold/10">Notes: Rose gold arches and glowing centerpieces.</p>
-                    </div>
-
-                    <!-- Vendor 4 -->
-                    <div class="glass-card p-5 rounded-2xl space-y-3 relative group">
-                        <div class="flex justify-between items-start">
-                            <span class="p-2 rounded-xl bg-rose-gold/10 text-rose-gold text-xs font-semibold">Catering</span>
-                            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Booked</span>
-                        </div>
-                        <h4 class="text-base font-serif text-white">Artisan Culinary</h4>
-                        <p class="text-xs text-gray-400">Contact: Chef Gordon</p>
-                        <p class="text-xs text-rose-gold">+1 (555) 987-6543</p>
-                        <p class="text-xs text-gray-500 pt-2 border-t border-rose-gold/10">Notes: 5-course tasting menu + champagne bar.</p>
+                    <!-- Vendor Grid List -->
+                    <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4" id="vendor-cards-container">
+                        <!-- Dynamic Vendor Cards Rendered Here -->
                     </div>
                 </div>
             </section>
 
             <!-- SECTION 5: DAY-OF TIMELINE -->
             <section id="timeline" class="space-y-6">
-                <div>
-                    <h3 class="text-2xl font-serif text-white flex items-center gap-2">
-                        <svg class="w-6 h-6 text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        Day-Of Schedule Timeline
-                    </h3>
-                    <p class="text-xs text-gray-400 mt-1">Key event milestones scheduled for the wedding day</p>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-2xl font-serif text-white flex items-center gap-2">
+                            <svg class="w-6 h-6 text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Day-Of Schedule Timeline
+                        </h3>
+                        <p class="text-xs text-gray-400 mt-1">Key event milestones scheduled for the wedding day</p>
+                    </div>
                 </div>
 
-                <div class="glass-card p-6 rounded-2xl relative">
-                    <div class="space-y-6 border-l-2 border-rose-gold/30 ml-4 pl-6">
-                        <!-- Item 1 -->
-                        <div class="relative">
-                            <span class="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-rose-gold border-4 border-deep-navy"></span>
-                            <span class="text-xs text-rose-gold font-semibold uppercase tracking-wider">09:00 AM</span>
-                            <h4 class="text-base font-serif text-white mt-0.5">Bridal Suite Preparation</h4>
-                            <p class="text-xs text-gray-400 mt-1">Hair and makeup sessions begin for the bridal party.</p>
-                        </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Timeline Input Form -->
+                    <div class="glass-card p-6 rounded-2xl space-y-4">
+                        <h4 class="text-lg font-serif text-white">Add Schedule Event</h4>
+                        <form id="add-timeline-form" class="space-y-3">
+                            <div>
+                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Time (e.g., 04:00 PM)</label>
+                                <input type="text" id="timeline-time" placeholder="04:00 PM" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Activity / Stage</label>
+                                <input type="text" id="timeline-title" placeholder="Wedding Ceremony" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Details / Responsible Party</label>
+                                <input type="text" id="timeline-desc" placeholder="Guests arrive at Main Pavilion" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                            </div>
+                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-rose-gold to-champagne text-deep-navy font-semibold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity">
+                                Append Event
+                            </button>
+                        </form>
+                    </div>
 
-                        <!-- Item 2 -->
-                        <div class="relative">
-                            <span class="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-champagne border-4 border-deep-navy"></span>
-                            <span class="text-xs text-rose-gold font-semibold uppercase tracking-wider">01:30 PM</span>
-                            <h4 class="text-base font-serif text-white mt-0.5">First Look & Portraits</h4>
-                            <p class="text-xs text-gray-400 mt-1">Private photography session in the botanical gardens.</p>
-                        </div>
-
-                        <!-- Item 3 -->
-                        <div class="relative">
-                            <span class="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-rose-gold border-4 border-deep-navy"></span>
-                            <span class="text-xs text-rose-gold font-semibold uppercase tracking-wider">04:00 PM</span>
-                            <h4 class="text-base font-serif text-white mt-0.5">Wedding Ceremony</h4>
-                            <p class="text-xs text-gray-400 mt-1">Guests arrive for the vow exchange ceremony at the Main Pavilion.</p>
-                        </div>
-
-                        <!-- Item 4 -->
-                        <div class="relative">
-                            <span class="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-champagne border-4 border-deep-navy"></span>
-                            <span class="text-xs text-rose-gold font-semibold uppercase tracking-wider">06:00 PM</span>
-                            <h4 class="text-base font-serif text-white mt-0.5">Cocktail Hour & Grand Reception</h4>
-                            <p class="text-xs text-gray-400 mt-1">Live musical string quartet, signature cocktails, and dinner dance.</p>
+                    <!-- Dynamic Schedule Timeline Display -->
+                    <div class="lg:col-span-2 glass-card p-6 rounded-2xl relative">
+                        <div id="timeline-events-container" class="space-y-6 border-l-2 border-rose-gold/30 ml-4 pl-6">
+                            <!-- Dynamic Timeline Items Rendered Here -->
                         </div>
                     </div>
                 </div>
@@ -896,11 +924,37 @@
 
         // --- INTERACTIVE DASHBOARD DATA LOGIC ---
 
+        // 0. COUPLE & LOCATION LIVE SYNC LOGIC
+        let weddingTargetDate = new Date('2026-10-24T16:00:00').getTime();
+
+        const inputBride = document.getElementById('input-bride');
+        const inputGroom = document.getElementById('input-groom');
+        const inputVenue = document.getElementById('input-venue');
+        const inputDate = document.getElementById('input-date');
+
+        function syncCoupleDetails() {
+            const bride = inputBride.value.trim() || 'Bride';
+            const groom = inputGroom.value.trim() || 'Groom';
+            const venue = inputVenue.value.trim() || 'Wedding Venue';
+            const coupleText = `${bride} & ${groom}`;
+
+            document.getElementById('hero-title-display').innerText = coupleText;
+            document.getElementById('header-couple-display').innerText = `${coupleText}'s Wedding`;
+            document.getElementById('hero-location-display').innerText = venue;
+            document.getElementById('header-location-display').innerText = `Target Date: ${inputDate.value} • ${venue}`;
+
+            if (inputDate.value) {
+                weddingTargetDate = new Date(`${inputDate.value}T16:00:00`).getTime();
+                updateTimer();
+            }
+        }
+
+        [inputBride, inputGroom, inputVenue, inputDate].forEach(el => el.addEventListener('input', syncCoupleDetails));
+
         // 1. COUNTDOWN TIMER LOGIC
-        const targetDate = new Date('2026-10-24T16:00:00').getTime();
         function updateTimer() {
             const now = new Date().getTime();
-            const difference = Math.max(0, targetDate - now);
+            const difference = Math.max(0, weddingTargetDate - now);
 
             const days = Math.floor(difference / (1000 * 60 * 60 * 24));
             const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -1058,6 +1112,101 @@
             renderChecklist();
         };
         renderChecklist();
+
+        // 5. MANUAL VENDOR DIRECTORY MANAGEMENT
+        let vendors = [
+            { id: 1, name: 'Grand Palace Hall', category: 'Venue', contact: 'Julia Sterling', phone: '+1 (555) 234-5678', status: 'Booked', notes: 'Includes ballroom & outdoor garden setup.' },
+            { id: 2, name: 'Lumière Atelier', category: 'Photography', contact: 'Marc Antoine', phone: '+1 (555) 876-5432', status: 'Booked', notes: '10 Hours coverage + drone cinematography.' },
+            { id: 3, name: 'Blush & Botanica', category: 'Floral & Decor', contact: 'Sophia Chen', phone: '+1 (555) 345-6789', status: 'In Talks', notes: 'Rose gold arches and glowing centerpieces.' },
+            { id: 4, name: 'Artisan Culinary', category: 'Catering', contact: 'Chef Gordon', phone: '+1 (555) 987-6543', status: 'Booked', notes: '5-course tasting menu + champagne bar.' }
+        ];
+
+        function renderVendors() {
+            const container = document.getElementById('vendor-cards-container');
+            container.innerHTML = vendors.map(v => {
+                let badgeClass = 'bg-emerald-500/20 text-emerald-300';
+                if (v.status === 'In Talks') badgeClass = 'bg-amber-500/20 text-amber-300';
+                if (v.status === 'Pending Deposit') badgeClass = 'bg-rose-500/20 text-rose-300';
+
+                return `
+                    <div class="glass-card p-5 rounded-2xl space-y-3 relative group">
+                        <div class="flex justify-between items-start">
+                            <span class="p-2 rounded-xl bg-rose-gold/10 text-rose-gold text-xs font-semibold">${v.category}</span>
+                            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded ${badgeClass}">${v.status}</span>
+                        </div>
+                        <h4 class="text-base font-serif text-white">${v.name}</h4>
+                        <p class="text-xs text-gray-400">Contact: ${v.contact || 'N/A'}</p>
+                        <p class="text-xs text-rose-gold">${v.phone || 'N/A'}</p>
+                        <p class="text-xs text-gray-500 pt-2 border-t border-rose-gold/10">${v.notes || 'No extra notes'}</p>
+                        <button onclick="removeVendor(${v.id})" class="text-xs text-rose-400 hover:text-rose-300 pt-1 block">Remove Vendor</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.removeVendor = function(id) {
+            vendors = vendors.filter(v => v.id !== id);
+            renderVendors();
+        };
+
+        document.getElementById('add-vendor-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('vendor-name').value;
+            const category = document.getElementById('vendor-category').value;
+            const contact = document.getElementById('vendor-contact').value;
+            const phone = document.getElementById('vendor-phone').value;
+            const status = document.getElementById('vendor-status').value;
+            const notes = document.getElementById('vendor-notes').value;
+
+            if (name && category) {
+                vendors.push({ id: Date.now(), name, category, contact, phone, status, notes });
+                renderVendors();
+                e.target.reset();
+            }
+        });
+        renderVendors();
+
+        // 6. MANUAL DAY-OF TIMELINE MANAGEMENT
+        let timelineEvents = [
+            { id: 1, time: '09:00 AM', title: 'Bridal Suite Preparation', desc: 'Hair and makeup sessions begin for the bridal party.' },
+            { id: 2, time: '01:30 PM', title: 'First Look & Portraits', desc: 'Private photography session in the botanical gardens.' },
+            { id: 3, time: '04:00 PM', title: 'Wedding Ceremony', desc: 'Guests arrive for the vow exchange ceremony at the Main Pavilion.' },
+            { id: 4, time: '06:00 PM', title: 'Cocktail Hour & Grand Reception', desc: 'Live musical string quartet, signature cocktails, and dinner dance.' }
+        ];
+
+        function renderTimeline() {
+            const container = document.getElementById('timeline-events-container');
+            container.innerHTML = timelineEvents.map((evt, idx) => `
+                <div class="relative group">
+                    <span class="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full ${idx % 2 === 0 ? 'bg-rose-gold' : 'bg-champagne'} border-4 border-deep-navy"></span>
+                    <div class="flex justify-between items-start">
+                        <span class="text-xs text-rose-gold font-semibold uppercase tracking-wider">${evt.time}</span>
+                        <button onclick="removeTimelineEvent(${evt.id})" class="text-xs text-rose-400 hover:text-rose-300 opacity-80 group-hover:opacity-100">Remove</button>
+                    </div>
+                    <h4 class="text-base font-serif text-white mt-0.5">${evt.title}</h4>
+                    <p class="text-xs text-gray-400 mt-1">${evt.desc || 'No details provided.'}</p>
+                </div>
+            `).join('');
+        }
+
+        window.removeTimelineEvent = function(id) {
+            timelineEvents = timelineEvents.filter(e => e.id !== id);
+            renderTimeline();
+        };
+
+        document.getElementById('add-timeline-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const time = document.getElementById('timeline-time').value;
+            const title = document.getElementById('timeline-title').value;
+            const desc = document.getElementById('timeline-desc').value;
+
+            if (time && title) {
+                timelineEvents.push({ id: Date.now(), time, title, desc });
+                renderTimeline();
+                e.target.reset();
+            }
+        });
+        renderTimeline();
     </script>
 </body>
-</html>s
+</html>
