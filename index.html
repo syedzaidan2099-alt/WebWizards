@@ -1,1218 +1,1466 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Wizards - Wedding Planning Dashboard</title>
-    <link rel="icon" href="data:,">
-    <!-- Tailwind CSS for UI styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'rose-gold': '#e6b89c',
-                        'champagne': '#f7e7ce',
-                        'blush': '#f4c2c2',
-                        'deep-navy': '#080711',
-                    },
-                    fontFamily: {
-                        serif: ['Playfair Display', 'Georgia', 'serif'],
-                        sans: ['Inter', '-apple-system', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Google Fonts for High-End Typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WedWise – Luxury Wedding Planning Suite</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Great+Vibes&display=swap');
 
-    <style>
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: #0b0914;
-            color: #2c221e;
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-        }
-
-        /* Fixed full-viewport WebGL Canvas background */
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            pointer-events: none;
-            display: block;
-        }
-
-        /* Luxury Translucent Cream Glassmorphism Styles */
-        .glass-panel {
-            background: rgba(253, 248, 240, 0.78);
-            backdrop-filter: blur(28px);
-            -webkit-backdrop-filter: blur(28px);
-            border: 1px solid rgba(212, 175, 55, 0.45);
-            box-shadow: 0 25px 60px rgba(15, 12, 5, 0.35), 0 0 30px rgba(212, 175, 55, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.9);
-        }
-
-        .glass-card {
-            background: rgba(255, 253, 248, 0.68);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            box-shadow: 0 12px 30px rgba(184, 134, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-        }
-
-        .glass-card:hover {
-            border-color: rgba(212, 175, 55, 0.6);
-            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.15);
-        }
-
-        .glass-input {
-            background: rgba(255, 255, 255, 0.85);
-            border: 1px solid rgba(212, 175, 55, 0.35);
-            color: #1c140e;
-        }
-
-        .glass-input::placeholder {
-            color: #8c786a;
-        }
-
-        .glass-input:focus {
-            outline: none;
-            border-color: #c59b27;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.35);
-            background: #ffffff;
-        }
-
-        /* Scroll trigger transition */
-        .reveal-panel {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
-        }
-
-        .reveal-panel.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(253, 248, 240, 0.6);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(212, 175, 55, 0.4);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(212, 175, 55, 0.7);
-        }
-    </style>
-
-    <!-- Three.js Import Map -->
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-        }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    </script>
-</head>
-<body class="relative min-h-screen selection:bg-rose-gold/30 selection:text-rose-gold">
 
-    <!-- WebGL Canvas for 4D Clifford Torus Swarm -->
-    <canvas id="bg-canvas"></canvas>
+    body {
+      background: #03050a;
+      color: #1c140e;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+      display: block;
+    }
+
+    .font-serif {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+    .font-script {
+      font-family: 'Great Vibes', cursive;
+    }
+
+    .gold-gradient-bg {
+      background: linear-gradient(135deg, #B58C3E 0%, #D8B76E 50%, #C5A059 100%);
+      color: #FFFFFF;
+    }
+    
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #A67C2E 0%, #D8B76E 40%, #C5A059 70%, #946F25 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .invitation-frame {
+      border: 2px solid #D4B86F;
+      outline: 1px solid #EBDCB9;
+      outline-offset: -8px;
+      background: radial-gradient(circle at center, #FFFFFF 65%, #FDFBF7 100%);
+    }
+
+    /* Translucent Cream Glass Aesthetic */
+    .cream-glass-card {
+      background: rgba(253, 248, 240, 0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1.5px solid rgba(212, 175, 55, 0.45);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), 0 0 30px rgba(212, 175, 55, 0.15);
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(245, 239, 235, 0.5); }
+    ::-webkit-scrollbar-thumb { background: #D9CCC0; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #C5A059; }
+  </style>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body class="antialiased p-2 sm:p-4 selection:bg-amber-100">
+
+  <!-- Fullscreen WebGL Canvas Background -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Main Translucent Cream Container Card -->
+  <div class="max-w-6xl mx-auto cream-glass-card rounded-3xl overflow-hidden flex flex-col min-h-[850px] relative my-4">
+    
+    <!-- Top Global Notification Banner -->
+    <div id="toast" class="hidden fixed top-6 right-6 z-50 bg-stone-900 text-amber-100 px-5 py-3 rounded-2xl shadow-2xl border border-amber-400/40 text-xs font-semibold flex items-center gap-2 animate-bounce">
+      <span id="toast-icon">✨</span>
+      <span id="toast-msg">Action completed</span>
+    </div>
 
     <!-- Navigation Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 px-6 py-4 transition-all duration-300 backdrop-blur-md bg-white/40 border-b border-amber-600/20">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <span class="text-amber-800 text-2xl font-serif tracking-widest uppercase font-bold">Web Wizards</span>
-                <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-900 border border-amber-600/30 font-medium">Wedding Concierge</span>
-            </div>
-            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-amber-950">
-                <a href="#hero" class="hover:text-amber-600 transition-colors">Home</a>
-                <a href="#couple-setup" class="hover:text-amber-600 transition-colors">Setup</a>
-                <a href="#dashboard" class="hover:text-amber-600 transition-colors">Dashboard</a>
-                <a href="#budget" class="hover:text-amber-600 transition-colors">Budget</a>
-                <a href="#guests" class="hover:text-amber-600 transition-colors">Guests</a>
-                <a href="#checklist" class="hover:text-amber-600 transition-colors">Checklist</a>
-                <a href="#vendors" class="hover:text-amber-600 transition-colors">Vendors</a>
-                <a href="#timeline" class="hover:text-amber-600 transition-colors">Timeline</a>
-            </nav>
-            <a href="#dashboard" class="px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-stone-950 hover:shadow-lg hover:shadow-amber-500/30 transition-all duration-300 border border-amber-300">
-                Open Planner
-            </a>
+    <header class="bg-white/80 backdrop-blur-md border-b border-amber-200/60 px-4 sm:px-6 py-3.5 sticky top-0 z-30 flex flex-wrap items-center justify-between gap-4">
+      <div onclick="switchTab('home')" class="flex items-center gap-2.5 cursor-pointer select-none group">
+        <div class="w-9 h-9 rounded-full gold-gradient-bg flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+          <span class="text-white text-base">💍</span>
         </div>
+        <div>
+          <span class="font-serif text-2xl font-bold tracking-tight text-stone-900 flex items-center gap-1.5">
+            WedWise
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-sans font-bold uppercase">Suite</span>
+          </span>
+          <p class="text-[9px] uppercase tracking-widest text-amber-700 font-medium">Your Dream Wedding, Perfectly Planned</p>
+        </div>
+      </div>
+
+      <nav class="flex items-center gap-1 overflow-x-auto text-xs font-semibold">
+        <button onclick="switchTab('home')" id="tab-btn-home" class="nav-tab px-3 py-1.5 rounded-xl bg-amber-100/80 text-amber-900 font-bold border border-amber-300/60 transition-all">Home</button>
+        <button onclick="switchTab('dashboard')" id="tab-btn-dashboard" class="nav-tab px-3 py-1.5 rounded-xl text-stone-700 hover:text-stone-900 hover:bg-amber-50/50 transition-all">Dashboard</button>
+        <button onclick="switchTab('budget')" id="tab-btn-budget" class="nav-tab px-3 py-1.5 rounded-xl text-stone-700 hover:text-stone-900 hover:bg-amber-50/50 transition-all">Budget</button>
+        <button onclick="switchTab('guests')" id="tab-btn-guests" class="nav-tab px-3 py-1.5 rounded-xl text-stone-700 hover:text-stone-900 hover:bg-amber-50/50 transition-all">Guests</button>
+        <button onclick="switchTab('vendors')" id="tab-btn-vendors" class="nav-tab px-3 py-1.5 rounded-xl text-stone-700 hover:text-stone-900 hover:bg-amber-50/50 transition-all">Vendors</button>
+        <button onclick="switchTab('checklist')" id="tab-btn-checklist" class="nav-tab px-3 py-1.5 rounded-xl text-stone-700 hover:text-stone-900 hover:bg-amber-50/50 transition-all">Checklist</button>
+        <button onclick="switchTab('ai')" id="tab-btn-ai" class="nav-tab px-3 py-1.5 rounded-xl text-stone-700 hover:text-stone-900 hover:bg-amber-50/50 transition-all flex items-center gap-1">
+          <span>AI Concierge</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+        </button>
+        <button onclick="switchTab('invitation')" id="tab-btn-invitation" class="nav-tab px-3 py-1.5 rounded-xl text-stone-700 hover:text-stone-900 hover:bg-amber-50/50 transition-all">RSVP Invite</button>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button onclick="openCoupleModal()" class="text-xs px-3 py-1 rounded-xl bg-amber-50/80 border border-amber-200 text-amber-900 font-semibold hover:bg-amber-100 transition-colors flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span id="nav-couple-names">Sophia & Alexander</span>
+          <span class="text-stone-400">|</span>
+          <span id="nav-days-left" class="text-amber-800">238d</span>
+        </button>
+        <button onclick="resetData()" title="Reset demo data" class="text-xs p-1.5 text-stone-400 hover:text-stone-700 rounded-lg hover:bg-stone-100">🔄</button>
+      </div>
     </header>
 
-    <!-- HERO SECTION -->
-    <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center px-4 relative">
-        <div class="max-w-3xl space-y-6 animate-fade-in">
-            <p class="text-amber-400 uppercase tracking-[0.3em] text-sm font-semibold drop-shadow">The Ultimate Suite by Web Wizards</p>
-            <h1 id="hero-title-display" class="text-5xl md:text-7xl font-serif font-normal text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-200 to-amber-400 leading-tight drop-shadow-md">
-                Sophia & Alexander
+    <!-- Pages Container -->
+    <main class="flex-1 p-4 sm:p-6 overflow-y-auto">
+      
+      <!-- 1. HOME VIEW -->
+      <section id="view-home" class="page-view space-y-10">
+        <div class="relative rounded-3xl overflow-hidden bg-stone-900/90 text-white p-8 sm:p-14 text-center shadow-xl border border-amber-500/30">
+          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80" alt="Wedding" class="absolute inset-0 w-full h-full object-cover opacity-25 scale-105" />
+          <div class="relative z-10 max-w-2xl mx-auto space-y-4">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-amber-200 text-xs uppercase font-semibold border border-amber-300/30">
+              ✨ Premier Wedding Planning OS
+            </div>
+            <h1 class="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-tight">
+              Your Dream Wedding <br />
+              <span class="font-script text-4xl sm:text-6xl text-amber-300 font-normal">Starts Here.</span>
             </h1>
-            <p id="hero-location-display" class="text-amber-200/90 text-sm md:text-base tracking-widest uppercase font-medium">
-                Grand Palace Hall &bull; Paris, France
+            <p class="text-xs sm:text-sm text-stone-200 font-light leading-relaxed max-w-lg mx-auto">
+              Orchestrate your budget, guest lists, bespoke artisans, and interactive digital RSVP invitations in one unified sanctuary.
             </p>
-            <p class="text-stone-300 text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed pt-2 drop-shadow-sm">
-                An intuitive, luxury wedding planning experience designed for both couples and professional wedding planners.
-            </p>
-            
-            <div class="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#dashboard" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-stone-950 font-bold text-sm tracking-wider uppercase hover:scale-105 transition-transform duration-300 shadow-xl shadow-amber-500/20 border border-amber-200">
-                    Open Command Center
-                </a>
+            <div class="flex flex-wrap items-center justify-center gap-3 pt-4">
+              <button onclick="switchTab('dashboard')" class="px-6 py-3 rounded-xl gold-gradient-bg font-bold text-xs shadow-lg hover:scale-105 transition-transform">
+                Get Started Planning →
+              </button>
+              <button onclick="switchTab('invitation')" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-xs backdrop-blur-md transition-colors">
+                Preview Digital RSVP
+              </button>
             </div>
+
+            <div class="mt-8 p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 max-w-sm mx-auto grid grid-cols-4 gap-2 text-center text-amber-200">
+              <div><span id="hero-days" class="font-serif text-2xl font-bold text-amber-300">238</span><p class="text-[9px] uppercase">Days</p></div>
+              <div><span id="hero-hours" class="font-serif text-2xl font-bold text-amber-300">14</span><p class="text-[9px] uppercase">Hours</p></div>
+              <div><span id="hero-mins" class="font-serif text-2xl font-bold text-amber-300">22</span><p class="text-[9px] uppercase">Mins</p></div>
+              <div><span id="hero-secs" class="font-serif text-2xl font-bold text-amber-300">45</span><p class="text-[9px] uppercase">Secs</p></div>
+            </div>
+          </div>
         </div>
 
-        <!-- Scroll Indicator -->
-        <a href="#dashboard" class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-amber-200/80 hover:text-amber-300 transition-colors">
-            <span class="text-xs uppercase tracking-widest font-medium">Scroll to Dashboard</span>
-            <svg class="w-5 h-5 animate-bounce text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-            </svg>
-        </a>
-    </section>
+        <div class="bg-white/90 rounded-3xl p-6 sm:p-8 border border-amber-200/80 shadow-sm">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-md">
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-700">Interactive Estimator</span>
+              <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1">Estimate Your Ideal Wedding Budget</h3>
+              <p class="text-xs text-stone-500 mt-1">Select your celebration aesthetic and guest count to calculate benchmark allocations.</p>
+              
+              <div class="mt-4 space-y-3">
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                  <button onclick="setStyleEstimate('Lake Como Romance', 380)" class="est-btn p-2 rounded-xl border border-amber-500 bg-amber-50 text-amber-900 font-semibold text-left">Lake Como Romance</button>
+                  <button onclick="setStyleEstimate('Tuscan Vineyard', 320)" class="est-btn p-2 rounded-xl border border-stone-200 bg-white text-stone-700 text-left">Tuscan Vineyard</button>
+                  <button onclick="setStyleEstimate('Parisian Ballroom', 450)" class="est-btn p-2 rounded-xl border border-stone-200 bg-white text-stone-700 text-left">Parisian Ballroom</button>
+                  <button onclick="setStyleEstimate('Boho Coastal', 280)" class="est-btn p-2 rounded-xl border border-stone-200 bg-white text-stone-700 text-left">Boho Coastal</button>
+                </div>
 
-    <!-- MAIN DASHBOARD CONTENT (GLASS PANEL CONTAINER) -->
-    <main class="w-full px-4 sm:px-8 pb-24">
-        <div id="dashboard" class="glass-panel reveal-panel max-w-7xl mx-auto rounded-3xl p-6 sm:p-10 my-12 space-y-12 text-stone-900">
-            
-            <!-- Dashboard Header & Countdown Bar -->
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-amber-800/20 pb-8">
                 <div>
-                    <span class="text-amber-700 text-xs font-bold uppercase tracking-widest">Live Overview</span>
-                    <h2 id="header-couple-display" class="text-3xl sm:text-4xl font-serif font-normal text-stone-900 mt-1">Sophia & Alexander's Wedding</h2>
-                    <p id="header-location-display" class="text-stone-700 text-sm mt-1 font-medium">Target Date: October 24, 2026 &bull; Grand Palace Hall, Paris</p>
+                  <div class="flex justify-between text-xs font-semibold text-stone-700 mb-1">
+                    <span>Guests: <span id="est-guest-label" class="text-amber-800">120 Attendees</span></span>
+                  </div>
+                  <input type="range" min="30" max="300" step="10" value="120" oninput="updateGuestEstimate(this.value)" class="w-full accent-amber-600" />
                 </div>
-
-                <!-- Countdown Timer Block -->
-                <div class="grid grid-cols-4 gap-3 text-center bg-amber-50/80 backdrop-blur-md p-4 rounded-2xl border border-amber-600/30 shadow-inner">
-                    <div class="px-2 sm:px-4">
-                        <span id="timer-days" class="block text-2xl sm:text-3xl font-serif font-bold text-amber-900">00</span>
-                        <span class="text-[10px] sm:text-xs text-amber-800 uppercase tracking-wider font-semibold">Days</span>
-                    </div>
-                    <div class="px-2 sm:px-4 border-l border-amber-600/20">
-                        <span id="timer-hours" class="block text-2xl sm:text-3xl font-serif font-bold text-amber-800">00</span>
-                        <span class="text-[10px] sm:text-xs text-amber-800 uppercase tracking-wider font-semibold">Hours</span>
-                    </div>
-                    <div class="px-2 sm:px-4 border-l border-amber-600/20">
-                        <span id="timer-mins" class="block text-2xl sm:text-3xl font-serif font-bold text-amber-900">00</span>
-                        <span class="text-[10px] sm:text-xs text-amber-800 uppercase tracking-wider font-semibold">Mins</span>
-                    </div>
-                    <div class="px-2 sm:px-4 border-l border-amber-600/20">
-                        <span id="timer-secs" class="block text-2xl sm:text-3xl font-serif font-bold text-amber-800">00</span>
-                        <span class="text-[10px] sm:text-xs text-amber-800 uppercase tracking-wider font-semibold">Secs</span>
-                    </div>
-                </div>
+              </div>
             </div>
 
-            <!-- SECTION 0: COUPLE & EVENT CUSTOMIZATION FORM -->
-            <section id="couple-setup" class="glass-card p-6 rounded-2xl space-y-4">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-amber-800/15 pb-3">
-                    <h3 class="text-xl font-serif text-stone-900 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                        Customize Couple & Event Details
-                    </h3>
-                    <span class="text-xs text-amber-800 font-medium">Editable for planners & couples</span>
-                </div>
-                <form id="setup-form" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
-                    <div>
-                        <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Bride Name</label>
-                        <input type="text" id="input-bride" value="Sophia" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                    </div>
-                    <div>
-                        <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Groom Name</label>
-                        <input type="text" id="input-groom" value="Alexander" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                    </div>
-                    <div>
-                        <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Venue / Location</label>
-                        <input type="text" id="input-venue" value="Grand Palace Hall, Paris" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                    </div>
-                    <div>
-                        <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Wedding Date</label>
-                        <input type="date" id="input-date" value="2026-10-24" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                    </div>
-                </form>
-            </section>
-
-            <!-- SECTION 1: BUDGET CALCULATOR & SUMMARY -->
-            <section id="budget" class="space-y-6">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                        <h3 class="text-2xl font-serif text-stone-900 flex items-center gap-2">
-                            <svg class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Budget Allocation & Expense Tracker
-                        </h3>
-                        <p class="text-xs text-stone-600 mt-1">Monitor real-time spending versus your target allocation</p>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <div class="text-right">
-                            <span class="text-xs text-stone-600 font-medium block">Total Target Budget</span>
-                            <span id="total-budget-display" class="text-lg font-bold text-amber-900">$45,000</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Budget Bar -->
-                <div class="glass-card p-6 rounded-2xl space-y-4">
-                    <div class="flex justify-between text-sm font-medium">
-                        <span class="text-stone-800">Spent: <strong id="spent-amount-display" class="text-stone-950 font-bold">$0</strong></span>
-                        <span class="text-stone-800">Remaining: <strong id="remaining-amount-display" class="text-amber-900 font-bold">$45,000</strong></span>
-                    </div>
-                    <div class="w-full bg-amber-100/80 h-3 rounded-full overflow-hidden border border-amber-600/30 p-0.5">
-                        <div id="budget-progress-bar" class="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
-                    </div>
-                </div>
-
-                <!-- Expense Form & List -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Add Item Form -->
-                    <div class="glass-card p-6 rounded-2xl space-y-4">
-                        <h4 class="text-lg font-serif text-stone-900">Add New Expense</h4>
-                        <form id="add-expense-form" class="space-y-4">
-                            <div>
-                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Expense Name</label>
-                                <input type="text" id="expense-title" placeholder="e.g. Venue Deposit" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                            </div>
-                            <div>
-                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Category</label>
-                                <select id="expense-category" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                                    <option value="Venue">Venue & Catering</option>
-                                    <option value="Photography">Photography & Film</option>
-                                    <option value="Attire">Attire & Beauty</option>
-                                    <option value="Decor">Decor & Flowers</option>
-                                    <option value="Music">Music & Entertainment</option>
-                                    <option value="Other">Other Services</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Cost ($)</label>
-                                <input type="number" id="expense-amount" min="1" placeholder="2500" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                            </div>
-                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-stone-950 font-bold text-xs uppercase tracking-wider hover:opacity-95 transition-opacity border border-amber-300 shadow-md">
-                                Add Expense Item
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Expense Table -->
-                    <div class="lg:col-span-2 glass-card p-6 rounded-2xl flex flex-col justify-between">
-                        <h4 class="text-lg font-serif text-stone-900 mb-4">Itemized Breakdown</h4>
-                        <div class="overflow-x-auto max-h-64 overflow-y-auto">
-                            <table class="w-full text-left text-sm text-stone-800">
-                                <thead class="text-xs text-amber-900 font-bold uppercase border-b border-amber-800/20">
-                                    <tr>
-                                        <th class="py-2">Item</th>
-                                        <th class="py-2">Category</th>
-                                        <th class="py-2 text-right">Cost</th>
-                                        <th class="py-2 text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="expense-list-body" class="divide-y divide-amber-800/15">
-                                    <!-- Dynamic rows will render here -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION 2: GUEST LIST MANAGER -->
-            <section id="guests" class="space-y-6">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                        <h3 class="text-2xl font-serif text-stone-900 flex items-center gap-2">
-                            <svg class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            Guest List & RSVP Manager
-                        </h3>
-                        <p class="text-xs text-stone-600 mt-1">Track RSVPs, dietary requirements, and headcounts</p>
-                    </div>
-
-                    <!-- Summary Badges -->
-                    <div class="flex items-center gap-2">
-                        <span class="px-3 py-1.5 rounded-full bg-emerald-700/10 border border-emerald-700/30 text-emerald-900 text-xs font-semibold">Confirmed: <strong id="count-confirmed">0</strong></span>
-                        <span class="px-3 py-1.5 rounded-full bg-amber-700/10 border border-amber-700/30 text-amber-900 text-xs font-semibold">Pending: <strong id="count-pending">0</strong></span>
-                        <span class="px-3 py-1.5 rounded-full bg-rose-700/10 border border-rose-700/30 text-rose-900 text-xs font-semibold">Declined: <strong id="count-declined">0</strong></span>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Guest Form -->
-                    <div class="glass-card p-6 rounded-2xl space-y-4">
-                        <h4 class="text-lg font-serif text-stone-900">Add New Guest</h4>
-                        <form id="add-guest-form" class="space-y-4">
-                            <div>
-                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Full Name</label>
-                                <input type="text" id="guest-name" placeholder="Lady Eleanor Vance" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                            </div>
-                            <div>
-                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">RSVP Status</label>
-                                <select id="guest-status" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                                    <option value="Confirmed">Confirmed</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Declined">Declined</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Dietary / Notes</label>
-                                <input type="text" id="guest-notes" placeholder="Vegetarian, Table 4" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                            </div>
-                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-stone-950 font-bold text-xs uppercase tracking-wider hover:opacity-95 transition-opacity border border-amber-300 shadow-md">
-                                Register Guest
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Guest List Table -->
-                    <div class="lg:col-span-2 glass-card p-6 rounded-2xl space-y-4">
-                        <div class="flex items-center justify-between gap-4">
-                            <input type="text" id="guest-search" placeholder="Search guests..." class="w-full sm:w-64 px-4 py-2 rounded-xl glass-input text-xs">
-                            <span class="text-xs text-stone-700 font-semibold">Total: <strong id="total-guests" class="text-stone-950">0</strong></span>
-                        </div>
-
-                        <div class="overflow-x-auto max-h-72 overflow-y-auto">
-                            <table class="w-full text-left text-sm text-stone-800">
-                                <thead class="text-xs text-amber-900 font-bold uppercase border-b border-amber-800/20">
-                                    <tr>
-                                        <th class="py-2">Name</th>
-                                        <th class="py-2">Status</th>
-                                        <th class="py-2">Dietary Notes</th>
-                                        <th class="py-2 text-center">Remove</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="guest-list-body" class="divide-y divide-amber-800/15">
-                                    <!-- Dynamic Rows -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION 3: CHECKLIST & MILESTONES -->
-            <section id="checklist" class="space-y-6">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                        <h3 class="text-2xl font-serif text-stone-900 flex items-center gap-2">
-                            <svg class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Wedding Milestones & Checklist
-                        </h3>
-                        <p class="text-xs text-stone-600 mt-1">Keep track of key planning tasks leading to the wedding day</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-xs text-stone-600 font-medium block">Progress</span>
-                        <span id="checklist-progress-text" class="text-lg font-bold text-amber-900">0% Completed</span>
-                    </div>
-                </div>
-
-                <div class="glass-card p-6 rounded-2xl space-y-4">
-                    <!-- Progress Bar -->
-                    <div class="w-full bg-amber-100/80 h-2.5 rounded-full overflow-hidden border border-amber-600/30">
-                        <div id="checklist-progress-bar" class="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
-                    </div>
-
-                    <!-- Checklist Items Grid -->
-                    <div id="checklist-items-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
-                        <!-- Dynamic checkboxes -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION 4: VENDOR DIRECTORY & CONTACT CARDS -->
-            <section id="vendors" class="space-y-6">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                        <h3 class="text-2xl font-serif text-stone-900 flex items-center gap-2">
-                            <svg class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V10m0 0V4.5M10 10l-2 2m2-2l2 2"></path></svg>
-                            Vendor Contacts & Directory
-                        </h3>
-                        <p class="text-xs text-stone-600 mt-1">Curated team of creative professionals handling your big day</p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Add Vendor Form -->
-                    <div class="glass-card p-6 rounded-2xl space-y-4">
-                        <h4 class="text-lg font-serif text-stone-900">Add New Vendor</h4>
-                        <form id="add-vendor-form" class="space-y-3">
-                            <div>
-                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Business Name</label>
-                                <input type="text" id="vendor-name" placeholder="e.g. Lumière Atelier" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                            </div>
-                            <div>
-                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Category</label>
-                                <input type="text" id="vendor-category" placeholder="e.g. Photography, Catering" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                            </div>
-                            <div>
-                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Contact Person</label>
-                                <input type="text" id="vendor-contact" placeholder="Marc Antoine" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                            </div>
-                            <div>
-                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Phone / Email</label>
-                                <input type="text" id="vendor-phone" placeholder="+1 (555) 876-5432" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                            </div>
-                            <div>
-                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Booking Status</label>
-                                <select id="vendor-status" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                                    <option value="Booked">Booked</option>
-                                    <option value="In Talks">In Talks</option>
-                                    <option value="Pending Deposit">Pending Deposit</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Notes</label>
-                                <input type="text" id="vendor-notes" placeholder="10 Hours coverage + drone" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                            </div>
-                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-stone-950 font-bold text-xs uppercase tracking-wider hover:opacity-95 transition-opacity border border-amber-300 shadow-md">
-                                Add Vendor Entry
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Vendor Grid List -->
-                    <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4" id="vendor-cards-container">
-                        <!-- Dynamic Vendor Cards Rendered Here -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION 5: DAY-OF TIMELINE -->
-            <section id="timeline" class="space-y-6">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                        <h3 class="text-2xl font-serif text-stone-900 flex items-center gap-2">
-                            <svg class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Day-Of Schedule Timeline
-                        </h3>
-                        <p class="text-xs text-stone-600 mt-1">Key event milestones scheduled for the wedding day</p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Timeline Input Form -->
-                    <div class="glass-card p-6 rounded-2xl space-y-4">
-                        <h4 class="text-lg font-serif text-stone-900">Add Schedule Event</h4>
-                        <form id="add-timeline-form" class="space-y-3">
-                            <div>
-                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Time (e.g., 04:00 PM)</label>
-                                <input type="text" id="timeline-time" placeholder="04:00 PM" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                            </div>
-                            <div>
-                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Activity / Stage</label>
-                                <input type="text" id="timeline-title" placeholder="Wedding Ceremony" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                            </div>
-                            <div>
-                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Details / Responsible Party</label>
-                                <input type="text" id="timeline-desc" placeholder="Guests arrive at Main Pavilion" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
-                            </div>
-                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-stone-950 font-bold text-xs uppercase tracking-wider hover:opacity-95 transition-opacity border border-amber-300 shadow-md">
-                                Append Event
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Dynamic Schedule Timeline Display -->
-                    <div class="lg:col-span-2 glass-card p-6 rounded-2xl relative">
-                        <div id="timeline-events-container" class="space-y-6 border-l-2 border-amber-700/40 ml-4 pl-6">
-                            <!-- Dynamic Timeline Items Rendered Here -->
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+            <div class="bg-amber-50/90 rounded-2xl p-6 border border-amber-200 text-center w-full md:w-72 shrink-0">
+              <span class="text-[11px] uppercase tracking-wider text-stone-500 font-semibold">Projected Budget</span>
+              <div id="est-total-cost" class="font-serif text-4xl font-bold text-amber-800 my-2">$45,600</div>
+              <p class="text-xs text-stone-600 mb-4" id="est-per-guest">~$380 per attendee</p>
+              <button onclick="switchTab('budget')" class="w-full py-2 rounded-xl gold-gradient-bg text-xs font-bold shadow-xs">
+                Apply to Budget Planner →
+              </button>
+            </div>
+          </div>
         </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div onclick="switchTab('budget')" class="bg-white/90 p-5 rounded-2xl border border-amber-200/80 shadow-xs hover:border-amber-400 cursor-pointer transition-all">
+            <span class="text-2xl">💰</span>
+            <h4 class="font-serif text-lg font-bold text-stone-900 mt-2">Smart Budget Planner</h4>
+            <p class="text-xs text-stone-500 mt-1">Real-time calculations, SVG charts, and deposit schedules.</p>
+          </div>
+          <div onclick="switchTab('guests')" class="bg-white/90 p-5 rounded-2xl border border-amber-200/80 shadow-xs hover:border-amber-400 cursor-pointer transition-all">
+            <span class="text-2xl">💌</span>
+            <h4 class="font-serif text-lg font-bold text-stone-900 mt-2">Guest CRM & RSVP</h4>
+            <p class="text-xs text-stone-500 mt-1">Track plus-ones, meal requirements, and table seating.</p>
+          </div>
+          <div onclick="switchTab('vendors')" class="bg-white/90 p-5 rounded-2xl border border-amber-200/80 shadow-xs hover:border-amber-400 cursor-pointer transition-all">
+            <span class="text-2xl">🏰</span>
+            <h4 class="font-serif text-lg font-bold text-stone-900 mt-2">Artisan Marketplace</h4>
+            <p class="text-xs text-stone-500 mt-1">Verified venues, photographers, florists, and catering.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. DASHBOARD VIEW -->
+      <section id="view-dashboard" class="page-view hidden space-y-6">
+        <div class="bg-stone-900/90 rounded-3xl p-6 sm:p-8 text-white relative overflow-hidden shadow-xl border border-amber-500/30">
+          <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <span class="text-[10px] uppercase font-bold tracking-widest text-amber-300">Wedding Headquarters</span>
+              <h2 id="dash-couple-title" class="font-serif text-3xl sm:text-4xl font-bold mt-1">Sophia Laurent & Alexander Hayes</h2>
+              <p class="text-xs text-stone-300 mt-1">October 24, 2027 • Villa Bella Vista, Lake Como, Italy</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="openCoupleModal()" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-semibold border border-white/20">Edit Details</button>
+              <button onclick="switchTab('invitation')" class="px-4 py-1.5 rounded-xl gold-gradient-bg text-xs font-bold shadow-xs">View Live RSVP</button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-4 gap-3 mt-6 pt-6 border-t border-white/10 text-center">
+            <div class="p-2.5 rounded-xl bg-white/5 border border-white/10"><span id="dash-days" class="font-serif text-2xl sm:text-3xl font-bold text-amber-300">238</span><p class="text-[9px] uppercase text-stone-300">Days</p></div>
+            <div class="p-2.5 rounded-xl bg-white/5 border border-white/10"><span id="dash-hours" class="font-serif text-2xl sm:text-3xl font-bold text-amber-300">14</span><p class="text-[9px] uppercase text-stone-300">Hours</p></div>
+            <div class="p-2.5 rounded-xl bg-white/5 border border-white/10"><span id="dash-mins" class="font-serif text-2xl sm:text-3xl font-bold text-amber-300">22</span><p class="text-[9px] uppercase text-stone-300">Mins</p></div>
+            <div class="p-2.5 rounded-xl bg-white/5 border border-white/10"><span id="dash-secs" class="font-serif text-2xl sm:text-3xl font-bold text-amber-300">45</span><p class="text-[9px] uppercase text-stone-300">Secs</p></div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+          <div onclick="switchTab('budget')" class="bg-white/90 p-4 rounded-2xl border border-amber-200/80 shadow-xs cursor-pointer hover:border-amber-400 transition-all">
+            <span class="text-[10px] uppercase font-bold text-stone-400">Total Budget</span>
+            <div id="dash-kpi-budget" class="font-serif text-2xl font-bold text-stone-900 mt-1">$45,000</div>
+            <p class="text-[10px] text-amber-700 mt-0.5">Allocated Cap</p>
+          </div>
+          <div onclick="switchTab('budget')" class="bg-white/90 p-4 rounded-2xl border border-amber-200/80 shadow-xs cursor-pointer hover:border-amber-400 transition-all">
+            <span class="text-[10px] uppercase font-bold text-stone-400">Amount Spent</span>
+            <div id="dash-kpi-spent" class="font-serif text-2xl font-bold text-amber-800 mt-1">$24,350</div>
+            <p id="dash-kpi-spent-pct" class="text-[10px] text-stone-500 mt-0.5">54% committed</p>
+          </div>
+          <div onclick="switchTab('budget')" class="bg-white/90 p-4 rounded-2xl border border-amber-200/80 shadow-xs cursor-pointer hover:border-amber-400 transition-all">
+            <span class="text-[10px] uppercase font-bold text-stone-400">Remaining</span>
+            <div id="dash-kpi-remaining" class="font-serif text-2xl font-bold text-emerald-700 mt-1">$20,650</div>
+            <p class="text-[10px] text-emerald-600 mt-0.5">Under budget</p>
+          </div>
+          <div onclick="switchTab('guests')" class="bg-white/90 p-4 rounded-2xl border border-amber-200/80 shadow-xs cursor-pointer hover:border-amber-400 transition-all">
+            <span class="text-[10px] uppercase font-bold text-stone-400">Guest Count</span>
+            <div id="dash-kpi-guests" class="font-serif text-2xl font-bold text-stone-900 mt-1">124</div>
+            <p class="text-[10px] text-stone-500 mt-0.5"><span id="dash-kpi-pending-guests" class="text-amber-700 font-bold">28</span> pending</p>
+          </div>
+          <div onclick="switchTab('checklist')" class="bg-white/90 p-4 rounded-2xl border border-amber-200/80 shadow-xs cursor-pointer hover:border-amber-400 transition-all col-span-2 sm:col-span-1">
+            <span class="text-[10px] uppercase font-bold text-stone-400">Checklist</span>
+            <div id="dash-kpi-tasks" class="font-serif text-2xl font-bold text-purple-700 mt-1">14/24</div>
+            <p id="dash-kpi-tasks-pct" class="text-[10px] text-purple-600 mt-0.5">58% completed</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="md:col-span-2 bg-white/90 rounded-3xl p-6 border border-amber-200/80 shadow-xs space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-stone-100">
+              <h3 class="font-serif text-xl font-bold text-stone-900">Priority Checklist Tasks</h3>
+              <button onclick="switchTab('checklist')" class="text-xs text-amber-700 font-bold hover:underline">View All Tasks →</button>
+            </div>
+            <div id="dash-pending-tasks-list" class="space-y-2"></div>
+          </div>
+
+          <div class="bg-white/90 rounded-3xl p-6 border border-amber-200/80 shadow-xs space-y-4">
+            <h3 class="font-serif text-xl font-bold text-stone-900 pb-3 border-b border-stone-100">Live Activity Feed</h3>
+            <div class="space-y-3 text-xs">
+              <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-100">
+                <p class="font-semibold text-emerald-900">Eleanor Vance confirmed attendance</p>
+                <p class="text-[11px] text-stone-500">Attending with Julian Vance • Table 1</p>
+              </div>
+              <div class="p-2.5 rounded-xl bg-amber-50 border border-amber-100">
+                <p class="font-semibold text-amber-900">Deposit logged: Villa Bella Vista</p>
+                <p class="text-[11px] text-stone-500">$8,000 paid to confirm lakeside garden</p>
+              </div>
+              <div class="p-2.5 rounded-xl bg-purple-50 border border-purple-100">
+                <p class="font-semibold text-purple-900">Task Completed: Order Wedding Rings</p>
+                <p class="text-[11px] text-stone-500">Cartier platinum & diamond eternity band</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. BUDGET PLANNER VIEW -->
+      <section id="view-budget" class="page-view hidden space-y-6">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="font-serif text-3xl font-bold text-stone-900">Wedding Budget Planner</h2>
+            <p class="text-xs text-stone-500">Track paid commitments, visual category allocations, and remaining balances.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="openCoupleModal()" class="px-3.5 py-2 border border-stone-200 text-xs font-semibold rounded-xl bg-white hover:border-amber-300">Set Total Budget</button>
+            <button onclick="openExpenseModal()" class="px-4 py-2 rounded-xl gold-gradient-bg text-xs font-bold shadow-xs">+ Add Expense</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white/90 p-6 rounded-3xl border border-amber-200/80 shadow-xs">
+          <div class="flex flex-col items-center justify-center text-center">
+            <span class="text-xs uppercase font-bold text-stone-400 mb-2">Category Allocation Chart</span>
+            <div class="relative w-44 h-44">
+              <svg id="budget-donut-svg" viewBox="0 0 100 100" class="w-full h-full transform -rotate-90">
+                <circle cx="50" cy="50" r="38" fill="transparent" stroke="#F5EFEB" stroke-width="14" />
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                <span class="text-[9px] uppercase font-bold text-stone-400">Total Spent</span>
+                <span id="donut-center-total" class="font-serif text-lg font-bold text-stone-900">$24,350</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="md:col-span-2 space-y-3">
+            <h4 class="font-serif font-bold text-stone-900 text-sm">Category Spending</h4>
+            <div id="budget-category-bars" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs"></div>
+          </div>
+        </div>
+
+        <div class="bg-white/90 rounded-3xl p-6 border border-amber-200/80 shadow-xs space-y-4">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pb-3 border-b border-stone-100">
+            <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto text-xs">
+              <button onclick="filterExpenseCategory('All')" class="exp-cat-btn px-2.5 py-1 rounded-lg bg-stone-900 text-white font-bold">All</button>
+              <button onclick="filterExpenseCategory('Venues')" class="exp-cat-btn px-2.5 py-1 rounded-lg bg-stone-100 text-stone-600">Venues</button>
+              <button onclick="filterExpenseCategory('Catering')" class="exp-cat-btn px-2.5 py-1 rounded-lg bg-stone-100 text-stone-600">Catering</button>
+              <button onclick="filterExpenseCategory('Photography')" class="exp-cat-btn px-2.5 py-1 rounded-lg bg-stone-100 text-stone-600">Photography</button>
+              <button onclick="filterExpenseCategory('Attire')" class="exp-cat-btn px-2.5 py-1 rounded-lg bg-stone-100 text-stone-600">Attire</button>
+              <button onclick="filterExpenseCategory('Decoration')" class="exp-cat-btn px-2.5 py-1 rounded-lg bg-stone-100 text-stone-600">Decoration</button>
+              <button onclick="filterExpenseCategory('Music')" class="exp-cat-btn px-2.5 py-1 rounded-lg bg-stone-100 text-stone-600">Music</button>
+            </div>
+            <input type="text" id="expense-search" oninput="renderExpensesTable()" placeholder="Search expense..." class="text-xs px-3 py-1.5 border border-stone-200 rounded-xl w-full sm:w-48" />
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead>
+                <tr class="text-[10px] uppercase font-bold text-stone-400 border-b border-stone-100 pb-2">
+                  <th class="pb-2">Item Title</th>
+                  <th class="pb-2">Category</th>
+                  <th class="pb-2">Status</th>
+                  <th class="pb-2">Actual Cost</th>
+                  <th class="pb-2">Paid</th>
+                  <th class="pb-2 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="expenses-tbody" class="divide-y divide-stone-100"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. GUEST MANAGER VIEW -->
+      <section id="view-guests" class="page-view hidden space-y-6">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="font-serif text-3xl font-bold text-stone-900">Guest List & RSVP Manager</h2>
+            <p class="text-xs text-stone-500">Track attendance, table seating, plus-ones, and dietary restrictions.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="exportGuestsCSV()" class="px-3.5 py-2 border border-stone-200 text-xs font-semibold rounded-xl bg-white hover:border-amber-300">📥 Export CSV</button>
+            <button onclick="switchTab('invitation')" class="px-3.5 py-2 border border-amber-300 bg-amber-50 text-amber-900 text-xs font-semibold rounded-xl">Digital RSVP</button>
+            <button onclick="openGuestModal()" class="px-4 py-2 rounded-xl gold-gradient-bg text-xs font-bold shadow-xs">+ Add Guest</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+          <div onclick="filterGuestsByStatus('All')" class="guest-stat-pill bg-white/90 p-3 rounded-2xl border border-stone-900 font-bold cursor-pointer"><span class="text-xs text-stone-400 block uppercase">All Guests</span><span id="g-stat-total" class="font-serif text-2xl">12</span></div>
+          <div onclick="filterGuestsByStatus('Confirmed')" class="guest-stat-pill bg-white/90 p-3 rounded-2xl border border-stone-200 cursor-pointer"><span class="text-xs text-emerald-600 block uppercase font-bold">Confirmed</span><span id="g-stat-confirmed" class="font-serif text-2xl text-emerald-700">8</span></div>
+          <div onclick="filterGuestsByStatus('Pending')" class="guest-stat-pill bg-white/90 p-3 rounded-2xl border border-stone-200 cursor-pointer"><span class="text-xs text-amber-600 block uppercase font-bold">Pending</span><span id="g-stat-pending" class="font-serif text-2xl text-amber-700">3</span></div>
+          <div onclick="filterGuestsByStatus('Declined')" class="guest-stat-pill bg-white/90 p-3 rounded-2xl border border-stone-200 cursor-pointer"><span class="text-xs text-rose-500 block uppercase font-bold">Declined</span><span id="g-stat-declined" class="font-serif text-2xl text-rose-600">1</span></div>
+        </div>
+
+        <div class="bg-white/90 rounded-3xl p-6 border border-amber-200/80 shadow-xs space-y-4">
+          <div class="flex items-center justify-between gap-3 pb-3 border-b border-stone-100">
+            <input type="text" id="guest-search" oninput="renderGuestsTable()" placeholder="Search guest name, phone, table..." class="text-xs px-3 py-1.5 border border-stone-200 rounded-xl w-full sm:w-72" />
+            <span class="text-xs text-stone-400" id="guest-count-label">12 Guests Listed</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead>
+                <tr class="text-[10px] uppercase font-bold text-stone-400 border-b border-stone-100 pb-2">
+                  <th class="pb-2">Guest Name</th>
+                  <th class="pb-2">Contact</th>
+                  <th class="pb-2">RSVP Status</th>
+                  <th class="pb-2">Table / Group</th>
+                  <th class="pb-2">Dietary</th>
+                  <th class="pb-2 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="guests-tbody" class="divide-y divide-stone-100"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. VENDOR DIRECTORY VIEW -->
+      <section id="view-vendors" class="page-view hidden space-y-6">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="font-serif text-3xl font-bold text-stone-900">Artisan Vendor Directory</h2>
+            <p class="text-xs text-stone-500">Discover vetted photographers, Michelin-trained caterers, luxury florals, and chateaus.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="toggleShortlistFilter()" id="btn-shortlist-toggle" class="px-3.5 py-2 border border-stone-200 text-xs font-semibold rounded-xl bg-white hover:border-amber-300">❤️ Shortlisted Only (<span id="shortlist-count">5</span>)</button>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 text-xs">
+          <button onclick="filterVendorCategory('All')" class="vnd-cat-btn px-3 py-1.5 rounded-xl bg-amber-600 text-white font-bold">All</button>
+          <button onclick="filterVendorCategory('Venues')" class="vnd-cat-btn px-3 py-1.5 rounded-xl bg-white border border-stone-200 text-stone-700">Venues</button>
+          <button onclick="filterVendorCategory('Photography')" class="vnd-cat-btn px-3 py-1.5 rounded-xl bg-white border border-stone-200 text-stone-700">Photography</button>
+          <button onclick="filterVendorCategory('Catering')" class="vnd-cat-btn px-3 py-1.5 rounded-xl bg-white border border-stone-200 text-stone-700">Catering</button>
+          <button onclick="filterVendorCategory('Decoration')" class="vnd-cat-btn px-3 py-1.5 rounded-xl bg-white border border-stone-200 text-stone-700">Decoration</button>
+          <button onclick="filterVendorCategory('Makeup')" class="vnd-cat-btn px-3 py-1.5 rounded-xl bg-white border border-stone-200 text-stone-700">Makeup</button>
+          <button onclick="filterVendorCategory('Music')" class="vnd-cat-btn px-3 py-1.5 rounded-xl bg-white border border-stone-200 text-stone-700">Music</button>
+        </div>
+
+        <div id="vendors-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+      </section>
+
+      <!-- 6. CHECKLIST VIEW -->
+      <section id="view-checklist" class="page-view hidden space-y-6">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="font-serif text-3xl font-bold text-stone-900">Master Wedding Checklist</h2>
+            <p class="text-xs text-stone-500">12-month chronological milestones from contracts to your wedding morning.</p>
+          </div>
+          <button onclick="openTaskModal()" class="px-4 py-2 rounded-xl gold-gradient-bg text-xs font-bold shadow-xs">+ Add Task</button>
+        </div>
+
+        <div class="bg-white/90 rounded-3xl p-6 border border-amber-200/80 shadow-xs">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs uppercase font-bold text-stone-400">Timeline Progress</span>
+            <span id="chk-progress-label" class="font-serif text-xl font-bold text-amber-800">14 of 24 (58%)</span>
+          </div>
+          <div class="w-full bg-stone-100 rounded-full h-3 overflow-hidden p-0.5">
+            <div id="chk-progress-bar" class="gold-gradient-bg h-full rounded-full transition-all duration-500" style="width: 58%"></div>
+          </div>
+        </div>
+
+        <div id="checklist-tasks-container" class="bg-white/90 rounded-3xl p-6 border border-amber-200/80 shadow-xs space-y-3"></div>
+      </section>
+
+      <!-- 7. AI ASSISTANT VIEW -->
+      <section id="view-ai" class="page-view hidden space-y-6">
+        <div class="text-center max-w-xl mx-auto">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold uppercase mb-2">
+            🤖 WedWise Wedding Concierge
+          </div>
+          <h2 class="font-serif text-3xl font-bold text-stone-900">Your 24/7 Bespoke Wedding Advisor</h2>
+          <p class="text-xs text-stone-500 mt-1">Ask anything regarding themes, minute-by-minute schedules, vows, and budgeting.</p>
+        </div>
+
+        <div class="flex flex-wrap gap-2 justify-center text-xs">
+          <button onclick="sendAIPrompt('Suggest cohesive luxury color palettes for an Italian autumn wedding')" class="px-3 py-1.5 rounded-full bg-white/90 border border-amber-200 hover:bg-amber-50 font-medium">🌸 Color Palettes</button>
+          <button onclick="sendAIPrompt('How should we allocate our $45,000 budget across key categories?')" class="px-3 py-1.5 rounded-full bg-white/90 border border-amber-200 hover:bg-amber-50 font-medium">💰 Budget Allocation</button>
+          <button onclick="sendAIPrompt('Draft a minute-by-minute wedding day schedule for a 4:00 PM ceremony')" class="px-3 py-1.5 rounded-full bg-white/90 border border-amber-200 hover:bg-amber-50 font-medium">📋 Timeline Schedule</button>
+          <button onclick="sendAIPrompt('Provide an emotional 4-part framework for writing our personal wedding vows')" class="px-3 py-1.5 rounded-full bg-white/90 border border-amber-200 hover:bg-amber-50 font-medium">✍️ Vow Writing</button>
+          <button onclick="sendAIPrompt('What are the best first dance and party reception songs?')" class="px-3 py-1.5 rounded-full bg-white/90 border border-amber-200 hover:bg-amber-50 font-medium">🎵 Music & First Dance</button>
+          <button onclick="sendAIPrompt('What is the polite wording to remind pending guests to RSVP?')" class="px-3 py-1.5 rounded-full bg-white/90 border border-amber-200 hover:bg-amber-50 font-medium">✉️ RSVP Reminders</button>
+        </div>
+
+        <div class="bg-white/90 rounded-3xl border border-amber-200/80 shadow-md flex flex-col h-[520px] overflow-hidden">
+          <div id="ai-chat-messages" class="flex-1 p-4 sm:p-6 overflow-y-auto space-y-3 bg-stone-50/50 text-xs sm:text-sm">
+            <div class="flex items-start gap-2.5 max-w-[85%]">
+              <div class="w-7 h-7 rounded-full gold-gradient-bg flex items-center justify-center font-bold text-white shrink-0 text-xs">W</div>
+              <div class="bg-white p-3.5 rounded-2xl border border-amber-100 shadow-xs leading-relaxed text-stone-800">
+                Hello Sophia & Alexander! I am your personal WedWise Wedding Concierge. How may I assist your celebration planning today? Tap one of the inspiration pills above or ask any question below!
+              </div>
+            </div>
+          </div>
+
+          <form onsubmit="handleAIChatSubmit(event)" class="p-3.5 bg-white border-t border-stone-100 flex items-center gap-2">
+            <input type="text" id="ai-input" placeholder="Ask anything: 'Suggest wedding songs', 'How to save on catering', 'Timeline help'..." class="flex-1 px-4 py-2 border border-stone-200 rounded-xl text-xs focus:outline-none focus:border-amber-500" />
+            <button type="submit" class="px-5 py-2 rounded-xl gold-gradient-bg text-xs font-bold shadow-xs">Send</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- 8. DIGITAL RSVP INVITATION VIEW -->
+      <section id="view-invitation" class="page-view hidden space-y-8">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/90 p-4 rounded-2xl border border-amber-200">
+          <div>
+            <span class="text-xs font-bold text-amber-700 uppercase">Live Digital Guest Invitation</span>
+            <p class="text-xs text-stone-500">Guests can RSVP directly below. Every response immediately synchronizes into your Guest Manager!</p>
+          </div>
+          <button onclick="copyInviteLink()" class="px-4 py-2 border border-stone-200 hover:border-amber-400 text-xs font-semibold rounded-xl bg-white">📋 Copy Shareable Link</button>
+        </div>
+
+        <div class="invitation-frame rounded-3xl p-8 sm:p-14 text-center shadow-xl space-y-5">
+          <div class="w-14 h-14 rounded-full border-2 border-amber-400 mx-auto flex items-center justify-center font-serif text-2xl font-bold text-amber-800 bg-amber-50 shadow-inner">
+            S&A
+          </div>
+          <p class="font-serif uppercase tracking-[0.25em] text-xs text-amber-800 font-semibold">Together With Their Cherished Families</p>
+          <h2 class="font-serif text-3xl sm:text-5xl font-bold text-stone-900 leading-tight">
+            Sophia Laurent
+            <span class="block font-script text-4xl sm:text-6xl text-amber-600 font-normal my-1">&</span>
+            Alexander Hayes
+          </h2>
+          <p class="font-serif italic text-base text-stone-600 max-w-lg mx-auto">
+            Request the pleasure of your company as they exchange sacred vows and celebrate eternal love.
+          </p>
+          <div class="border-t border-b border-amber-200/70 py-4 max-w-md mx-auto space-y-1 text-stone-800">
+            <p class="font-serif text-xl font-bold">Sunday, October 24, 2027</p>
+            <p class="text-xs uppercase tracking-widest text-amber-800 font-semibold">Ceremony at 4:00 PM • Reception at 6:30 PM</p>
+            <p class="font-serif text-base font-semibold pt-1">Villa Bella Vista, Lake Como, Italy</p>
+          </div>
+          <p class="text-xs text-stone-500 uppercase tracking-wider">Attire: Black Tie Optional • Warm Champagne & Earth Tones</p>
+        </div>
+
+        <div id="rsvp-form-container" class="bg-white/90 rounded-3xl p-6 sm:p-10 border border-amber-200 shadow-md">
+          <div class="text-center max-w-md mx-auto mb-6">
+            <span class="text-xs font-bold text-amber-700 uppercase">Kindly Respond By August 15</span>
+            <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1">Guest Attendance RSVP</h3>
+            <p class="text-xs text-stone-500">Please submit your response to confirm your seating and dining arrangements.</p>
+          </div>
+
+          <form onsubmit="handleRSVPSubmit(event)" class="max-w-md mx-auto space-y-4 text-xs">
+            <div class="grid grid-cols-2 gap-3">
+              <button type="button" onclick="setAttending(true)" id="rsvp-btn-yes" class="p-3 rounded-xl border-2 border-amber-500 bg-amber-50 font-bold text-amber-950 text-center">
+                Joyfully Accepts
+              </button>
+              <button type="button" onclick="setAttending(false)" id="rsvp-btn-no" class="p-3 rounded-xl border border-stone-200 text-stone-600 hover:bg-stone-50 text-center">
+                Regretfully Declines
+              </button>
+            </div>
+
+            <div>
+              <label class="block font-semibold uppercase text-stone-700 mb-1">Your Full Name</label>
+              <input type="text" id="rsvp-name" required placeholder="e.g. Lady Clara Sterling" class="w-full px-3 py-2 border border-stone-200 rounded-xl" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block font-semibold uppercase text-stone-700 mb-1">Phone Number</label>
+                <input type="tel" id="rsvp-phone" required placeholder="+1 (555) 000-0000" class="w-full px-3 py-2 border border-stone-200 rounded-xl" />
+              </div>
+              <div>
+                <label class="block font-semibold uppercase text-stone-700 mb-1">Email Address</label>
+                <input type="email" id="rsvp-email" required placeholder="clara@example.com" class="w-full px-3 py-2 border border-stone-200 rounded-xl" />
+              </div>
+            </div>
+
+            <div id="rsvp-attending-fields" class="space-y-4">
+              <div class="p-3 bg-amber-50/70 rounded-xl border border-amber-200">
+                <label class="flex items-center gap-2 font-semibold text-stone-800">
+                  <input type="checkbox" id="rsvp-has-plusone" onchange="document.getElementById('plusone-name-field').classList.toggle('hidden', !this.checked)" class="accent-amber-600" />
+                  <span>Attending with a Plus-One Guest (+1)</span>
+                </label>
+                <div id="plusone-name-field" class="hidden mt-2">
+                  <input type="text" id="rsvp-plusone-name" placeholder="Plus-one guest full name" class="w-full px-3 py-1.5 border border-stone-200 rounded-lg bg-white" />
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-semibold uppercase text-stone-700 mb-1">Dietary Restrictions</label>
+                <select id="rsvp-dietary" class="w-full px-3 py-2 border border-stone-200 rounded-xl bg-white">
+                  <option value="None">Standard Gourmet (No Restrictions)</option>
+                  <option value="Vegetarian">Vegetarian</option>
+                  <option value="Vegan">Vegan</option>
+                  <option value="Gluten-Free">Gluten-Free</option>
+                  <option value="Nut Allergy">Nut Allergy</option>
+                  <option value="Halal / Seafood Only">Halal / Seafood Only</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block font-semibold uppercase text-stone-700 mb-1">Song Request for the Dance Floor 🎵</label>
+                <input type="text" id="rsvp-song" placeholder="What song gets you dancing?" class="w-full px-3 py-2 border border-stone-200 rounded-xl" />
+              </div>
+            </div>
+
+            <button type="submit" class="w-full py-3 rounded-xl gold-gradient-bg font-bold text-sm shadow-md mt-4">
+              Confirm & Submit RSVP →
+            </button>
+          </form>
+        </div>
+
+        <div id="rsvp-success-card" class="hidden bg-white/90 rounded-3xl p-10 border border-emerald-200 text-center shadow-lg space-y-3">
+          <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-800 text-2xl flex items-center justify-center mx-auto">✓</div>
+          <h3 id="rsvp-success-name" class="font-serif text-3xl font-bold text-stone-900">Thank You!</h3>
+          <p class="text-xs text-stone-600 max-w-sm mx-auto">Your RSVP has been securely recorded and synced into the wedding guest database.</p>
+          <button onclick="document.getElementById('rsvp-form-container').classList.remove('hidden'); document.getElementById('rsvp-success-card').classList.add('hidden')" class="px-4 py-2 border border-stone-200 rounded-xl text-xs font-semibold">Submit Another RSVP</button>
+        </div>
+      </section>
+
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-amber-800/20 py-8 text-center text-xs text-amber-200/70">
-        <p>Crafted by <strong class="text-amber-300 font-serif">Web Wizards</strong> &bull; Wedding Concierge Platform</p>
-    </footer>
+    <!-- Global Modals -->
+    <!-- Couple Details Modal -->
+    <div id="modal-couple" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-amber-200 shadow-2xl space-y-4 text-xs">
+        <div class="flex items-center justify-between pb-3 border-b border-stone-100">
+          <h3 class="font-serif text-xl font-bold text-stone-900">Edit Wedding Details</h3>
+          <button onclick="closeCoupleModal()" class="text-stone-400 hover:text-stone-700 text-base">✕</button>
+        </div>
+        <div>
+          <label class="block font-semibold uppercase text-stone-700 mb-1">Partner 1</label>
+          <input type="text" id="modal-p1" class="w-full px-3 py-2 border border-stone-200 rounded-xl" />
+        </div>
+        <div>
+          <label class="block font-semibold uppercase text-stone-700 mb-1">Partner 2</label>
+          <input type="text" id="modal-p2" class="w-full px-3 py-2 border border-stone-200 rounded-xl" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold uppercase text-stone-700 mb-1">Total Budget ($)</label>
+            <input type="number" id="modal-budget" step="500" class="w-full px-3 py-2 border border-stone-200 rounded-xl" />
+          </div>
+          <div>
+            <label class="block font-semibold uppercase text-stone-700 mb-1">Wedding Date</label>
+            <input type="date" id="modal-date" class="w-full px-3 py-2 border border-stone-200 rounded-xl" />
+          </div>
+        </div>
+        <div class="flex justify-end gap-2 pt-3 border-t border-stone-100">
+          <button onclick="closeCoupleModal()" class="px-4 py-2 border border-stone-200 rounded-xl font-semibold">Cancel</button>
+          <button onclick="saveCoupleModal()" class="px-5 py-2 rounded-xl gold-gradient-bg font-bold shadow-xs">Save Details</button>
+        </div>
+      </div>
+    </div>
 
-    <!-- INTERACTIVE SCRIPT & CASBERRY THREE.JS PARTICLES INTEGRATION -->
-    <script type="module">
-        import * as THREE from 'three';
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-        import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
-        import { GPUComputationRenderer } from 'three/addons/misc/GPUComputationRenderer.js';
+    <!-- Add/Edit Expense Modal -->
+    <div id="modal-expense" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border border-amber-200 shadow-2xl space-y-4 text-xs">
+        <div class="flex items-center justify-between pb-3 border-b border-stone-100">
+          <h3 id="exp-modal-heading" class="font-serif text-xl font-bold text-stone-900">Add Budget Expense</h3>
+          <button onclick="closeExpenseModal()" class="text-stone-400 hover:text-stone-700 text-base">✕</button>
+        </div>
+        <input type="hidden" id="exp-modal-id" />
+        <div>
+          <label class="block font-semibold uppercase text-stone-700 mb-1">Item Title</label>
+          <input type="text" id="exp-modal-title" required placeholder="e.g. Vintage Champagne Tower" class="w-full px-3 py-2 border border-stone-200 rounded-xl" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold uppercase text-stone-700 mb-1">Category</label>
+            <select id="exp-modal-cat" class="w-full px-3 py-2 border border-stone-200 rounded-xl bg-white">
+              <option value="Venues">Venues</option>
+              <option value="Catering">Catering</option>
+              <option value="Photography">Photography</option>
+              <option value="Attire">Attire</option>
+              <option value="Decoration">Decoration</option>
+              <option value="Music">Music</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold uppercase text-stone-700 mb-1">Cost ($)</label>
+            <input type="number" id="exp-modal-cost" required placeholder="1500" class="w-full px-3 py-2 border border-stone-200 rounded-xl" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold uppercase text-stone-700 mb-1">Paid Amount ($)</label>
+            <input type="number" id="exp-modal-paid" placeholder="500" class="w-full px-3 py-2 border border-stone-200 rounded-xl" />
+          </div>
+          <div>
+            <label class="block font-semibold uppercase text-stone-700 mb-1">Status</label>
+            <select id="exp-modal-status" class="w-full px-3 py-2 border border-stone-200 rounded-xl bg-white">
+              <option value="Paid">Paid in Full</option>
+              <option value="Deposit Paid">Deposit Paid</option>
+              <option value="Pending">Pending</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex justify-end gap-2 pt-3 border-t border-stone-100">
+          <button onclick="closeExpenseModal()" class="px-4 py-2 border border-stone-200 rounded-xl font-semibold">Cancel</button>
+          <button onclick="saveExpenseModal()" class="px-5 py-2 rounded-xl gold-gradient-bg font-bold shadow-xs">Save Expense</button>
+        </div>
+      </div>
+    </div>
 
-        // --- CASBERRY PARTICLES BACKGROUND INTEGRATION (ROMANTIC PALETTE) ---
-        const canvas = document.getElementById('bg-canvas');
-        const COUNT = 20000;
-        const SPEED_MULT = 1.0;
-        const AUTO_SPIN = true;
-        const STIFFNESS = 2;
-        const DAMPING = 0.08;
+    <!-- Add/Edit Guest Modal -->
+    <div id="modal-guest" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border border-amber-200 shadow-2xl space-y-4 text-xs">
+        <div class="flex items-center justify-between pb-3 border-b border-stone-100">
+          <h3 id="gst-modal-heading" class="font-serif text-xl font-bold text-stone-900">Add Wedding Guest</h3>
+          <button onclick="closeGuestModal()" class="text-stone-400 hover:text-stone-700 text-base">✕</button>
+        </div>
+        <input type="hidden" id="gst-modal-id" />
+        <div>
+          <label class="block font-semibold uppercase text-stone-700 mb-1">Guest Full Name</label>
+          <input type="text" id="gst-modal-name" required placeholder="e.g. Liam O'Connor" class="w-full px-3 py-2 border border-stone-200 rounded-xl" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold uppercase text-stone-700 mb-1">Phone</label>
+            <input type="tel" id="gst-modal-phone" placeholder="+1 (555) 000-0000" class="w-full px-3 py-2 border border-stone-200 rounded-xl" />
+          </div>
+          <div>
+            <label class="block font-semibold uppercase text-stone-700 mb-1">RSVP Status</label>
+            <select id="gst-modal-status" class="w-full px-3 py-2 border border-stone-200 rounded-xl bg-white">
+              <option value="Confirmed">Confirmed</option>
+              <option value="Pending">Pending</option>
+              <option value="Declined">Declined</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold uppercase text-stone-700 mb-1">Table / Seating</label>
+            <input type="text" id="gst-modal-table" placeholder="Table 1" class="w-full px-3 py-2 border border-stone-200 rounded-xl" />
+          </div>
+          <div>
+            <label class="block font-semibold uppercase text-stone-700 mb-1">Dietary Requirement</label>
+            <select id="gst-modal-diet" class="w-full px-3 py-2 border border-stone-200 rounded-xl bg-white">
+              <option value="None">None</option>
+              <option value="Vegetarian">Vegetarian</option>
+              <option value="Vegan">Vegan</option>
+              <option value="Gluten-Free">Gluten-Free</option>
+              <option value="Nut Allergy">Nut Allergy</option>
+              <option value="Halal">Halal</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex justify-end gap-2 pt-3 border-t border-stone-100">
+          <button onclick="closeGuestModal()" class="px-4 py-2 border border-stone-200 rounded-xl font-semibold">Cancel</button>
+          <button onclick="saveGuestModal()" class="px-5 py-2 rounded-xl gold-gradient-bg font-bold shadow-xs">Save Guest</button>
+        </div>
+      </div>
+    </div>
 
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
-        camera.position.set(0, 0, 100);
+    <!-- Add Task Modal -->
+    <div id="modal-task" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border border-amber-200 shadow-2xl space-y-4 text-xs">
+        <div class="flex items-center justify-between pb-3 border-b border-stone-100">
+          <h3 class="font-serif text-xl font-bold text-stone-900">Add Checklist Task</h3>
+          <button onclick="closeTaskModal()" class="text-stone-400 hover:text-stone-700 text-base">✕</button>
+        </div>
+        <div>
+          <label class="block font-semibold uppercase text-stone-700 mb-1">Task Title</label>
+          <input type="text" id="tsk-modal-title" required placeholder="e.g. Schedule Gown Fitting" class="w-full px-3 py-2 border border-stone-200 rounded-xl" />
+        </div>
+        <div>
+          <label class="block font-semibold uppercase text-stone-700 mb-1">Milestone</label>
+          <select id="tsk-modal-milestone" class="w-full px-3 py-2 border border-stone-200 rounded-xl bg-white">
+            <option value="10-12 Months Before">10-12 Months Before</option>
+            <option value="7-9 Months Before">7-9 Months Before</option>
+            <option value="4-6 Months Before">4-6 Months Before</option>
+            <option value="2-3 Months Before">2-3 Months Before</option>
+            <option value="1-2 Weeks Before">1-2 Weeks Before</option>
+            <option value="Wedding Day">Wedding Day</option>
+          </select>
+        </div>
+        <div class="flex justify-end gap-2 pt-3 border-t border-stone-100">
+          <button onclick="closeTaskModal()" class="px-4 py-2 border border-stone-200 rounded-xl font-semibold">Cancel</button>
+          <button onclick="saveTaskModal()" class="px-5 py-2 rounded-xl gold-gradient-bg font-bold shadow-xs">Create Task</button>
+        </div>
+      </div>
+    </div>
 
-        const renderer = new THREE.WebGLRenderer({
-            canvas: canvas,
-            antialias: true,
-            powerPreference: "high-performance",
-            alpha: true
+    <!-- Vendor Inquiry Modal -->
+    <div id="modal-vendor-inquire" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border border-amber-200 shadow-2xl space-y-4 text-xs">
+        <div class="flex items-center justify-between pb-3 border-b border-stone-100">
+          <div>
+            <h3 id="vnd-modal-title" class="font-serif text-xl font-bold text-stone-900">Inquire with Vendor</h3>
+            <p id="vnd-modal-subtitle" class="text-stone-500 text-[11px]"></p>
+          </div>
+          <button onclick="closeVendorInquireModal()" class="text-stone-400 hover:text-stone-700 text-base">✕</button>
+        </div>
+        <div>
+          <label class="block font-semibold uppercase text-stone-700 mb-1">Your Couple Name</label>
+          <input type="text" id="vnd-modal-couple" class="w-full px-3 py-2 border border-stone-200 rounded-xl" />
+        </div>
+        <div>
+          <label class="block font-semibold uppercase text-stone-700 mb-1">Inquiry Message</label>
+          <textarea id="vnd-modal-msg" rows="3" class="w-full px-3 py-2 border border-stone-200 rounded-xl"></textarea>
+        </div>
+        <div class="flex justify-end gap-2 pt-3 border-t border-stone-100">
+          <button onclick="closeVendorInquireModal()" class="px-4 py-2 border border-stone-200 rounded-xl font-semibold">Cancel</button>
+          <button onclick="submitVendorInquiry()" class="px-5 py-2 rounded-xl gold-gradient-bg font-bold shadow-xs">Send Inquiry Now</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 3D Casberry Particle Swarm Canvas Engine -->
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+    import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+    import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+    import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+    import { GPUComputationRenderer } from 'three/addons/misc/GPUComputationRenderer.js';
+
+    const canvas = document.getElementById('bg-canvas');
+    const COUNT = 20000;
+    const SPEED_MULT = 1;
+    const AUTO_SPIN = true;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+    camera.position.set(0, 0, 100);
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: "high-performance", alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.autoRotate = AUTO_SPIN;
+    controls.autoRotateSpeed = 2.0;
+
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+
+    const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+    bloomPass.strength = 0.5; bloomPass.radius = 0.3; bloomPass.threshold = 0.25;
+    composer.addPass(bloomPass);
+
+    const BgCompositeShader = {
+      uniforms: {
+        "tDiffuse": { value: null },
+        "bgColor": { value: new THREE.Color('#03050a') }
+      },
+      vertexShader: `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
+      fragmentShader: `
+        uniform sampler2D tDiffuse;
+        uniform vec3 bgColor;
+        varying vec2 vUv;
+        void main() {
+          vec4 texel = texture2D(tDiffuse, vUv);
+          float alpha = clamp(max(texel.r, max(texel.g, texel.b)), 0.0, 1.0);
+          gl_FragColor = vec4(texel.rgb + bgColor * (1.0 - alpha), 1.0);
+        }
+      `
+    };
+    const bgCompositePass = new ShaderPass(BgCompositeShader);
+    composer.addPass(bgCompositePass);
+
+    if (composer.passes.length > 0) {
+      composer.passes[composer.passes.length - 1].renderToScreen = true;
+    }
+
+    const dummy = new THREE.Object3D();
+    const color = new THREE.Color();
+    const target = new THREE.Vector3();
+
+    const geometry = new THREE.TetrahedronGeometry(0.25).clone();
+    const W = Math.ceil(Math.sqrt(COUNT));
+    const H = W;
+    const references = new Float32Array(COUNT * 2);
+    for (let i = 0; i < COUNT; i++) {
+      references[i * 2] = ((i % W) + 0.5) / W;
+      references[i * 2 + 1] = (Math.floor(i / W) + 0.5) / H;
+    }
+    geometry.setAttribute('reference', new THREE.InstancedBufferAttribute(references, 2));
+
+    const scales = new Float32Array(COUNT);
+    const opacities = new Float32Array(COUNT);
+    for (let i = 0; i < COUNT; i++) { scales[i] = 1.0; opacities[i] = 1.0; }
+    geometry.setAttribute('instanceScale', new THREE.InstancedBufferAttribute(scales, 1));
+    geometry.setAttribute('instanceOpacity', new THREE.InstancedBufferAttribute(opacities, 1));
+
+    const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
+    const applyGPGPU = (mat) => {
+      mat.onBeforeCompile = (shader) => {
+        shader.uniforms.texturePosition = { value: null };
+        shader.uniforms.gpgpuEnabled = { value: 1.0 };
+        mat.userData.shader = shader;
+        shader.vertexShader = `
+          attribute vec2 reference;
+          attribute float instanceScale;
+          attribute float instanceOpacity;
+          varying float vInstanceOpacity;
+          uniform sampler2D texturePosition;
+          uniform float gpgpuEnabled;
+        ` + shader.vertexShader;
+        shader.vertexShader = shader.vertexShader.replace(
+          '#include <project_vertex>',
+          `
+          vec4 mvPosition = vec4( transformed, 1.0 );
+          #ifdef USE_INSTANCING
+              mvPosition.xyz *= instanceScale;
+              vInstanceOpacity = instanceOpacity;
+              mat4 m = instanceMatrix;
+              if (gpgpuEnabled > 0.5) { m[3] = vec4(0.0, 0.0, 0.0, 1.0); }
+              mvPosition = m * mvPosition;
+              if (gpgpuEnabled > 0.5) { mvPosition.xyz += texture2D(texturePosition, reference).xyz; }
+          #endif
+          mvPosition = modelViewMatrix * mvPosition;
+          gl_Position = projectionMatrix * mvPosition;
+          `
+        );
+        shader.fragmentShader = `varying float vInstanceOpacity;` + shader.fragmentShader;
+        shader.fragmentShader = shader.fragmentShader.replace('#include <color_fragment>', `#include <color_fragment>\ndiffuseColor.a *= vInstanceOpacity;`);
+      };
+      mat.needsUpdate = true;
+    };
+    applyGPGPU(material);
+
+    const instancedMesh = new THREE.InstancedMesh(geometry, material, COUNT);
+    instancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    scene.add(instancedMesh);
+
+    const positions = [], targets = [];
+    for (let i = 0; i < COUNT; i++) {
+      const p = new THREE.Vector3((Math.random() - 0.5) * 100, (Math.random() - 0.5) * 100, (Math.random() - 0.5) * 100);
+      positions.push(p.clone()); targets.push(p.clone());
+      instancedMesh.setColorAt(i, color.setHex(0x00ff88));
+    }
+
+    let gpuCompute = new GPUComputationRenderer(W, H, renderer);
+    const dtPosition = gpuCompute.createTexture();
+    const dtVelocity = gpuCompute.createTexture();
+
+    let targetTex = new THREE.DataTexture(new Float32Array(W * H * 4), W, H, THREE.RGBAFormat, THREE.FloatType);
+    function updateGPGPUTargets() {
+      const data = targetTex.image.data;
+      for (let i = 0; i < W * H; i++) {
+        const idx = i * 4;
+        if (i < COUNT && i < targets.length) {
+          data[idx] = targets[i].x; data[idx + 1] = targets[i].y; data[idx + 2] = targets[i].z;
+        } else {
+          data[idx] = 999999.0; data[idx + 1] = 999999.0; data[idx + 2] = 999999.0;
+        }
+        data[idx + 3] = 1.0;
+      }
+      targetTex.needsUpdate = true;
+    }
+
+    const posShader = `void main(){ vec2 uv=gl_FragCoord.xy/resolution.xy; vec3 pos=texture2D(texturePosition,uv).xyz; vec3 vel=texture2D(textureVelocity,uv).xyz; gl_FragColor=vec4(pos+vel*0.016,1.0); }`;
+    const velShader = `
+      uniform sampler2D textureTarget;
+      void main(){
+        vec2 uv=gl_FragCoord.xy/resolution.xy;
+        vec3 pos=texture2D(texturePosition,uv).xyz;
+        vec3 vel=texture2D(textureVelocity,uv).xyz;
+        vec3 target=texture2D(textureTarget,uv).xyz;
+        vec3 force=(target-pos)*25.0 - vel*40.0;
+        gl_FragColor=vec4(vel+force*0.016,1.0);
+      }
+    `;
+
+    const posVar = gpuCompute.addVariable("texturePosition", posShader, dtPosition);
+    const velVar = gpuCompute.addVariable("textureVelocity", velShader, dtVelocity);
+    gpuCompute.setVariableDependencies(posVar, [posVar, velVar]);
+    gpuCompute.setVariableDependencies(velVar, [posVar, velVar]);
+    velVar.material.uniforms.textureTarget = { value: targetTex };
+    gpuCompute.init();
+
+    const clock = new THREE.Clock();
+    function animate() {
+      requestAnimationFrame(animate);
+      const delta = clock.getDelta();
+      const time = clock.getElapsedTime() * SPEED_MULT;
+
+      controls.update();
+
+      const count = COUNT;
+      for (let i = 0; i < COUNT; i++) {
+        const u = i / Math.max(count, 1);
+        const g = i * 0.6180339887498949;
+        const f = g - Math.floor(g);
+        const a = u * 6.283185307179586;
+        const b = f * 6.283185307179586 + Math.sin(a * 3 + time * 0.31) * 0.22;
+
+        const ca = Math.cos(a), sa = Math.sin(a), cb = Math.cos(b), sb = Math.sin(b);
+        const t0 = time * 0.55;
+        const c0 = Math.cos(t0), s0 = Math.sin(t0), c1 = Math.cos(t0 * 0.731), s1 = Math.sin(t0 * 0.731);
+
+        const qx = ca * c0 - sb * s0, qw = ca * s0 + sb * c0, qy = sa * c1 - cb * s1, qz = sa * s1 + cb * c1;
+        const phase = a * 3.2 + b * 2.0 - time * 0.92;
+        const wave = Math.sin(phase) * 0.5 + Math.sin(phase * 0.37 + b * 3.0) * 0.25;
+        const breath = 1 + 0.16 * Math.sin(time * 1.13 + a * 2.0 + b);
+
+        const denom = 1 + 0.72 * 0.62 * qw;
+        const proj = 62 * breath / Math.max(denom, 0.08);
+
+        const bend = 1 + 0.13 * wave;
+        const x = qx * proj * bend;
+        const y = qy * proj * (1 - 0.09 * wave);
+        const z = qz * proj + wave * 62 * 0.18;
+
+        target.set(x, y, z);
+        const energy = 0.5 + 0.5 * Math.sin(phase + qw * 4.0);
+        const hue = u + 0.16 * Math.sin(b + time * 0.12) + 0.08 * qw;
+        color.setHSL(hue, 0.72 + energy * 0.25, 0.34 + energy * 0.28);
+
+        targets[i].copy(target);
+        positions[i].lerp(targets[i], 0.1);
+
+        dummy.position.set(0, 0, 0); dummy.rotation.set(0, 0, 0); dummy.updateMatrix();
+        instancedMesh.setMatrixAt(i, dummy.matrix);
+        instancedMesh.setColorAt(i, color);
+      }
+
+      instancedMesh.instanceColor.needsUpdate = true;
+      updateGPGPUTargets();
+      gpuCompute.compute();
+
+      const posTexture = gpuCompute.getCurrentRenderTarget(posVar).texture;
+      if (material.userData.shader) {
+        material.userData.shader.uniforms.texturePosition.value = posTexture;
+        material.userData.shader.uniforms.gpgpuEnabled.value = 1.0;
+      }
+      instancedMesh.instanceMatrix.needsUpdate = true;
+      composer.render(delta);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      composer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+
+  <!-- WedWise Application Logic -->
+  <script>
+    function launchConfetti() {
+      const canvas = document.createElement('canvas');
+      canvas.style.position = 'fixed';
+      canvas.style.inset = '0';
+      canvas.style.width = '100vw';
+      canvas.style.height = '100vh';
+      canvas.style.pointerEvents = 'none';
+      canvas.style.zIndex = '99999';
+      document.body.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const particles = [];
+      const colors = ['#C5A059', '#D4B86F', '#E58F95', '#F5EDDC', '#8E6B2F', '#A3BE8C', '#EBCB8B'];
+      for (let i = 0; i < 90; i++) {
+        particles.push({
+          x: canvas.width * 0.5, y: canvas.height * 0.5,
+          vx: (Math.random() - 0.5) * 16, vy: Math.random() * -14 - 4,
+          size: Math.random() * 8 + 4, color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360, vRot: (Math.random() - 0.5) * 12, life: 1
         });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      }
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let active = false;
+        particles.forEach(p => {
+          p.x += p.vx; p.y += p.vy; p.vy += 0.4; p.rotation += p.vRot; p.life -= 0.016;
+          if (p.life > 0) {
+            active = true;
+            ctx.save(); ctx.globalAlpha = Math.max(0, p.life); ctx.translate(p.x, p.y);
+            ctx.rotate((p.rotation * Math.PI) / 180); ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6); ctx.restore();
+          }
+        });
+        if (active) requestAnimationFrame(animate);
+        else canvas.remove();
+      }
+      requestAnimationFrame(animate);
+    }
 
-        const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.autoRotate = AUTO_SPIN;
-        controls.autoRotateSpeed = 1.5;
+    const DEFAULT_DATA = {
+      couple: { partner1: "Sophia Laurent", partner2: "Alexander Hayes", weddingDate: "2027-10-24", venueName: "Villa Bella Vista", venueCity: "Lake Como, Italy", totalBudget: 45000 },
+      expenses: [
+        { id: "e1", title: "Villa Bella Vista Rental & Gardens", category: "Venues", cost: 14000, paid: 8000, status: "Deposit Paid" },
+        { id: "e2", title: "4-Course Italian Catering & Bar", category: "Catering", cost: 12000, paid: 4000, status: "Deposit Paid" },
+        { id: "e3", title: "Lumière Fine Art Photography & Cinema", category: "Photography", cost: 5000, paid: 5000, status: "Paid" },
+        { id: "e4", title: "Monique Lhuillier Couture Gown & Veil", category: "Attire", cost: 4400, paid: 4400, status: "Paid" },
+        { id: "e5", title: "Botanica Luxury Floral Installations", category: "Decoration", cost: 4200, paid: 1500, status: "Deposit Paid" },
+        { id: "e6", title: "String Quartet & Evening Jazz Band", category: "Music", cost: 2600, paid: 1000, status: "Deposit Paid" }
+      ],
+      guests: [
+        { id: "g1", name: "Eleanor Vance", phone: "+1 555-234-8901", status: "Confirmed", table: "Table 1 (Head Table)", dietary: "Vegetarian", plusOne: true, plusOneName: "Julian Vance" },
+        { id: "g2", name: "Marcus Aurelius Sterling", phone: "+1 555-345-6712", status: "Confirmed", table: "Table 2 (Sterling Family)", dietary: "Gluten-Free", plusOne: true, plusOneName: "Clara Sterling" },
+        { id: "g3", name: "Dr. Evelyn Montgomery", phone: "+1 555-456-7890", status: "Confirmed", table: "Table 3 (Laurent Family)", dietary: "None", plusOne: false },
+        { id: "g4", name: "Liam O'Connor", phone: "+1 555-987-6543", status: "Confirmed", table: "Table 1 (Head Table)", dietary: "None", plusOne: true, plusOneName: "Fiona Gallagher" },
+        { id: "g5", name: "Seraphina Lin", phone: "+1 555-678-1234", status: "Pending", table: "Table 4 (Friends)", dietary: "Vegan", plusOne: true, plusOneName: "Daniel Wu" },
+        { id: "g6", name: "Harrison Drake", phone: "+1 555-876-5432", status: "Confirmed", table: "Table 5 (VIP)", dietary: "None", plusOne: true, plusOneName: "Vivienne Drake" }
+      ],
+      vendors: [
+        { id: "v1", name: "Villa Bella Vista", category: "Venues", rating: 4.98, reviews: 86, starting: 14000, location: "Lake Como, Italy", image: "https://images.unsplash.com/photo-1544077960-604201fe74bc?auto=format&fit=crop&w=600&q=80", desc: "18th-century neoclassical lakefront estate with private docks.", shortlisted: true },
+        { id: "v2", name: "Lumière Fine Art Cinematography", category: "Photography", rating: 4.99, reviews: 142, starting: 5000, location: "Milan & Paris", image: "https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=600&q=80", desc: "Editorial documentary wedding imagery published in Vogue & Brides.", shortlisted: true },
+        { id: "v3", name: "La Tavola Reale Haute Cuisine", category: "Catering", rating: 4.97, reviews: 110, starting: 11000, location: "Milan & Como", image: "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=600&q=80", desc: "Michelin-trained artisans crafting bespoke 4-course Italian tasting menus.", shortlisted: true }
+      ],
+      checklist: [
+        { id: "c1", title: "Confirm Ceremony & Reception Venue", milestone: "10-12 Months Before", completed: true },
+        { id: "c2", title: "Establish Master Wedding Budget", milestone: "10-12 Months Before", completed: true },
+        { id: "c3", title: "Book Lead Photographer & Cinema Team", milestone: "10-12 Months Before", completed: true },
+        { id: "c4", title: "Select & Order Bridal Gown & Veil", milestone: "7-9 Months Before", completed: true },
+        { id: "c5", title: "Obtain Marriage License & Legal Documentation", milestone: "2-3 Months Before", completed: false }
+      ]
+    };
 
-        const composer = new EffectComposer(renderer);
-        composer.addPass(new RenderPass(scene, camera));
+    let state = JSON.parse(localStorage.getItem("wedwise_app_data_v2")) || DEFAULT_DATA;
+    function saveState() {
+      localStorage.setItem("wedwise_app_data_v2", JSON.stringify(state));
+      renderAll();
+    }
 
-        // Soft bloom for romantic glowing particles
-        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.2, 0.4, 0.85);
-        bloomPass.strength = 0.45;
-        bloomPass.radius = 0.4;
-        bloomPass.threshold = 0.2;
-        composer.addPass(bloomPass);
+    let isAttendingRSVP = true;
+    let selectedExpenseCategory = "All";
+    let selectedGuestStatus = "All";
+    let selectedVendorCategory = "All";
+    let onlyShortlistedVendors = false;
 
-        // Deep Navy Background Shader Composite (#080711)
-        const BgCompositeShader = {
-            uniforms: {
-                "tDiffuse": { value: null },
-                "bgColor": { value: new THREE.Color('#080711') }
-            },
-            vertexShader: `
-                varying vec2 vUv;
-                void main() {
-                    vUv = uv;
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-                }
-            `,
-            fragmentShader: `
-                uniform sampler2D tDiffuse;
-                uniform vec3 bgColor;
-                varying vec2 vUv;
-                void main() {
-                    vec4 texel = texture2D( tDiffuse, vUv );
-                    float alpha = clamp(max(texel.r, max(texel.g, texel.b)), 0.0, 1.0);
-                    gl_FragColor = vec4( texel.rgb + bgColor * (1.0 - alpha), 1.0 );
-                }
-            `
-        };
-        const bgCompositePass = new ShaderPass(BgCompositeShader);
-        composer.addPass(bgCompositePass);
+    function showToast(msg, icon = "✨") {
+      const t = document.getElementById("toast");
+      document.getElementById("toast-msg").innerText = msg;
+      document.getElementById("toast-icon").innerText = icon;
+      t.classList.remove("hidden");
+      setTimeout(() => t.classList.add("hidden"), 3000);
+    }
 
-        if (composer.passes.length > 0) {
-            composer.passes[composer.passes.length - 1].renderToScreen = true;
+    function switchTab(tabId) {
+      document.querySelectorAll(".page-view").forEach(el => el.classList.add("hidden"));
+      const target = document.getElementById(`view-${tabId}`);
+      if (target) target.classList.remove("hidden");
+
+      document.querySelectorAll(".nav-tab").forEach(btn => {
+        btn.classList.remove("bg-amber-100/80", "text-amber-900", "font-bold", "border", "border-amber-300/60");
+        btn.classList.add("text-stone-700");
+      });
+      const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+      if (activeBtn) {
+        activeBtn.classList.add("bg-amber-100/80", "text-amber-900", "font-bold", "border", "border-amber-300/60");
+        activeBtn.classList.remove("text-stone-700");
+      }
+    }
+
+    function renderAll() {
+      document.getElementById("nav-couple-names").innerText = `${state.couple.partner1.split(' ')[0]} & ${state.couple.partner2.split(' ')[0]}`;
+      document.getElementById("dash-couple-title").innerText = `${state.couple.partner1} & ${state.couple.partner2}`;
+
+      const totalCost = state.expenses.reduce((s, e) => s + Number(e.cost), 0);
+      const remaining = state.couple.totalBudget - totalCost;
+      const spentPct = Math.min(100, Math.round((totalCost / state.couple.totalBudget) * 100));
+
+      document.getElementById("dash-kpi-budget").innerText = `$${state.couple.totalBudget.toLocaleString()}`;
+      document.getElementById("dash-kpi-spent").innerText = `$${totalCost.toLocaleString()}`;
+      document.getElementById("dash-kpi-spent-pct").innerText = `${spentPct}% committed`;
+      document.getElementById("dash-kpi-remaining").innerText = `$${remaining.toLocaleString()}`;
+
+      const confirmed = state.guests.filter(g => g.status === "Confirmed").length;
+      const pending = state.guests.filter(g => g.status === "Pending").length;
+      document.getElementById("dash-kpi-guests").innerText = confirmed;
+      document.getElementById("dash-kpi-pending-guests").innerText = pending;
+      document.getElementById("g-stat-total").innerText = state.guests.length;
+      document.getElementById("g-stat-confirmed").innerText = confirmed;
+      document.getElementById("g-stat-pending").innerText = pending;
+
+      const completedTasks = state.checklist.filter(t => t.completed).length;
+      const totalTasks = state.checklist.length;
+      const taskPct = Math.round((completedTasks / totalTasks) * 100);
+      document.getElementById("dash-kpi-tasks").innerText = `${completedTasks}/${totalTasks}`;
+      document.getElementById("dash-kpi-tasks-pct").innerText = `${taskPct}% completed`;
+
+      renderDashboardPendingTasks();
+      renderBudgetDonut(totalCost);
+      renderBudgetBars(totalCost);
+      renderExpensesTable();
+      renderGuestsTable();
+      renderVendorsGrid();
+      renderChecklist();
+    }
+
+    function renderDashboardPendingTasks() {
+      const container = document.getElementById("dash-pending-tasks-list");
+      const pendings = state.checklist.filter(t => !t.completed).slice(0, 3);
+      container.innerHTML = pendings.map(t => `
+        <div class="flex items-center justify-between p-3 rounded-xl border border-stone-200/80 bg-white/70 hover:bg-white text-xs">
+          <div class="flex items-center gap-2.5">
+            <button onclick="toggleChecklistTask('${t.id}')" class="w-5 h-5 rounded border border-amber-300 bg-white flex items-center justify-center font-bold text-amber-700"></button>
+            <span class="font-semibold text-stone-900">${t.title}</span>
+          </div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-amber-50 text-amber-800 font-medium">${t.milestone}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderBudgetDonut(totalCost) {
+      document.getElementById("donut-center-total").innerText = `$${totalCost.toLocaleString()}`;
+      const svg = document.getElementById("budget-donut-svg");
+      const cats = ["Venues", "Catering", "Photography", "Attire", "Decoration", "Music"];
+      const colors = { Venues: "#C5A059", Catering: "#E58F95", Photography: "#5E81AC", Attire: "#B48EAD", Decoration: "#A3BE8C", Music: "#D08770" };
+
+      let offset = 0;
+      const circumference = 2 * Math.PI * 38;
+      let pathsHtml = `<circle cx="50" cy="50" r="38" fill="transparent" stroke="#F5EFEB" stroke-width="14" />`;
+      cats.forEach(c => {
+        const catSpent = state.expenses.filter(e => e.category === c).reduce((sum, e) => sum + Number(e.cost), 0);
+        if (catSpent > 0 && totalCost > 0) {
+          const slice = (catSpent / totalCost) * circumference;
+          pathsHtml += `<circle cx="50" cy="50" r="38" fill="transparent" stroke="${colors[c]}" stroke-width="14" stroke-dasharray="${slice} ${circumference}" stroke-dashoffset="${-offset}" />`;
+          offset += slice;
         }
+      });
+      svg.innerHTML = pathsHtml;
+    }
 
-        const dummy = new THREE.Object3D();
-        const color = new THREE.Color();
-        const target = new THREE.Vector3();
+    function renderBudgetBars(totalCost) {
+      const container = document.getElementById("budget-category-bars");
+      const cats = ["Venues", "Catering", "Photography", "Attire", "Decoration", "Music"];
+      const colors = { Venues: "#C5A059", Catering: "#E58F95", Photography: "#5E81AC", Attire: "#B48EAD", Decoration: "#A3BE8C", Music: "#D08770" };
 
-        const geometry = new THREE.TetrahedronGeometry(0.25).clone();
-        const W = Math.ceil(Math.sqrt(COUNT));
-        const H = W;
-        const references = new Float32Array(COUNT * 2);
-        for (let i = 0; i < COUNT; i++) {
-            references[i * 2] = ((i % W) + 0.5) / W;
-            references[i * 2 + 1] = (Math.floor(i / W) + 0.5) / H;
-        }
-        geometry.setAttribute('reference', new THREE.InstancedBufferAttribute(references, 2));
-
-        const scales = new Float32Array(COUNT);
-        const opacities = new Float32Array(COUNT);
-        for (let i = 0; i < COUNT; i++) { scales[i] = 1.0; opacities[i] = 1.0; }
-        geometry.setAttribute('instanceScale', new THREE.InstancedBufferAttribute(scales, 1));
-        geometry.setAttribute('instanceOpacity', new THREE.InstancedBufferAttribute(opacities, 1));
-
-        const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-
-        const applyGPGPU = (mat) => {
-            mat.onBeforeCompile = (shader) => {
-                shader.uniforms.texturePosition = { value: null };
-                shader.uniforms.gpgpuEnabled = { value: 1.0 };
-                mat.userData.shader = shader;
-
-                shader.vertexShader = `
-                    attribute vec2 reference;
-                    attribute float instanceScale;
-                    attribute float instanceOpacity;
-                    varying float vInstanceOpacity;
-                    uniform sampler2D texturePosition;
-                    uniform float gpgpuEnabled;
-                ` + shader.vertexShader;
-
-                shader.vertexShader = shader.vertexShader.replace(
-                    '#include <project_vertex>',
-                    `
-                    vec4 mvPosition = vec4( transformed, 1.0 );
-                    #ifdef USE_BATCHING
-                        mvPosition = batchingMatrix * mvPosition;
-                    #endif
-                    #ifdef USE_INSTANCING
-                        mvPosition.xyz *= instanceScale;
-                        vInstanceOpacity = instanceOpacity;
-                        
-                        mat4 m = instanceMatrix;
-                        if (gpgpuEnabled > 0.5) {
-                            m[3] = vec4(0.0, 0.0, 0.0, 1.0);
-                        }
-                        mvPosition = m * mvPosition;
-                        if (gpgpuEnabled > 0.5) {
-                            mvPosition.xyz += texture2D(texturePosition, reference).xyz;
-                        } else {
-                            mvPosition.xyz += vec3(instanceMatrix[3][0], instanceMatrix[3][1], instanceMatrix[3][2]);
-                        }
-                    #endif
-                    mvPosition = modelViewMatrix * mvPosition;
-                    gl_Position = projectionMatrix * mvPosition;
-                    `
-                );
-
-                shader.fragmentShader = `
-                    varying float vInstanceOpacity;
-                ` + shader.fragmentShader;
-
-                shader.fragmentShader = shader.fragmentShader.replace(
-                    '#include <color_fragment>',
-                    `
-                    #include <color_fragment>
-                    diffuseColor.a *= vInstanceOpacity;
-                    `
-                );
-            };
-            if (mat.uniforms) {
-                mat.uniforms.texturePosition = { value: null };
-                mat.uniforms.gpgpuEnabled = { value: 1.0 };
-            }
-            mat.needsUpdate = true;
-        };
-        applyGPGPU(material);
-
-        const instancedMesh = new THREE.InstancedMesh(geometry, material, COUNT);
-        instancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-        scene.add(instancedMesh);
-
-        const positions = [];
-        const targets = [];
-        for (let i = 0; i < COUNT; i++) {
-            const p = new THREE.Vector3((Math.random() - 0.5) * 100, (Math.random() - 0.5) * 100, (Math.random() - 0.5) * 100);
-            positions.push(p.clone());
-            targets.push(p.clone());
-            instancedMesh.setColorAt(i, color.setHex(0xe6b89c));
-        }
-
-        let gpuCompute = new GPUComputationRenderer(W, H, renderer);
-        const dtPosition = gpuCompute.createTexture();
-        const dtVelocity = gpuCompute.createTexture();
-
-        const posArray = dtPosition.image.data;
-        const velArray = dtVelocity.image.data;
-        for (let i = 0; i < W * H; i++) {
-            const idx = i * 4;
-            posArray[idx] = (Math.random() - 0.5) * 100;
-            posArray[idx + 1] = (Math.random() - 0.5) * 100;
-            posArray[idx + 2] = (Math.random() - 0.5) * 100;
-            posArray[idx + 3] = 1.0;
-
-            velArray[idx] = 0.0;
-            velArray[idx + 1] = 0.0;
-            velArray[idx + 2] = 0.0;
-            velArray[idx + 3] = 0.0;
-        }
-
-        const posShader = `
-            void main() {
-                vec2 uv = gl_FragCoord.xy / resolution.xy;
-                vec3 pos = texture2D(texturePosition, uv).xyz;
-                vec3 vel = texture2D(textureVelocity, uv).xyz;
-                pos += vel * 0.016;
-                gl_FragColor = vec4(pos, 1.0);
-            }
+      container.innerHTML = cats.map(c => {
+        const catSpent = state.expenses.filter(e => e.category === c).reduce((sum, e) => sum + Number(e.cost), 0);
+        const pct = totalCost > 0 ? Math.round((catSpent / totalCost) * 100) : 0;
+        return `
+          <div class="p-3 bg-stone-50/70 rounded-xl border border-stone-100">
+            <div class="flex justify-between items-center mb-1">
+              <span class="font-bold text-stone-800">${c}</span>
+              <span class="font-serif font-bold text-stone-900">$${catSpent.toLocaleString()} (${pct}%)</span>
+            </div>
+            <div class="w-full bg-stone-200 rounded-full h-1.5 overflow-hidden">
+              <div class="h-full rounded-full" style="width: ${pct}%; background-color: ${colors[c]}"></div>
+            </div>
+          </div>
         `;
-
-        const velShader = `
-            uniform float uTime;
-            uniform float uDeltaTime;
-            uniform float uStiffness;
-            uniform float uDamping;
-            uniform sampler2D textureTarget;
-
-            void main() {
-                vec2 uv = gl_FragCoord.xy / resolution.xy;
-                vec3 pos = texture2D(texturePosition, uv).xyz;
-                vec3 vel = texture2D(textureVelocity, uv).xyz;
-                vec3 target = texture2D(textureTarget, uv).xyz;
-
-                vec3 force = -uStiffness * (pos - target);
-                vel += force * uDeltaTime;
-                vel *= (1.0 - uDamping);
-
-                gl_FragColor = vec4(vel, 1.0);
-            }
-        `;
-
-        let targetTex = new THREE.DataTexture(new Float32Array(W * H * 4), W, H, THREE.RGBAFormat, THREE.FloatType);
-
-        function updateGPGPUTargets() {
-            const data = targetTex.image.data;
-            for (let i = 0; i < W * H; i++) {
-                const idx = i * 4;
-                if (i < COUNT && i < targets.length) {
-                    const p = targets[i];
-                    data[idx] = p.x;
-                    data[idx + 1] = p.y;
-                    data[idx + 2] = p.z;
-                } else {
-                    data[idx] = 999999.0;
-                    data[idx + 1] = 999999.0;
-                    data[idx + 2] = 999999.0;
-                }
-                data[idx + 3] = 1.0;
-            }
-            targetTex.needsUpdate = true;
-        }
-
-        const positionVariable = gpuCompute.addVariable("texturePosition", posShader, dtPosition);
-        const velocityVariable = gpuCompute.addVariable("textureVelocity", velShader, dtVelocity);
-
-        gpuCompute.setVariableDependencies(positionVariable, [positionVariable, velocityVariable]);
-        gpuCompute.setVariableDependencies(velocityVariable, [positionVariable, velocityVariable]);
-
-        const velocityUniforms = velocityVariable.material.uniforms;
-        velocityUniforms.uTime = { value: 0.0 };
-        velocityUniforms.uDeltaTime = { value: 0.016 };
-        velocityUniforms.uStiffness = { value: STIFFNESS };
-        velocityUniforms.uDamping = { value: DAMPING };
-        velocityUniforms.textureTarget = { value: targetTex };
-
-        gpuCompute.init();
-
-        const PARAMS = { "size": 62, "speed": 0.45, "warp": 0.72, "pulse": 0.16, "twist": 3.2 };
-        const clock = new THREE.Clock();
-
-        function animate() {
-            requestAnimationFrame(animate);
-            const delta = clock.getDelta();
-            const time = clock.getElapsedTime() * SPEED_MULT;
-
-            controls.update();
-
-            // Clifford Torus particle calculations with Rose Gold & Champagne palette
-            for (let i = 0; i < COUNT; i++) {
-                const size = PARAMS.size;
-                const speed = PARAMS.speed;
-                const warp = PARAMS.warp;
-                const pulse = PARAMS.pulse;
-                const twist = PARAMS.twist;
-
-                const invCount = 1 / Math.max(COUNT, 1);
-                const u = i * invCount;
-                const g = i * 0.6180339887498949;
-                const f = g - Math.floor(g);
-
-                const a = u * 6.283185307179586;
-                const b = f * 6.283185307179586 + Math.sin(a * 3 + time * 0.31) * 0.22;
-
-                const ca = Math.cos(a);
-                const sa = Math.sin(a);
-                const cb = Math.cos(b);
-                const sb = Math.sin(b);
-
-                const t0 = time * speed;
-                const c0 = Math.cos(t0);
-                const s0 = Math.sin(t0);
-                const c1 = Math.cos(t0 * 0.731);
-                const s1 = Math.sin(t0 * 0.731);
-
-                const qx = ca * c0 - sb * s0;
-                const qw = ca * s0 + sb * c0;
-                const qy = sa * c1 - cb * s1;
-                const qz = sa * s1 + cb * c1;
-
-                const phase = a * twist + b * 2.0 - time * (0.7 + speed * 0.4);
-                const wave = Math.sin(phase) * 0.5 + Math.sin(phase * 0.37 + b * 3.0) * 0.25;
-                const breath = 1 + pulse * Math.sin(time * 1.13 + a * 2.0 + b);
-
-                const denom = 1 + warp * 0.62 * qw;
-                const proj = size * breath / Math.max(denom, 0.08);
-
-                const bend = 1 + 0.13 * wave;
-                const x = qx * proj * bend;
-                const y = qy * proj * (1 - 0.09 * wave);
-                const z = qz * proj + wave * size * 0.18;
-
-                target.set(x, y, z);
-
-                // Romantic palette mapping: Rose Gold (HSL: 0.06, 0.5, 0.7) -> Champagne -> Ivory
-                const energy = 0.5 + 0.5 * Math.sin(phase + qw * 4.0);
-                const hue = 0.04 + 0.06 * Math.sin(b + time * 0.08); // Rose Gold / Warm Amber range
-                const sat = 0.55 + energy * 0.35;
-                const light = 0.60 + energy * 0.25;
-
-                color.setHSL(hue, sat, light);
-
-                targets[i].copy(target);
-                positions[i].lerp(targets[i], 0.1);
-
-                dummy.position.set(0, 0, 0);
-                dummy.rotation.set(0, 0, 0);
-                dummy.updateMatrix();
-
-                instancedMesh.setMatrixAt(i, dummy.matrix);
-                instancedMesh.setColorAt(i, color);
-            }
-
-            instancedMesh.instanceColor.needsUpdate = true;
-            updateGPGPUTargets();
-
-            if (velocityUniforms) {
-                velocityUniforms.uTime.value = time;
-                velocityUniforms.uDeltaTime.value = delta;
-            }
-
-            gpuCompute.compute();
-
-            const posTexture = gpuCompute.getCurrentRenderTarget(positionVariable).texture;
-            if (material.userData.shader) {
-                material.userData.shader.uniforms.texturePosition.value = posTexture;
-                material.userData.shader.uniforms.gpgpuEnabled.value = 1.0;
-            }
-
-            instancedMesh.instanceMatrix.needsUpdate = true;
-            composer.render(delta);
-        }
-
-        animate();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            composer.setSize(window.innerWidth, window.innerHeight);
-            if (bloomPass) {
-                bloomPass.resolution.set(window.innerWidth, window.innerHeight);
-            }
-        });
-
-        // --- SCROLL REVEAL OBSERVER ---
-        const revealPanels = document.querySelectorAll('.reveal-panel');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                }
-            });
-        }, { threshold: 0.15 });
-
-        revealPanels.forEach(panel => observer.observe(panel));
-
-        // --- INTERACTIVE DASHBOARD DATA LOGIC ---
-
-        // 0. COUPLE & LOCATION LIVE SYNC LOGIC
-        let weddingTargetDate = new Date('2026-10-24T16:00:00').getTime();
-
-        const inputBride = document.getElementById('input-bride');
-        const inputGroom = document.getElementById('input-groom');
-        const inputVenue = document.getElementById('input-venue');
-        const inputDate = document.getElementById('input-date');
-
-        function syncCoupleDetails() {
-            const bride = inputBride.value.trim() || 'Bride';
-            const groom = inputGroom.value.trim() || 'Groom';
-            const venue = inputVenue.value.trim() || 'Wedding Venue';
-            const coupleText = `${bride} & ${groom}`;
-
-            document.getElementById('hero-title-display').innerText = coupleText;
-            document.getElementById('header-couple-display').innerText = `${coupleText}'s Wedding`;
-            document.getElementById('hero-location-display').innerText = venue;
-            document.getElementById('header-location-display').innerText = `Target Date: ${inputDate.value} • ${venue}`;
-
-            if (inputDate.value) {
-                weddingTargetDate = new Date(`${inputDate.value}T16:00:00`).getTime();
-                updateTimer();
-            }
-        }
-
-        [inputBride, inputGroom, inputVenue, inputDate].forEach(el => el.addEventListener('input', syncCoupleDetails));
-
-        // 1. COUNTDOWN TIMER LOGIC
-        function updateTimer() {
-            const now = new Date().getTime();
-            const difference = Math.max(0, weddingTargetDate - now);
-
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const mins = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const secs = Math.floor((difference % (1000 * 60)) / 1000);
-
-            document.getElementById('timer-days').innerText = String(days).padStart(2, '0');
-            document.getElementById('timer-hours').innerText = String(hours).padStart(2, '0');
-            document.getElementById('timer-mins').innerText = String(mins).padStart(2, '0');
-            document.getElementById('timer-secs').innerText = String(secs).padStart(2, '0');
-        }
-        setInterval(updateTimer, 1000);
-        updateTimer();
-
-        // 1. BUDGET TRACKER STATE & LOGIC
-        let totalBudget = 45000;
-        let expenses = [
-            { id: 1, title: 'Grand Palace Hall Reservation', category: 'Venue', amount: 18000 },
-            { id: 2, title: 'Lumière Atelier Photo & Film', category: 'Photography', amount: 6500 },
-            { id: 3, title: 'Custom Rose Gold Bridal Gown', category: 'Attire', amount: 4200 },
-            { id: 4, title: 'Artisan Catering 5-Course Dinner', category: 'Venue', amount: 9500 }
-        ];
-
-        function renderBudget() {
-            const spentTotal = expenses.reduce((sum, exp) => sum + exp.amount, 0);
-            const remaining = Math.max(0, totalBudget - spentTotal);
-            const percentage = Math.min(100, Math.round((spentTotal / totalBudget) * 100));
-
-            document.getElementById('spent-amount-display').innerText = `$${spentTotal.toLocaleString()}`;
-            document.getElementById('remaining-amount-display').innerText = `$${remaining.toLocaleString()}`;
-            document.getElementById('budget-progress-bar').style.width = `${percentage}%`;
-
-            const tbody = document.getElementById('expense-list-body');
-            tbody.innerHTML = expenses.map(item => `
-                <tr>
-                    <td class="py-3 font-semibold text-stone-900">${item.title}</td>
-                    <td class="py-3"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-700/10 text-amber-900 font-bold border border-amber-700/20">${item.category}</span></td>
-                    <td class="py-3 text-right font-bold text-amber-950">$${item.amount.toLocaleString()}</td>
-                    <td class="py-3 text-center">
-                        <button onclick="removeExpense(${item.id})" class="text-xs text-rose-700 font-bold hover:text-rose-900">Delete</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        window.removeExpense = function(id) {
-            expenses = expenses.filter(e => e.id !== id);
-            renderBudget();
-        };
-
-        document.getElementById('add-expense-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const title = document.getElementById('expense-title').value;
-            const category = document.getElementById('expense-category').value;
-            const amount = parseFloat(document.getElementById('expense-amount').value);
-
-            if (title && amount) {
-                expenses.push({ id: Date.now(), title, category, amount });
-                renderBudget();
-                e.target.reset();
-            }
-        });
-        renderBudget();
-
-        // 2. GUEST LIST STATE & LOGIC
-        let guests = [
-            { id: 1, name: 'Lady Eleanor Vance', status: 'Confirmed', notes: 'Vegetarian, Table 1' },
-            { id: 2, name: 'Lord Sterling Vance', status: 'Confirmed', notes: 'Table 1' },
-            { id: 3, name: 'Julian Hayes', status: 'Pending', notes: 'Plus One Requested' },
-            { id: 4, name: 'Clara Oswald', status: 'Declined', notes: 'Out of country' }
-        ];
-
-        function renderGuests(filter = '') {
-            const filtered = guests.filter(g => g.name.toLowerCase().includes(filter.toLowerCase()));
-            
-            const confirmed = guests.filter(g => g.status === 'Confirmed').length;
-            const pending = guests.filter(g => g.status === 'Pending').length;
-            const declined = guests.filter(g => g.status === 'Declined').length;
-
-            document.getElementById('count-confirmed').innerText = confirmed;
-            document.getElementById('count-pending').innerText = pending;
-            document.getElementById('count-declined').innerText = declined;
-            document.getElementById('total-guests').innerText = guests.length;
-
-            const tbody = document.getElementById('guest-list-body');
-            tbody.innerHTML = filtered.map(g => {
-                let badgeClass = 'bg-emerald-700/15 text-emerald-950 border-emerald-700/30';
-                if (g.status === 'Pending') badgeClass = 'bg-amber-700/15 text-amber-950 border-amber-700/30';
-                if (g.status === 'Declined') badgeClass = 'bg-rose-700/15 text-rose-950 border-rose-700/30';
-
-                return `
-                    <tr>
-                        <td class="py-3 font-semibold text-stone-900">${g.name}</td>
-                        <td class="py-3"><span class="px-2.5 py-1 rounded-full border text-[10px] font-bold ${badgeClass}">${g.status}</span></td>
-                        <td class="py-3 text-xs text-stone-700 font-medium">${g.notes || '-'}</td>
-                        <td class="py-3 text-center">
-                            <button onclick="removeGuest(${g.id})" class="text-xs text-rose-700 font-bold hover:text-rose-900">Remove</button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        window.removeGuest = function(id) {
-            guests = guests.filter(g => g.id !== id);
-            renderGuests(document.getElementById('guest-search').value);
-        };
-
-        document.getElementById('add-guest-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('guest-name').value;
-            const status = document.getElementById('guest-status').value;
-            const notes = document.getElementById('guest-notes').value;
-
-            if (name) {
-                guests.push({ id: Date.now(), name, status, notes });
-                renderGuests(document.getElementById('guest-search').value);
-                e.target.reset();
-            }
-        });
-
-        document.getElementById('guest-search').addEventListener('input', (e) => {
-            renderGuests(e.target.value);
-        });
-        renderGuests();
-
-        // 3. CHECKLIST STATE & LOGIC
-        let checklistItems = [
-            { id: 1, text: 'Reserve Grand Palace Venue & Catering', done: true },
-            { id: 2, text: 'Finalize Photographer & Cinematographer Contract', done: true },
-            { id: 3, text: 'Send Out Official Rose Gold Embossed Invitations', done: false },
-            { id: 4, text: 'Schedule Cake Tasting & Floral Arch Mockup', done: false },
-            { id: 5, text: 'Finalize Seating Chart & Table Placements', done: false },
-            { id: 6, text: 'Rehearsal Dinner Confirmation', done: false }
-        ];
-
-        function renderChecklist() {
-            const completedCount = checklistItems.filter(item => item.done).length;
-            const percentage = Math.round((completedCount / checklistItems.length) * 100);
-
-            document.getElementById('checklist-progress-text').innerText = `${percentage}% Completed`;
-            document.getElementById('checklist-progress-bar').style.width = `${percentage}%`;
-
-            const container = document.getElementById('checklist-items-container');
-            container.innerHTML = checklistItems.map(item => `
-                <label class="flex items-center space-x-3 p-3 rounded-xl glass-input cursor-pointer hover:border-amber-600/50 transition-colors">
-                    <input type="checkbox" onchange="toggleChecklist(${item.id})" ${item.done ? 'checked' : ''} class="w-4 h-4 accent-amber-600 bg-amber-50 border-amber-600/40 rounded">
-                    <span class="text-sm font-medium ${item.done ? 'line-through text-stone-500' : 'text-stone-900'}">${item.text}</span>
-                </label>
-            `).join('');
-        }
-
-        window.toggleChecklist = function(id) {
-            checklistItems = checklistItems.map(item => item.id === id ? { ...item, done: !item.done } : item);
-            renderChecklist();
-        };
-        renderChecklist();
-
-        // 4. MANUAL VENDOR DIRECTORY MANAGEMENT
-        let vendors = [
-            { id: 1, name: 'Grand Palace Hall', category: 'Venue', contact: 'Julia Sterling', phone: '+1 (555) 234-5678', status: 'Booked', notes: 'Includes ballroom & outdoor garden setup.' },
-            { id: 2, name: 'Lumière Atelier', category: 'Photography', contact: 'Marc Antoine', phone: '+1 (555) 876-5432', status: 'Booked', notes: '10 Hours coverage + drone cinematography.' },
-            { id: 3, name: 'Blush & Botanica', category: 'Floral & Decor', contact: 'Sophia Chen', phone: '+1 (555) 345-6789', status: 'In Talks', notes: 'Rose gold arches and glowing centerpieces.' },
-            { id: 4, name: 'Artisan Culinary', category: 'Catering', contact: 'Chef Gordon', phone: '+1 (555) 987-6543', status: 'Booked', notes: '5-course tasting menu + champagne bar.' }
-        ];
-
-        function renderVendors() {
-            const container = document.getElementById('vendor-cards-container');
-            container.innerHTML = vendors.map(v => {
-                let badgeClass = 'bg-emerald-700/15 text-emerald-950 border-emerald-700/30';
-                if (v.status === 'In Talks') badgeClass = 'bg-amber-700/15 text-amber-950 border-amber-700/30';
-                if (v.status === 'Pending Deposit') badgeClass = 'bg-rose-700/15 text-rose-950 border-rose-700/30';
-
-                return `
-                    <div class="glass-card p-5 rounded-2xl space-y-3 relative group">
-                        <div class="flex justify-between items-start">
-                            <span class="p-2 rounded-xl bg-amber-700/10 text-amber-900 text-xs font-bold border border-amber-700/20">${v.category}</span>
-                            <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded border ${badgeClass}">${v.status}</span>
-                        </div>
-                        <h4 class="text-base font-serif font-bold text-stone-900">${v.name}</h4>
-                        <p class="text-xs text-stone-700 font-medium">Contact: ${v.contact || 'N/A'}</p>
-                        <p class="text-xs text-amber-900 font-bold">${v.phone || 'N/A'}</p>
-                        <p class="text-xs text-stone-600 pt-2 border-t border-amber-800/15">${v.notes || 'No extra notes'}</p>
-                        <button onclick="removeVendor(${v.id})" class="text-xs text-rose-700 font-bold hover:text-rose-900 pt-1 block">Remove Vendor</button>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        window.removeVendor = function(id) {
-            vendors = vendors.filter(v => v.id !== id);
-            renderVendors();
-        };
-
-        document.getElementById('add-vendor-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('vendor-name').value;
-            const category = document.getElementById('vendor-category').value;
-            const contact = document.getElementById('vendor-contact').value;
-            const phone = document.getElementById('vendor-phone').value;
-            const status = document.getElementById('vendor-status').value;
-            const notes = document.getElementById('vendor-notes').value;
-
-            if (name && category) {
-                vendors.push({ id: Date.now(), name, category, contact, phone, status, notes });
-                renderVendors();
-                e.target.reset();
-            }
-        });
-        renderVendors();
-
-        // 5. MANUAL DAY-OF TIMELINE MANAGEMENT
-        let timelineEvents = [
-            { id: 1, time: '09:00 AM', title: 'Bridal Suite Preparation', desc: 'Hair and makeup sessions begin for the bridal party.' },
-            { id: 2, time: '01:30 PM', title: 'First Look & Portraits', desc: 'Private photography session in the botanical gardens.' },
-            { id: 3, time: '04:00 PM', title: 'Wedding Ceremony', desc: 'Guests arrive for the vow exchange ceremony at the Main Pavilion.' },
-            { id: 4, time: '06:00 PM', title: 'Cocktail Hour & Grand Reception', desc: 'Live musical string quartet, signature cocktails, and dinner dance.' }
-        ];
-
-        function renderTimeline() {
-            const container = document.getElementById('timeline-events-container');
-            container.innerHTML = timelineEvents.map((evt, idx) => `
-                <div class="relative group">
-                    <span class="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full ${idx % 2 === 0 ? 'bg-amber-600' : 'bg-amber-400'} border-4 border-amber-100 shadow"></span>
-                    <div class="flex justify-between items-start">
-                        <span class="text-xs text-amber-900 font-bold uppercase tracking-wider">${evt.time}</span>
-                        <button onclick="removeTimelineEvent(${evt.id})" class="text-xs text-rose-700 font-bold hover:text-rose-900 opacity-80 group-hover:opacity-100">Remove</button>
-                    </div>
-                    <h4 class="text-base font-serif font-bold text-stone-900 mt-0.5">${evt.title}</h4>
-                    <p class="text-xs text-stone-600 mt-1 font-medium">${evt.desc || 'No details provided.'}</p>
-                </div>
-            `).join('');
-        }
-
-        window.removeTimelineEvent = function(id) {
-            timelineEvents = timelineEvents.filter(e => e.id !== id);
-            renderTimeline();
-        };
-
-        document.getElementById('add-timeline-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const time = document.getElementById('timeline-time').value;
-            const title = document.getElementById('timeline-title').value;
-            const desc = document.getElementById('timeline-desc').value;
-
-            if (time && title) {
-                timelineEvents.push({ id: Date.now(), time, title, desc });
-                renderTimeline();
-                e.target.reset();
-            }
-        });
-        renderTimeline();
-    </script>
+      }).join("");
+    }
+
+    function renderExpensesTable() {
+      const tbody = document.getElementById("expenses-tbody");
+      tbody.innerHTML = state.expenses.map(e => `
+        <tr class="hover:bg-amber-50/40 transition-colors">
+          <td class="py-3 font-semibold text-stone-900">${e.title}</td>
+          <td class="py-3"><span class="px-2 py-0.5 rounded bg-stone-100 text-stone-600 text-[10px]">${e.category}</span></td>
+          <td class="py-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-semibold ${e.status === 'Paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-sky-100 text-sky-800'}">${e.status}</span></td>
+          <td class="py-3 font-serif font-bold">$${Number(e.cost).toLocaleString()}</td>
+          <td class="py-3 font-serif text-emerald-700 font-semibold">$${Number(e.paid || 0).toLocaleString()}</td>
+          <td class="py-3 text-right">
+            <button onclick="deleteExpense('${e.id}')" class="text-stone-400 hover:text-rose-600 text-sm">🗑️</button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    function filterExpenseCategory(cat) {
+      selectedExpenseCategory = cat;
+      renderExpensesTable();
+    }
+
+    function deleteExpense(id) {
+      state.expenses = state.expenses.filter(e => e.id !== id);
+      saveState();
+      showToast("Expense removed", "🗑️");
+    }
+
+    function renderGuestsTable() {
+      const tbody = document.getElementById("guests-tbody");
+      tbody.innerHTML = state.guests.map(g => `
+        <tr class="hover:bg-amber-50/40 transition-colors">
+          <td class="py-3">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full gold-gradient-bg text-white font-bold text-[10px] flex items-center justify-center">${g.name.charAt(0)}</span>
+              <span class="font-semibold text-stone-900">${g.name}</span>
+            </div>
+          </td>
+          <td class="py-3 text-stone-500">${g.phone || '—'}</td>
+          <td class="py-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-semibold ${g.status === 'Confirmed' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${g.status}</span></td>
+          <td class="py-3 text-stone-700 font-medium">${g.table || 'Unassigned'}</td>
+          <td class="py-3"><span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 text-[10px] font-medium">${g.dietary || 'Standard'}</span></td>
+          <td class="py-3 text-right"><button onclick="deleteGuest('${g.id}')" class="text-stone-400 hover:text-rose-600 text-sm">🗑️</button></td>
+        </tr>
+      `).join("");
+    }
+
+    function filterGuestsByStatus(status) {
+      selectedGuestStatus = status;
+      renderGuestsTable();
+    }
+
+    function deleteGuest(id) {
+      state.guests = state.guests.filter(g => g.id !== id);
+      saveState();
+      showToast("Guest removed", "🗑️");
+    }
+
+    function exportGuestsCSV() {
+      const rows = state.guests.map(g => `"${g.name}","${g.phone || ''}","${g.status}","${g.table || ''}","${g.dietary || ''}"`);
+      const csv = "data:text/csv;charset=utf-8,Name,Phone,Status,Table,Dietary\n" + rows.join("\n");
+      const a = document.createElement("a");
+      a.href = encodeURI(csv);
+      a.download = "WedWise_Guests.csv";
+      a.click();
+      showToast("Exported guest list as CSV!", "📥");
+    }
+
+    function renderVendorsGrid() {
+      const container = document.getElementById("vendors-grid");
+      container.innerHTML = state.vendors.map(v => `
+        <div class="bg-white/90 rounded-2xl overflow-hidden border border-amber-200/80 shadow-xs flex flex-col justify-between group">
+          <div>
+            <div class="relative h-44 overflow-hidden">
+              <img src="${v.image}" alt="${v.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div class="p-4 space-y-2">
+              <h4 class="font-serif font-bold text-stone-900 text-base">${v.name}</h4>
+              <p class="text-xs text-stone-600 line-clamp-2">${v.desc}</p>
+            </div>
+          </div>
+          <div class="p-4 pt-0">
+            <button onclick="openVendorInquireModal('${v.id}')" class="w-full py-2 rounded-xl gold-gradient-bg text-xs font-bold shadow-xs">Inquire / Book</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function filterVendorCategory(cat) {
+      selectedVendorCategory = cat;
+      renderVendorsGrid();
+    }
+
+    function toggleShortlistFilter() {
+      onlyShortlistedVendors = !onlyShortlistedVendors;
+      renderVendorsGrid();
+    }
+
+    function openVendorInquireModal(id) {
+      document.getElementById("modal-vendor-inquire").classList.remove("hidden");
+    }
+    function closeVendorInquireModal() {
+      document.getElementById("modal-vendor-inquire").classList.add("hidden");
+    }
+    function submitVendorInquiry() {
+      closeVendorInquireModal();
+      launchConfetti();
+      showToast("Inquiry dispatched to vendor!", "💌");
+    }
+
+    function renderChecklist() {
+      const container = document.getElementById("checklist-tasks-container");
+      container.innerHTML = state.checklist.map(t => `
+        <div class="flex items-center justify-between p-3 rounded-2xl border ${t.completed ? 'bg-stone-50/80 border-stone-200 text-stone-400' : 'bg-white/90 border-amber-200/80'}">
+          <div class="flex items-center gap-3">
+            <button onclick="toggleChecklistTask('${t.id}')" class="w-5 h-5 rounded border-2 flex items-center justify-center text-xs font-bold ${t.completed ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-stone-300 bg-white'}">
+              ${t.completed ? '✓' : ''}
+            </button>
+            <span class="text-xs font-semibold ${t.completed ? 'line-through text-stone-400' : 'text-stone-900'}">${t.title}</span>
+          </div>
+          <button onclick="deleteTask('${t.id}')" class="text-stone-300 hover:text-rose-600 text-xs">✕</button>
+        </div>
+      `).join("");
+    }
+
+    function toggleChecklistTask(id) {
+      const t = state.checklist.find(x => x.id === id);
+      if (t) {
+        t.completed = !t.completed;
+        saveState();
+        if (t.completed) launchConfetti();
+      }
+    }
+
+    function deleteTask(id) {
+      state.checklist = state.checklist.filter(x => x.id !== id);
+      saveState();
+    }
+
+    function handleAIChatSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById("ai-input");
+      if (!input.value.trim()) return;
+      sendAIPrompt(input.value.trim());
+      input.value = "";
+    }
+
+    function sendAIPrompt(query) {
+      const box = document.getElementById("ai-chat-messages");
+      box.innerHTML += `<div class="flex justify-end"><div class="bg-stone-900 text-white p-3 rounded-2xl text-xs max-w-[80%]">${query}</div></div>`;
+      box.innerHTML += `<div class="flex gap-2"><div class="w-7 h-7 rounded-full gold-gradient-bg flex items-center justify-center text-white text-xs font-bold">W</div><div class="bg-white p-3 rounded-2xl border border-amber-100 text-xs text-stone-800 max-w-[80%]">Processing your request...</div></div>`;
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function setAttending(val) {
+      isAttendingRSVP = val;
+      document.getElementById("rsvp-attending-fields").classList.toggle("hidden", !val);
+    }
+
+    function handleRSVPSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById("rsvp-name").value;
+      state.guests.unshift({ id: "g-" + Date.now(), name, status: isAttendingRSVP ? "Confirmed" : "Declined", table: "Awaiting", dietary: "None" });
+      saveState();
+      document.getElementById("rsvp-form-container").classList.add("hidden");
+      document.getElementById("rsvp-success-card").classList.remove("hidden");
+      launchConfetti();
+    }
+
+    function copyInviteLink() { showToast("Invitation Link copied!", "📋"); }
+
+    function setStyleEstimate(styleName, price) { updateGuestEstimate(); }
+    function updateGuestEstimate(val) {
+      const guests = val ? Number(val) : 120;
+      document.getElementById("est-guest-label").innerText = `${guests} Attendees`;
+      document.getElementById("est-total-cost").innerText = `$${(guests * 380).toLocaleString()}`;
+    }
+
+    function openCoupleModal() { document.getElementById("modal-couple").classList.remove("hidden"); }
+    function closeCoupleModal() { document.getElementById("modal-couple").classList.add("hidden"); }
+    function saveCoupleModal() {
+      state.couple.partner1 = document.getElementById("modal-p1").value || state.couple.partner1;
+      state.couple.partner2 = document.getElementById("modal-p2").value || state.couple.partner2;
+      closeCoupleModal();
+      saveState();
+    }
+
+    function openExpenseModal() { document.getElementById("modal-expense").classList.remove("hidden"); }
+    function closeExpenseModal() { document.getElementById("modal-expense").classList.add("hidden"); }
+    function saveExpenseModal() {
+      const title = document.getElementById("exp-modal-title").value;
+      const cost = Number(document.getElementById("exp-modal-cost").value);
+      if (title && cost) {
+        state.expenses.unshift({ id: "e-" + Date.now(), title, category: document.getElementById("exp-modal-cat").value, cost, paid: Number(document.getElementById("exp-modal-paid").value) || 0, status: document.getElementById("exp-modal-status").value });
+        closeExpenseModal();
+        saveState();
+      }
+    }
+
+    function openGuestModal() { document.getElementById("modal-guest").classList.remove("hidden"); }
+    function closeGuestModal() { document.getElementById("modal-guest").classList.add("hidden"); }
+    function saveGuestModal() {
+      const name = document.getElementById("gst-modal-name").value;
+      if (name) {
+        state.guests.unshift({ id: "g-" + Date.now(), name, phone: document.getElementById("gst-modal-phone").value, status: document.getElementById("gst-modal-status").value, table: document.getElementById("gst-modal-table").value || "Unassigned", dietary: document.getElementById("gst-modal-diet").value });
+        closeGuestModal();
+        saveState();
+      }
+    }
+
+    function openTaskModal() { document.getElementById("modal-task").classList.remove("hidden"); }
+    function closeTaskModal() { document.getElementById("modal-task").classList.add("hidden"); }
+    function saveTaskModal() {
+      const title = document.getElementById("tsk-modal-title").value;
+      if (title) {
+        state.checklist.unshift({ id: "c-" + Date.now(), title, milestone: document.getElementById("tsk-modal-milestone").value, completed: false });
+        closeTaskModal();
+        saveState();
+      }
+    }
+
+    function resetData() {
+      state = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      saveState();
+    }
+
+    renderAll();
+  </script>
 </body>
 </html>
