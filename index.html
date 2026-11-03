@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Wizards</title>
+    <link rel="icon" href="data:,">
+    <style>
+        /* Base reset & typography */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #03050a;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 200vh; /* Provides necessary vertical scroll depth */
+            overflow-x: hidden;
+        }
+
+        /* Fixed full-screen WebGL canvas background */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none; /* Prevents canvas from blocking scroll or touch interactions */
+            display: block;
+        }
+
+        /* Initial viewport spacer (First screen) */
+        .hero-spacer {
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* Scroll-triggered glass panel container */
+        .panel-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+            padding: 0 5vw 10vh 5vw;
+            box-sizing: border-box;
+        }
+
+        /* Translucent Glass Panel */
+        .glass-panel {
+            width: 85vw;
+            min-height: 75vh;
+            margin: 0 auto;
+            border-radius: 24px;
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+
+            /* Motion & state transitions */
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        /* Revealed state trigger class */
+        .glass-panel.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile responsiveness adjustments */
+        @media (max-width: 768px) {
+            .panel-container {
+                padding: 0 4vw 8vh 4vw;
+            }
+            .glass-panel {
+                width: 92vw;
+                min-height: 70vh;
+                border-radius: 16px;
+            }
+        }
+
+        /* Respect accessibility reduced-motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            .glass-panel {
+                transition: opacity 0.3s ease;
+                transform: none !important;
+            }
+        }
+    </style>
+
+    <!-- Import Map for Three.js ES Modules imported by Casberry export -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+</head>
+<body>
+
+    <!-- Fullscreen canvas container -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Viewport 1 spacer -->
+    <div class="hero-spacer"></div>
+
+    <!-- Scroll-triggered content wrapper -->
+    <main class="panel-container">
+        <section class="glass-panel" id="glassPanel" aria-hidden="true"></section>
+    </main>
+
+    <!-- Casberry Particle Animation and Intersection Observer Logic -->
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+        import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+        import { GPUComputationRenderer } from 'three/addons/misc/GPUComputationRenderer.js';
+
+        // --- CASBERRY ANIMATION INTEGRATION ---
+        const canvas = document.getElementById('bg-canvas');
+
+        const COUNT = 20000;
+        const SPEED_MULT = 1;
+        const AUTO_SPIN = true;
+        const PHYSICS_MODE = 'lerp';
+        const STIFFNESS = 2;
+        const DAMPING = 0.08;
+        const NOISE_STRENGTH = 0;
+        const MOUSE_MODE = 'none';
+        const MOUSE_INFLUENCE = 2.5;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+        camera.position.set(0, 0, 100);
+
+        const renderer = new THREE.WebGLRenderer({ 
+            canvas: canvas, 
+            antialias: true, 
+            powerPreference: "high-performance",
+            alpha: true 
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.autoRotate = AUTO_SPIN;
+        controls.autoRotateSpeed = 2.0;
+
+        const composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
+
+        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+        bloomPass.strength = 0.5; 
+        bloomPass.radius = 0.3; 
+        bloomPass.threshold = 0.25;
+        composer.addPass(bloomPass);
+
+        const BgCompositeShader = {
+            uniforms: {
+                "tDiffuse": { value: null },
+                "bgColor": { value: new THREE.Color('#03050a') }
+            },
+            vertexShader: `
+                varying vec2 vUv;
+                void main() {
+                    vUv = uv;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+                }
+            `,
+            fragmentShader: `
+                uniform sampler2D tDiffuse;
+                uniform vec3 bgColor;
+                varying vec2 vUv;
+                void main() {
+                    vec4 texel = texture2D( tDiffuse, vUv );
+                    float alpha = clamp(max(texel.r, max(texel.g, texel.b)), 0.0, 1.0);
+                    gl_FragColor = vec4( texel.rgb + bgColor * (1.0 - alpha), 1.0 );
+                }
+            `
+        };
+        const bgCompositePass = new ShaderPass(BgCompositeShader);
+        composer.addPass(bgCompositePass);
+
+        if (composer.passes.length > 0) {
+            composer.passes[composer.passes.length - 1].renderToScreen = true;
+        }
+
+        const dummy = new THREE.Object3D();
+        const color = new THREE.Color();
+        const target = new THREE.Vector3();
+
+        const geometry = new THREE.TetrahedronGeometry(0.25).clone();
+
+        const W = Math.ceil(Math.sqrt(COUNT));
+        const H = W;
+        const references = new Float32Array(COUNT * 2);
+        for (let i = 0; i < COUNT; i++) {
+            references[i * 2] = ((i % W) + 0.5) / W;
+            references[i * 2 + 1] = (Math.floor(i / W) + 0.5) / H;
+        }
+        geometry.setAttribute('reference', new THREE.InstancedBufferAttribute(references, 2));
+
+        const scales = new Float32Array(COUNT);
+        const opacities = new Float32Array(COUNT);
+        for (let i = 0; i < COUNT; i++) { scales[i] = 1.0; opacities[i] = 1.0; }
+        geometry.setAttribute('instanceScale', new THREE.InstancedBufferAttribute(scales, 1));
+        geometry.setAttribute('instanceOpacity', new THREE.InstancedBufferAttribute(opacities, 1));
+
+        const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
+        const applyGPGPU = (mat) => {
+            mat.onBeforeCompile = (shader) => {
+                shader.uniforms.texturePosition = { value: null };
+                shader.uniforms.gpgpuEnabled = { value: 1.0 };
+                mat.userData.shader = shader;
+
+                shader.vertexShader = `
+                    attribute vec2 reference;
+                    attribute float instanceScale;
+                    attribute float instanceOpacity;
+                    varying float vInstanceOpacity;
+                    uniform sampler2D texturePosition;
+                    uniform float gpgpuEnabled;
+                ` + shader.vertexShader;
+
+                shader.vertexShader = shader.vertexShader.replace(
+                    '#include <project_vertex>',
+                    `
+                    vec4 mvPosition = vec4( transformed, 1.0 );
+                    #ifdef USE_BATCHING
+                        mvPosition = batchingMatrix * mvPosition;
+                    #endif
+                    #ifdef USE_INSTANCING
+                        mvPosition.xyz *= instanceScale;
+                        vInstanceOpacity = instanceOpacity;
+                        
+                        mat4 m = instanceMatrix;
+                        if (gpgpuEnabled > 0.5) {
+                            m[3] = vec4(0.0, 0.0, 0.0, 1.0);
+                        }
+                        mvPosition = m * mvPosition;
+                        if (gpgpuEnabled > 0.5) {
+                            mvPosition.xyz += texture2D(texturePosition, reference).xyz;
+                        } else {
+                            mvPosition.xyz += vec3(instanceMatrix[3][0], instanceMatrix[3][1], instanceMatrix[3][2]);
+                        }
+                    #endif
+                    mvPosition = modelViewMatrix * mvPosition;
+                    gl_Position = projectionMatrix * mvPosition;
+                    `
+                );
+
+                shader.fragmentShader = `
+                    varying float vInstanceOpacity;
+                ` + shader.fragmentShader;
+
+                shader.fragmentShader = shader.fragmentShader.replace(
+                    '#include <color_fragment>',
+                    `
+                    #include <color_fragment>
+                    diffuseColor.a *= vInstanceOpacity;
+                    `
+                );
+            };
+            if (mat.uniforms) {
+                mat.uniforms.texturePosition = { value: null };
+                mat.uniforms.gpgpuEnabled = { value: 1.0 };
+            }
+            mat.needsUpdate = true;
+        };
+        applyGPGPU(material);
+
+        const instancedMesh = new THREE.InstancedMesh(geometry, material, COUNT);
+        instancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        scene.add(instancedMesh);
+
+        const positions = [];
+        const targets = [];
+        for (let i = 0; i < COUNT; i++) {
+            const p = new THREE.Vector3((Math.random() - 0.5) * 100, (Math.random() - 0.5) * 100, (Math.random() - 0.5) * 100);
+            positions.push(p.clone());
+            targets.push(p.clone());
+            instancedMesh.setColorAt(i, color.setHex(0x00ff88));
+        }
+
+        let gpuCompute;
+        let positionVariable, velocityVariable;
+        let velocityUniforms;
+
+        let targetTex = new THREE.DataTexture(new Float32Array(W * H * 4), W, H, THREE.RGBAFormat, THREE.FloatType);
+
+        function updateGPGPUTargets() {
+            const data = targetTex.image.data;
+            for (let i = 0; i < W * H; i++) {
+                const idx = i * 4;
+                if (i < COUNT && i < targets.length) {
+                    const p = targets[i];
+                    data[idx] = p.x;
+                    data[idx + 1] = p.y;
+                    data[idx + 2] = p.z;
+                } else {
+                    data[idx] = 999999.0;
+                    data[idx + 1] = 999999.0;
+                    data[idx + 2] = 999999.0;
+                }
+                data[idx + 3] = 1.0;
+            }
+            targetTex.needsUpdate = true;
+        }
+
+        gpuCompute = new GPUComputationRenderer(W, H, renderer);
+        const dtPosition = gpuCompute.createTexture();
+        const dtVelocity = gpuCompute.createTexture();
+
+        const posArray = dtPosition.image.data;
+        const velArray = dtVelocity.image.data;
+        for (let i = 0; i < W * H; i++) {
+            const idx = i * 4;
+            posArray[idx] = (Math.random() - 0.5) * 100;
+            posArray[idx + 1] = (Math.random() - 0.5) * 100;
+            posArray[idx + 2] = (Math.random() - 0.5) * 100;
+            posArray[idx + 3] = 1.0;
+
+            velArray[idx] = 0.0;
+            velArray[idx + 1] = 0.0;
+            velArray[idx + 2] = 0.0;
+            velArray[idx + 3] = 0.0;
+        }
+
+        const posShader = `
+            void main() {
+                vec2 uv = gl_FragCoord.xy / resolution.xy;
+                vec3 pos = texture2D(texturePosition, uv).xyz;
+                vec3 vel = texture2D(textureVelocity, uv).xyz;
+                pos += vel * 0.016;
+                gl_FragColor = vec4(pos, 1.0);
+            }
+        `;
+
+        const velShader = `
+            uniform float uTime;
+            uniform float uDeltaTime;
+            uniform float uStiffness;
+            uniform float uDamping;
+            uniform float uNoiseStrength;
+            uniform int uPhysicsMode;
+            uniform int uMouseMode;
+            uniform float uMouseInfluence;
+            uniform vec3 uMouse3D;
+            uniform sampler2D textureTarget;
+            uniform vec3 uGravity;
+            uniform vec3 uShockwaveCenter;
+            uniform float uShockwaveForce;
+            uniform float uShockwaveRadius;
+
+            vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+            vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+            vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+            vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+            float snoise(vec3 v) {
+                const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+                const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+                vec3 i  = floor(v + dot(v, vec3(C.y)));
+                vec3 x0 = v - i + dot(i, vec3(C.x));
+                vec3 g = step(x0.yzx, x0.xyz);
+                vec3 l = 1.0 - g;
+                vec3 i1 = min(g.xyz, l.zxy);
+                vec3 i2 = max(g.xyz, l.zxy);
+                vec3 x1 = x0 - i1 + vec3(C.x);
+                vec3 x2 = x0 - i2 + vec3(C.y);
+                vec3 x3 = x0 - D.yyy;
+                i = mod289(i);
+                vec4 p = permute(permute(permute(
+                           i.z + vec4(0.0, i1.z, i2.z, 1.0))
+                         + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+                         + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+                float n_ = 0.142857142857;
+                vec3 ns = n_ * D.wyz - D.xzx;
+                vec4 j = p - 49.0 * floor(p * ns.z);
+                vec4 x_ = floor(j * ns.z);
+                vec4 y_ = floor(j - 7.0 * x_);
+                vec4 x = x_ *ns.x + ns.yyyy;
+                vec4 y = y_ *ns.x + ns.yyyy;
+                vec4 h = 1.0 - abs(x) - abs(y);
+                vec4 b0 = vec4(x.xy, y.xy);
+                vec4 b1 = vec4(x.zw, y.zw);
+                vec4 s0 = floor(b0)*2.0 + 1.0;
+                vec4 s1 = floor(b1)*2.0 + 1.0;
+                vec4 sh = -step(h, vec4(0.0));
+                vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
+                vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+                vec3 p0 = vec3(a0.xy, h.x);
+                vec3 p1 = vec3(a0.zw, h.y);
+                vec3 p2 = vec3(a1.xy, h.z);
+                vec3 p3 = vec3(a1.zw, h.w);
+                vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+                p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+                vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+                m = m * m;
+                return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
+            }
+
+            vec3 curlNoise(vec3 p) {
+                const float e = 0.05;
+                float dx = snoise(vec3(p.x + e, p.y, p.z)) - snoise(vec3(p.x - e, p.y, p.z));
+                float dy = snoise(vec3(p.x, p.y + e, p.z)) - snoise(vec3(p.x, p.y - e, p.z));
+                float dz = snoise(vec3(p.x, p.y, p.z + e)) - snoise(vec3(p.x, p.y, p.z - e));
+                return vec3(dy - dz, dz - dx, dx - dy) / (2.0 * e);
+            }
+
+            void main() {
+                vec2 uv = gl_FragCoord.xy / resolution.xy;
+                vec3 pos = texture2D(texturePosition, uv).xyz;
+                vec3 vel = texture2D(textureVelocity, uv).xyz;
+                vec3 target = texture2D(textureTarget, uv).xyz;
+
+                vec3 force = vec3(0.0);
+
+                if (uPhysicsMode == 0) {
+                    vec3 desiredVel = (target - pos) * 25.0;
+                    force += (desiredVel - vel) * 40.0;
+                } else {
+                    vec3 springForce = -uStiffness * (pos - target);
+                    force += springForce;
+                }
+
+                if (uMouseMode > 0) {
+                    float d = distance(pos, uMouse3D);
+                    float radius = uMouseInfluence * 15.0;
+                    if (d < radius && d > 0.1) {
+                        float strength = (1.0 - d / radius);
+                        vec3 mouseDir = normalize(pos - uMouse3D);
+                        if (uMouseMode == 1) force -= mouseDir * strength * 150.0;
+                        else if (uMouseMode == 2) force += mouseDir * strength * 150.0;
+                        else if (uMouseMode == 3) {
+                            vec3 up = vec3(0.0, 1.0, 0.0);
+                            vec3 tangent = normalize(cross(mouseDir, up));
+                            force += tangent * strength * 150.0;
+                        }
+                    }
+                }
+
+                if (uNoiseStrength > 0.0 || uPhysicsMode == 3) {
+                    float scale = 0.05;
+                    vec3 noiseOffset = curlNoise(pos * scale + vec3(0.0, 0.0, uTime * 0.2));
+                    float currentNoiseStrength = uNoiseStrength * (uPhysicsMode == 3 ? 15.0 : 5.0);
+                    force += noiseOffset * currentNoiseStrength;
+                }
+
+                force += uGravity * 100.0;
+
+                vel += force * uDeltaTime;
+                vel *= (1.0 - uDamping);
+
+                float maxVel = 800.0;
+                if (length(vel) > maxVel) {
+                    vel = normalize(vel) * maxVel;
+                }
+
+                gl_FragColor = vec4(vel, 1.0);
+            }
+        `;
+
+        positionVariable = gpuCompute.addVariable("texturePosition", posShader, dtPosition);
+        velocityVariable = gpuCompute.addVariable("textureVelocity", velShader, dtVelocity);
+
+        gpuCompute.setVariableDependencies(positionVariable, [positionVariable, velocityVariable]);
+        gpuCompute.setVariableDependencies(velocityVariable, [positionVariable, velocityVariable]);
+
+        velocityUniforms = velocityVariable.material.uniforms;
+
+        velocityUniforms.uTime = { value: 0.0 };
+        velocityUniforms.uDeltaTime = { value: 0.016 };
+        velocityUniforms.uPhysicsMode = { value: 0 };
+        velocityUniforms.uMouseMode = { value: 0 };
+        velocityUniforms.uMouseInfluence = { value: MOUSE_INFLUENCE };
+        velocityUniforms.uMouse3D = { value: new THREE.Vector3() };
+        velocityUniforms.textureTarget = { value: targetTex };
+        velocityUniforms.uStiffness = { value: STIFFNESS };
+        velocityUniforms.uDamping = { value: DAMPING };
+        velocityUniforms.uNoiseStrength = { value: NOISE_STRENGTH };
+        velocityUniforms.uGravity = { value: new THREE.Vector3() };
+        velocityUniforms.uShockwaveCenter = { value: new THREE.Vector3() };
+        velocityUniforms.uShockwaveForce = { value: 0.0 };
+        velocityUniforms.uShockwaveRadius = { value: 0.0 };
+
+        gpuCompute.init();
+
+        const PARAMS = { "size": 62, "speed": 0.55, "warp": 0.72, "pulse": 0.16, "twist": 3.2 };
+        const addControl = (id, label, min, max, val) => PARAMS[id] !== undefined ? PARAMS[id] : val;
+
+        const clock = new THREE.Clock();
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        const dummyPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+        const intersectPoint = new THREE.Vector3();
+
+        window.addEventListener('pointermove', (e) => {
+            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            const time = clock.getElapsedTime() * SPEED_MULT;
+
+            if (velocityUniforms) {
+                raycaster.setFromCamera(mouse, camera);
+                raycaster.ray.intersectPlane(dummyPlane, intersectPoint);
+                velocityUniforms.uMouse3D.value.copy(intersectPoint);
+            }
+
+            controls.update();
+
+            const count = COUNT;
+            for (let i = 0; i < COUNT; i++) {
+                const size = addControl("size", "Swarm Size", 20, 120, 62);
+                const speed = addControl("speed", "4D Rotation", 0, 2.5, 0.55);
+                const warp = addControl("warp", "Dimensional Warp", 0, 1.5, 0.72);
+                const pulse = addControl("pulse", "Breathing", 0, 0.45, 0.16);
+                const twist = addControl("twist", "Field Twist", 0, 8, 3.2);
+
+                const invCount = 1 / Math.max(count, 1);
+                const u = i * invCount;
+                const g = i * 0.6180339887498949;
+                const f = g - Math.floor(g);
+
+                const a = u * 6.283185307179586;
+                const b = f * 6.283185307179586 + Math.sin(a * 3 + time * 0.31) * 0.22;
+
+                const ca = Math.cos(a);
+                const sa = Math.sin(a);
+                const cb = Math.cos(b);
+                const sb = Math.sin(b);
+
+                const t0 = time * speed;
+                const c0 = Math.cos(t0);
+                const s0 = Math.sin(t0);
+                const c1 = Math.cos(t0 * 0.731);
+                const s1 = Math.sin(t0 * 0.731);
+
+                const qx = ca * c0 - sb * s0;
+                const qw = ca * s0 + sb * c0;
+                const qy = sa * c1 - cb * s1;
+                const qz = sa * s1 + cb * c1;
+
+                const phase = a * twist + b * 2.0 - time * (0.7 + speed * 0.4);
+                const wave = Math.sin(phase) * 0.5 + Math.sin(phase * 0.37 + b * 3.0) * 0.25;
+                const breath = 1 + pulse * Math.sin(time * 1.13 + a * 2.0 + b);
+
+                const denom = 1 + warp * 0.62 * qw;
+                const proj = size * breath / Math.max(denom, 0.08);
+
+                const bend = 1 + 0.13 * wave;
+                const x = qx * proj * bend;
+                const y = qy * proj * (1 - 0.09 * wave);
+                const z = qz * proj + wave * size * 0.18;
+
+                target.set(x, y, z);
+
+                const energy = 0.5 + 0.5 * Math.sin(phase + qw * 4.0);
+                const hue = u + 0.16 * Math.sin(b + time * 0.12) + 0.08 * qw;
+                const sat = 0.72 + energy * 0.25;
+                const light = 0.34 + energy * 0.28 + 0.06 * Math.abs(qw);
+
+                color.setHSL(hue, sat, light);
+
+                targets[i].copy(target);
+                positions[i].lerp(targets[i], 0.1);
+
+                dummy.position.set(0, 0, 0);
+                dummy.rotation.set(0, 0, 0);
+                dummy.updateMatrix();
+
+                instancedMesh.setMatrixAt(i, dummy.matrix);
+                instancedMesh.setColorAt(i, color);
+            }
+
+            instancedMesh.instanceColor.needsUpdate = true;
+            updateGPGPUTargets();
+
+            if (velocityUniforms) {
+                velocityUniforms.uTime.value = time;
+                velocityUniforms.uDeltaTime.value = delta;
+            }
+
+            gpuCompute.compute();
+
+            const posTexture = gpuCompute.getCurrentRenderTarget(positionVariable).texture;
+            if (material.userData.shader) {
+                material.userData.shader.uniforms.texturePosition.value = posTexture;
+                material.userData.shader.uniforms.gpgpuEnabled.value = 1.0;
+            }
+
+            instancedMesh.instanceMatrix.needsUpdate = true;
+            composer.render(delta);
+        }
+
+        animate();
+
+        // Responsive Window Resize Handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+            if (bloomPass) {
+                bloomPass.resolution.set(window.innerWidth, window.innerHeight);
+            }
+        });
+
+        // --- EFFICIENT SCROLL OBSERVER (INTERSECTION OBSERVER) ---
+        const glassPanel = document.getElementById('glassPanel');
+
+        const panelObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    glassPanel.classList.add('is-visible');
+                    glassPanel.setAttribute('aria-hidden', 'false');
+                } else {
+                    glassPanel.classList.remove('is-visible');
+                    glassPanel.setAttribute('aria-hidden', 'true');
+                }
+            });
+        }, {
+            root: null,
+            threshold: 0.25 // Triggers entrance at ~25% scroll threshold
+        });
+
+        panelObserver.observe(glassPanel);
+    </script>
+</body>
+</html>
