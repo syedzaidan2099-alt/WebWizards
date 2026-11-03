@@ -3,14 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Wizards</title>
+    <title>Web Wizards - Wedding Planning Dashboard</title>
     <link rel="icon" href="data:,">
+    <!-- Tailwind CSS for UI styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'rose-gold': '#e6b89c',
+                        'champagne': '#f7e7ce',
+                        'blush': '#f4c2c2',
+                        'deep-navy': '#080711',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                        sans: ['Inter', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts for High-End Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <style>
-        /* Base reset & typography */
         *, *::before, *::after {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
         }
 
         html {
@@ -18,14 +40,13 @@
         }
 
         body {
-            background-color: #03050a;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            min-height: 200vh; /* Provides necessary vertical scroll depth */
+            background-color: #080711;
+            color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
 
-        /* Fixed full-screen WebGL canvas background */
+        /* Fixed full-viewport WebGL Canvas background */
         #bg-canvas {
             position: fixed;
             top: 0;
@@ -33,74 +54,73 @@
             width: 100vw;
             height: 100vh;
             z-index: -1;
-            pointer-events: none; /* Prevents canvas from blocking scroll or touch interactions */
+            pointer-events: none;
             display: block;
         }
 
-        /* Initial viewport spacer (First screen) */
-        .hero-spacer {
-            height: 100vh;
-            width: 100%;
-        }
-
-        /* Scroll-triggered glass panel container */
-        .panel-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            width: 100%;
-            padding: 0 5vw 10vh 5vw;
-            box-sizing: border-box;
-        }
-
-        /* Translucent Glass Panel */
+        /* Glassmorphism Styles */
         .glass-panel {
-            width: 85vw;
-            min-height: 75vh;
-            margin: 0 auto;
-            border-radius: 24px;
-            background: rgba(15, 23, 42, 0.45);
+            background: rgba(15, 13, 29, 0.55);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(230, 184, 156, 0.18);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(24, 21, 46, 0.45);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(230, 184, 156, 0.12);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
 
-            /* Motion & state transitions */
+        .glass-card:hover {
+            border-color: rgba(230, 184, 156, 0.3);
+        }
+
+        .glass-input {
+            background: rgba(10, 8, 20, 0.6);
+            border: 1px solid rgba(230, 184, 156, 0.2);
+            color: #ffffff;
+        }
+
+        .glass-input:focus {
+            outline: none;
+            border-color: #e6b89c;
+            box-shadow: 0 0 15px rgba(230, 184, 156, 0.2);
+        }
+
+        /* Scroll trigger transition */
+        .reveal-panel {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
-                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(50px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
 
-        /* Revealed state trigger class */
-        .glass-panel.is-visible {
+        .reveal-panel.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* Mobile responsiveness adjustments */
-        @media (max-width: 768px) {
-            .panel-container {
-                padding: 0 4vw 8vh 4vw;
-            }
-            .glass-panel {
-                width: 92vw;
-                min-height: 70vh;
-                border-radius: 16px;
-            }
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-
-        /* Respect accessibility reduced-motion preference */
-        @media (prefers-reduced-motion: reduce) {
-            .glass-panel {
-                transition: opacity 0.3s ease;
-                transform: none !important;
-            }
+        ::-webkit-scrollbar-track {
+            background: rgba(8, 7, 17, 0.8);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(230, 184, 156, 0.3);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(230, 184, 156, 0.6);
         }
     </style>
 
-    <!-- Import Map for Three.js ES Modules imported by Casberry export -->
+    <!-- Three.js Import Map -->
     <script type="importmap">
     {
         "imports": {
@@ -110,20 +130,392 @@
     }
     </script>
 </head>
-<body>
+<body class="relative min-h-screen selection:bg-rose-gold/30 selection:text-rose-gold">
 
-    <!-- Fullscreen canvas container -->
+    <!-- WebGL Canvas for 4D Clifford Torus Swarm -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Viewport 1 spacer -->
-    <div class="hero-spacer"></div>
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 px-6 py-4 transition-all duration-300 backdrop-blur-md bg-deep-navy/30 border-b border-rose-gold/10">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span class="text-rose-gold text-2xl font-serif tracking-widest uppercase font-bold">Web Wizards</span>
+                <span class="text-xs px-2.5 py-0.5 rounded-full bg-rose-gold/10 text-rose-gold border border-rose-gold/20">Wedding Concierge</span>
+            </div>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
+                <a href="#hero" class="hover:text-rose-gold transition-colors">Home</a>
+                <a href="#dashboard" class="hover:text-rose-gold transition-colors">Dashboard</a>
+                <a href="#budget" class="hover:text-rose-gold transition-colors">Budget</a>
+                <a href="#guests" class="hover:text-rose-gold transition-colors">Guests</a>
+                <a href="#checklist" class="hover:text-rose-gold transition-colors">Checklist</a>
+                <a href="#vendors" class="hover:text-rose-gold transition-colors">Vendors</a>
+            </nav>
+            <a href="#dashboard" class="px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider bg-gradient-to-r from-rose-gold to-champagne text-deep-navy hover:shadow-lg hover:shadow-rose-gold/20 transition-all duration-300">
+                Open Planner
+            </a>
+        </div>
+    </header>
 
-    <!-- Scroll-triggered content wrapper -->
-    <main class="panel-container">
-        <section class="glass-panel" id="glassPanel" aria-hidden="true"></section>
+    <!-- HERO SECTION -->
+    <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center px-4 relative">
+        <div class="max-w-3xl space-y-6 animate-fade-in">
+            <p class="text-rose-gold uppercase tracking-[0.3em] text-sm font-medium">The Ultimate Suite by Web Wizards</p>
+            <h1 class="text-5xl md:text-7xl font-serif font-normal text-transparent bg-clip-text bg-gradient-to-r from-white via-champagne to-rose-gold leading-tight">
+                Crafting Your Forever Story
+            </h1>
+            <p class="text-gray-400 text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed">
+                An intuitive, luxury wedding planning experience powered by real-time budget tracking, guest management, timeline coordination, and vendor alignment.
+            </p>
+            
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#dashboard" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-rose-gold via-champagne to-rose-gold text-deep-navy font-semibold text-sm tracking-wider uppercase hover:scale-105 transition-transform duration-300 shadow-xl shadow-rose-gold/20">
+                    Explore Dashboard
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <a href="#dashboard" class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-gray-400 hover:text-rose-gold transition-colors">
+            <span class="text-xs uppercase tracking-widest">Scroll to Dashboard</span>
+            <svg class="w-5 h-5 animate-bounce text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </a>
+    </section>
+
+    <!-- MAIN DASHBOARD CONTENT (GLASS PANEL CONTAINER) -->
+    <main class="w-full px-4 sm:px-8 pb-24">
+        <div id="dashboard" class="glass-panel reveal-panel max-w-7xl mx-auto rounded-3xl p-6 sm:p-10 my-12 space-y-12">
+            
+            <!-- Dashboard Header & Countdown Bar -->
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-rose-gold/15 pb-8">
+                <div>
+                    <span class="text-rose-gold text-xs font-semibold uppercase tracking-widest">Live Overview</span>
+                    <h2 class="text-3xl sm:text-4xl font-serif font-normal text-white mt-1">Wedding Command Center</h2>
+                    <p class="text-gray-400 text-sm mt-1">Target Date: October 24, 2026 &bull; Grand Palace Hall</p>
+                </div>
+
+                <!-- Countdown Timer Block -->
+                <div class="grid grid-cols-4 gap-3 text-center bg-deep-navy/60 p-4 rounded-2xl border border-rose-gold/20">
+                    <div class="px-2 sm:px-4">
+                        <span id="timer-days" class="block text-2xl sm:text-3xl font-serif font-bold text-rose-gold">00</span>
+                        <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Days</span>
+                    </div>
+                    <div class="px-2 sm:px-4 border-l border-rose-gold/10">
+                        <span id="timer-hours" class="block text-2xl sm:text-3xl font-serif font-bold text-champagne">00</span>
+                        <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Hours</span>
+                    </div>
+                    <div class="px-2 sm:px-4 border-l border-rose-gold/10">
+                        <span id="timer-mins" class="block text-2xl sm:text-3xl font-serif font-bold text-rose-gold">00</span>
+                        <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Mins</span>
+                    </div>
+                    <div class="px-2 sm:px-4 border-l border-rose-gold/10">
+                        <span id="timer-secs" class="block text-2xl sm:text-3xl font-serif font-bold text-champagne">00</span>
+                        <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Secs</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 1: BUDGET CALCULATOR & SUMMARY -->
+            <section id="budget" class="space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-2xl font-serif text-white flex items-center gap-2">
+                            <svg class="w-6 h-6 text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Budget Allocation & Expense Tracker
+                        </h3>
+                        <p class="text-xs text-gray-400 mt-1">Monitor real-time spending versus your target allocation</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="text-right">
+                            <span class="text-xs text-gray-400 block">Total Target Budget</span>
+                            <span id="total-budget-display" class="text-lg font-semibold text-rose-gold">$45,000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Budget Bar -->
+                <div class="glass-card p-6 rounded-2xl space-y-4">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-300">Spent: <strong id="spent-amount-display" class="text-white">$0</strong></span>
+                        <span class="text-gray-300">Remaining: <strong id="remaining-amount-display" class="text-rose-gold">$45,000</strong></span>
+                    </div>
+                    <div class="w-full bg-deep-navy/80 h-3 rounded-full overflow-hidden border border-rose-gold/10 p-0.5">
+                        <div id="budget-progress-bar" class="bg-gradient-to-r from-rose-gold to-champagne h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Expense Form & List -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Add Item Form -->
+                    <div class="glass-card p-6 rounded-2xl space-y-4">
+                        <h4 class="text-lg font-serif text-white">Add New Expense</h4>
+                        <form id="add-expense-form" class="space-y-4">
+                            <div>
+                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Expense Name</label>
+                                <input type="text" id="expense-title" placeholder="e.g. Venue Deposit" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Category</label>
+                                <select id="expense-category" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                                    <option value="Venue">Venue & Catering</option>
+                                    <option value="Photography">Photography & Film</option>
+                                    <option value="Attire">Attire & Beauty</option>
+                                    <option value="Decor">Decor & Flowers</option>
+                                    <option value="Music">Music & Entertainment</option>
+                                    <option value="Other">Other Services</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Cost ($)</label>
+                                <input type="number" id="expense-amount" min="1" placeholder="2500" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                            </div>
+                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-rose-gold to-champagne text-deep-navy font-semibold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity">
+                                Add Expense Item
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Expense Table -->
+                    <div class="lg:col-span-2 glass-card p-6 rounded-2xl flex flex-col justify-between">
+                        <h4 class="text-lg font-serif text-white mb-4">Itemized Breakdown</h4>
+                        <div class="overflow-x-auto max-h-64 overflow-y-auto">
+                            <table class="w-full text-left text-sm text-gray-300">
+                                <thead class="text-xs text-gray-400 uppercase border-b border-rose-gold/10">
+                                    <tr>
+                                        <th class="py-2">Item</th>
+                                        <th class="py-2">Category</th>
+                                        <th class="py-2 text-right">Cost</th>
+                                        <th class="py-2 text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="expense-list-body" class="divide-y divide-rose-gold/10">
+                                    <!-- Dynamic rows will render here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: GUEST LIST MANAGER -->
+            <section id="guests" class="space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-2xl font-serif text-white flex items-center gap-2">
+                            <svg class="w-6 h-6 text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            Guest List & RSVP Manager
+                        </h3>
+                        <p class="text-xs text-gray-400 mt-1">Track RSVPs, dietary requirements, and headcounts</p>
+                    </div>
+
+                    <!-- Summary Badges -->
+                    <div class="flex items-center gap-2">
+                        <span class="px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-medium">Confirmed: <strong id="count-confirmed">0</strong></span>
+                        <span class="px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs font-medium">Pending: <strong id="count-pending">0</strong></span>
+                        <span class="px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs font-medium">Declined: <strong id="count-declined">0</strong></span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Guest Form -->
+                    <div class="glass-card p-6 rounded-2xl space-y-4">
+                        <h4 class="text-lg font-serif text-white">Add New Guest</h4>
+                        <form id="add-guest-form" class="space-y-4">
+                            <div>
+                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Full Name</label>
+                                <input type="text" id="guest-name" placeholder="Lady Eleanor Vance" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">RSVP Status</label>
+                                <select id="guest-status" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                                    <option value="Confirmed">Confirmed</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Declined">Declined</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Dietary / Notes</label>
+                                <input type="text" id="guest-notes" placeholder="Vegetarian, Table 4" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
+                            </div>
+                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-rose-gold to-champagne text-deep-navy font-semibold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity">
+                                Register Guest
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Guest List Table -->
+                    <div class="lg:col-span-2 glass-card p-6 rounded-2xl space-y-4">
+                        <div class="flex items-center justify-between gap-4">
+                            <input type="text" id="guest-search" placeholder="Search guests..." class="w-full sm:w-64 px-4 py-2 rounded-xl glass-input text-xs">
+                            <span class="text-xs text-gray-400">Total: <strong id="total-guests" class="text-white">0</strong></span>
+                        </div>
+
+                        <div class="overflow-x-auto max-h-72 overflow-y-auto">
+                            <table class="w-full text-left text-sm text-gray-300">
+                                <thead class="text-xs text-gray-400 uppercase border-b border-rose-gold/10">
+                                    <tr>
+                                        <th class="py-2">Name</th>
+                                        <th class="py-2">Status</th>
+                                        <th class="py-2">Dietary Notes</th>
+                                        <th class="py-2 text-center">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="guest-list-body" class="divide-y divide-rose-gold/10">
+                                    <!-- Dynamic Rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: CHECKLIST & MILESTONES -->
+            <section id="checklist" class="space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-2xl font-serif text-white flex items-center gap-2">
+                            <svg class="w-6 h-6 text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Wedding Milestones & Checklist
+                        </h3>
+                        <p class="text-xs text-gray-400 mt-1">Keep track of key planning tasks leading to the wedding day</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-gray-400 block">Progress</span>
+                        <span id="checklist-progress-text" class="text-lg font-semibold text-rose-gold">0% Completed</span>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl space-y-4">
+                    <!-- Progress Bar -->
+                    <div class="w-full bg-deep-navy/80 h-2.5 rounded-full overflow-hidden border border-rose-gold/10">
+                        <div id="checklist-progress-bar" class="bg-gradient-to-r from-rose-gold to-champagne h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+
+                    <!-- Checklist Items Grid -->
+                    <div id="checklist-items-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+                        <!-- Dynamic checkboxes -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: VENDOR DIRECTORY & CONTACT CARDS -->
+            <section id="vendors" class="space-y-6">
+                <div>
+                    <h3 class="text-2xl font-serif text-white flex items-center gap-2">
+                        <svg class="w-6 h-6 text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V10m0 0V4.5M10 10l-2 2m2-2l2 2"></path></svg>
+                        Vendor Contacts & Directory
+                    </h3>
+                    <p class="text-xs text-gray-400 mt-1">Curated team of creative professionals handling your big day</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Vendor 1 -->
+                    <div class="glass-card p-5 rounded-2xl space-y-3 relative group">
+                        <div class="flex justify-between items-start">
+                            <span class="p-2 rounded-xl bg-rose-gold/10 text-rose-gold text-xs font-semibold">Venue</span>
+                            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Booked</span>
+                        </div>
+                        <h4 class="text-base font-serif text-white">Grand Palace Hall</h4>
+                        <p class="text-xs text-gray-400">Contact: Julia Sterling</p>
+                        <p class="text-xs text-rose-gold">+1 (555) 234-5678</p>
+                        <p class="text-xs text-gray-500 pt-2 border-t border-rose-gold/10">Notes: Includes ballroom & outdoor garden setup.</p>
+                    </div>
+
+                    <!-- Vendor 2 -->
+                    <div class="glass-card p-5 rounded-2xl space-y-3 relative group">
+                        <div class="flex justify-between items-start">
+                            <span class="p-2 rounded-xl bg-rose-gold/10 text-rose-gold text-xs font-semibold">Photography</span>
+                            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Booked</span>
+                        </div>
+                        <h4 class="text-base font-serif text-white">Lumière Atelier</h4>
+                        <p class="text-xs text-gray-400">Contact: Marc Antoine</p>
+                        <p class="text-xs text-rose-gold">+1 (555) 876-5432</p>
+                        <p class="text-xs text-gray-500 pt-2 border-t border-rose-gold/10">Notes: 10 Hours coverage + drone cinematography.</p>
+                    </div>
+
+                    <!-- Vendor 3 -->
+                    <div class="glass-card p-5 rounded-2xl space-y-3 relative group">
+                        <div class="flex justify-between items-start">
+                            <span class="p-2 rounded-xl bg-rose-gold/10 text-rose-gold text-xs font-semibold">Floral & Decor</span>
+                            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">In Talks</span>
+                        </div>
+                        <h4 class="text-base font-serif text-white">Blush & Botanica</h4>
+                        <p class="text-xs text-gray-400">Contact: Sophia Chen</p>
+                        <p class="text-xs text-rose-gold">+1 (555) 345-6789</p>
+                        <p class="text-xs text-gray-500 pt-2 border-t border-rose-gold/10">Notes: Rose gold arches and glowing centerpieces.</p>
+                    </div>
+
+                    <!-- Vendor 4 -->
+                    <div class="glass-card p-5 rounded-2xl space-y-3 relative group">
+                        <div class="flex justify-between items-start">
+                            <span class="p-2 rounded-xl bg-rose-gold/10 text-rose-gold text-xs font-semibold">Catering</span>
+                            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Booked</span>
+                        </div>
+                        <h4 class="text-base font-serif text-white">Artisan Culinary</h4>
+                        <p class="text-xs text-gray-400">Contact: Chef Gordon</p>
+                        <p class="text-xs text-rose-gold">+1 (555) 987-6543</p>
+                        <p class="text-xs text-gray-500 pt-2 border-t border-rose-gold/10">Notes: 5-course tasting menu + champagne bar.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: DAY-OF TIMELINE -->
+            <section id="timeline" class="space-y-6">
+                <div>
+                    <h3 class="text-2xl font-serif text-white flex items-center gap-2">
+                        <svg class="w-6 h-6 text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Day-Of Schedule Timeline
+                    </h3>
+                    <p class="text-xs text-gray-400 mt-1">Key event milestones scheduled for the wedding day</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl relative">
+                    <div class="space-y-6 border-l-2 border-rose-gold/30 ml-4 pl-6">
+                        <!-- Item 1 -->
+                        <div class="relative">
+                            <span class="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-rose-gold border-4 border-deep-navy"></span>
+                            <span class="text-xs text-rose-gold font-semibold uppercase tracking-wider">09:00 AM</span>
+                            <h4 class="text-base font-serif text-white mt-0.5">Bridal Suite Preparation</h4>
+                            <p class="text-xs text-gray-400 mt-1">Hair and makeup sessions begin for the bridal party.</p>
+                        </div>
+
+                        <!-- Item 2 -->
+                        <div class="relative">
+                            <span class="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-champagne border-4 border-deep-navy"></span>
+                            <span class="text-xs text-rose-gold font-semibold uppercase tracking-wider">01:30 PM</span>
+                            <h4 class="text-base font-serif text-white mt-0.5">First Look & Portraits</h4>
+                            <p class="text-xs text-gray-400 mt-1">Private photography session in the botanical gardens.</p>
+                        </div>
+
+                        <!-- Item 3 -->
+                        <div class="relative">
+                            <span class="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-rose-gold border-4 border-deep-navy"></span>
+                            <span class="text-xs text-rose-gold font-semibold uppercase tracking-wider">04:00 PM</span>
+                            <h4 class="text-base font-serif text-white mt-0.5">Wedding Ceremony</h4>
+                            <p class="text-xs text-gray-400 mt-1">Guests arrive for the vow exchange ceremony at the Main Pavilion.</p>
+                        </div>
+
+                        <!-- Item 4 -->
+                        <div class="relative">
+                            <span class="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-champagne border-4 border-deep-navy"></span>
+                            <span class="text-xs text-rose-gold font-semibold uppercase tracking-wider">06:00 PM</span>
+                            <h4 class="text-base font-serif text-white mt-0.5">Cocktail Hour & Grand Reception</h4>
+                            <p class="text-xs text-gray-400 mt-1">Live musical string quartet, signature cocktails, and dinner dance.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
     </main>
 
-    <!-- Casberry Particle Animation and Intersection Observer Logic -->
+    <!-- Footer -->
+    <footer class="border-t border-rose-gold/10 py-8 text-center text-xs text-gray-500">
+        <p>Crafted by <strong class="text-rose-gold font-serif">Web Wizards</strong> &bull; Wedding Concierge Platform</p>
+    </footer>
+
+    <!-- INTERACTIVE SCRIPT & CASBERRY THREE.JS PARTICLES INTEGRATION -->
     <script type="module">
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -133,28 +525,23 @@
         import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
         import { GPUComputationRenderer } from 'three/addons/misc/GPUComputationRenderer.js';
 
-        // --- CASBERRY ANIMATION INTEGRATION ---
+        // --- CASBERRY PARTICLES BACKGROUND INTEGRATION (ROMANTIC PALETTE) ---
         const canvas = document.getElementById('bg-canvas');
-
         const COUNT = 20000;
-        const SPEED_MULT = 1;
+        const SPEED_MULT = 1.0;
         const AUTO_SPIN = true;
-        const PHYSICS_MODE = 'lerp';
         const STIFFNESS = 2;
         const DAMPING = 0.08;
-        const NOISE_STRENGTH = 0;
-        const MOUSE_MODE = 'none';
-        const MOUSE_INFLUENCE = 2.5;
 
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
         camera.position.set(0, 0, 100);
 
-        const renderer = new THREE.WebGLRenderer({ 
-            canvas: canvas, 
-            antialias: true, 
+        const renderer = new THREE.WebGLRenderer({
+            canvas: canvas,
+            antialias: true,
             powerPreference: "high-performance",
-            alpha: true 
+            alpha: true
         });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -162,21 +549,23 @@
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.autoRotate = AUTO_SPIN;
-        controls.autoRotateSpeed = 2.0;
+        controls.autoRotateSpeed = 1.5;
 
         const composer = new EffectComposer(renderer);
         composer.addPass(new RenderPass(scene, camera));
 
-        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-        bloomPass.strength = 0.5; 
-        bloomPass.radius = 0.3; 
-        bloomPass.threshold = 0.25;
+        // Soft bloom for romantic glowing particles
+        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.2, 0.4, 0.85);
+        bloomPass.strength = 0.45;
+        bloomPass.radius = 0.4;
+        bloomPass.threshold = 0.2;
         composer.addPass(bloomPass);
 
+        // Deep Navy Background Shader Composite (#080711)
         const BgCompositeShader = {
             uniforms: {
                 "tDiffuse": { value: null },
-                "bgColor": { value: new THREE.Color('#03050a') }
+                "bgColor": { value: new THREE.Color('#080711') }
             },
             vertexShader: `
                 varying vec2 vUv;
@@ -208,7 +597,6 @@
         const target = new THREE.Vector3();
 
         const geometry = new THREE.TetrahedronGeometry(0.25).clone();
-
         const W = Math.ceil(Math.sqrt(COUNT));
         const H = W;
         const references = new Float32Array(COUNT * 2);
@@ -298,35 +686,10 @@
             const p = new THREE.Vector3((Math.random() - 0.5) * 100, (Math.random() - 0.5) * 100, (Math.random() - 0.5) * 100);
             positions.push(p.clone());
             targets.push(p.clone());
-            instancedMesh.setColorAt(i, color.setHex(0x00ff88));
+            instancedMesh.setColorAt(i, color.setHex(0xe6b89c));
         }
 
-        let gpuCompute;
-        let positionVariable, velocityVariable;
-        let velocityUniforms;
-
-        let targetTex = new THREE.DataTexture(new Float32Array(W * H * 4), W, H, THREE.RGBAFormat, THREE.FloatType);
-
-        function updateGPGPUTargets() {
-            const data = targetTex.image.data;
-            for (let i = 0; i < W * H; i++) {
-                const idx = i * 4;
-                if (i < COUNT && i < targets.length) {
-                    const p = targets[i];
-                    data[idx] = p.x;
-                    data[idx + 1] = p.y;
-                    data[idx + 2] = p.z;
-                } else {
-                    data[idx] = 999999.0;
-                    data[idx + 1] = 999999.0;
-                    data[idx + 2] = 999999.0;
-                }
-                data[idx + 3] = 1.0;
-            }
-            targetTex.needsUpdate = true;
-        }
-
-        gpuCompute = new GPUComputationRenderer(W, H, renderer);
+        let gpuCompute = new GPUComputationRenderer(W, H, renderer);
         const dtPosition = gpuCompute.createTexture();
         const dtVelocity = gpuCompute.createTexture();
 
@@ -360,71 +723,7 @@
             uniform float uDeltaTime;
             uniform float uStiffness;
             uniform float uDamping;
-            uniform float uNoiseStrength;
-            uniform int uPhysicsMode;
-            uniform int uMouseMode;
-            uniform float uMouseInfluence;
-            uniform vec3 uMouse3D;
             uniform sampler2D textureTarget;
-            uniform vec3 uGravity;
-            uniform vec3 uShockwaveCenter;
-            uniform float uShockwaveForce;
-            uniform float uShockwaveRadius;
-
-            vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-            vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-            vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
-            vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
-            float snoise(vec3 v) {
-                const vec2 C = vec2(1.0/6.0, 1.0/3.0);
-                const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
-                vec3 i  = floor(v + dot(v, vec3(C.y)));
-                vec3 x0 = v - i + dot(i, vec3(C.x));
-                vec3 g = step(x0.yzx, x0.xyz);
-                vec3 l = 1.0 - g;
-                vec3 i1 = min(g.xyz, l.zxy);
-                vec3 i2 = max(g.xyz, l.zxy);
-                vec3 x1 = x0 - i1 + vec3(C.x);
-                vec3 x2 = x0 - i2 + vec3(C.y);
-                vec3 x3 = x0 - D.yyy;
-                i = mod289(i);
-                vec4 p = permute(permute(permute(
-                           i.z + vec4(0.0, i1.z, i2.z, 1.0))
-                         + i.y + vec4(0.0, i1.y, i2.y, 1.0))
-                         + i.x + vec4(0.0, i1.x, i2.x, 1.0));
-                float n_ = 0.142857142857;
-                vec3 ns = n_ * D.wyz - D.xzx;
-                vec4 j = p - 49.0 * floor(p * ns.z);
-                vec4 x_ = floor(j * ns.z);
-                vec4 y_ = floor(j - 7.0 * x_);
-                vec4 x = x_ *ns.x + ns.yyyy;
-                vec4 y = y_ *ns.x + ns.yyyy;
-                vec4 h = 1.0 - abs(x) - abs(y);
-                vec4 b0 = vec4(x.xy, y.xy);
-                vec4 b1 = vec4(x.zw, y.zw);
-                vec4 s0 = floor(b0)*2.0 + 1.0;
-                vec4 s1 = floor(b1)*2.0 + 1.0;
-                vec4 sh = -step(h, vec4(0.0));
-                vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
-                vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
-                vec3 p0 = vec3(a0.xy, h.x);
-                vec3 p1 = vec3(a0.zw, h.y);
-                vec3 p2 = vec3(a1.xy, h.z);
-                vec3 p3 = vec3(a1.zw, h.w);
-                vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
-                p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
-                vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
-                m = m * m;
-                return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
-            }
-
-            vec3 curlNoise(vec3 p) {
-                const float e = 0.05;
-                float dx = snoise(vec3(p.x + e, p.y, p.z)) - snoise(vec3(p.x - e, p.y, p.z));
-                float dy = snoise(vec3(p.x, p.y + e, p.z)) - snoise(vec3(p.x, p.y - e, p.z));
-                float dz = snoise(vec3(p.x, p.y, p.z + e)) - snoise(vec3(p.x, p.y, p.z - e));
-                return vec3(dy - dz, dz - dx, dx - dy) / (2.0 * e);
-            }
 
             void main() {
                 vec2 uv = gl_FragCoord.xy / resolution.xy;
@@ -432,114 +731,69 @@
                 vec3 vel = texture2D(textureVelocity, uv).xyz;
                 vec3 target = texture2D(textureTarget, uv).xyz;
 
-                vec3 force = vec3(0.0);
-
-                if (uPhysicsMode == 0) {
-                    vec3 desiredVel = (target - pos) * 25.0;
-                    force += (desiredVel - vel) * 40.0;
-                } else {
-                    vec3 springForce = -uStiffness * (pos - target);
-                    force += springForce;
-                }
-
-                if (uMouseMode > 0) {
-                    float d = distance(pos, uMouse3D);
-                    float radius = uMouseInfluence * 15.0;
-                    if (d < radius && d > 0.1) {
-                        float strength = (1.0 - d / radius);
-                        vec3 mouseDir = normalize(pos - uMouse3D);
-                        if (uMouseMode == 1) force -= mouseDir * strength * 150.0;
-                        else if (uMouseMode == 2) force += mouseDir * strength * 150.0;
-                        else if (uMouseMode == 3) {
-                            vec3 up = vec3(0.0, 1.0, 0.0);
-                            vec3 tangent = normalize(cross(mouseDir, up));
-                            force += tangent * strength * 150.0;
-                        }
-                    }
-                }
-
-                if (uNoiseStrength > 0.0 || uPhysicsMode == 3) {
-                    float scale = 0.05;
-                    vec3 noiseOffset = curlNoise(pos * scale + vec3(0.0, 0.0, uTime * 0.2));
-                    float currentNoiseStrength = uNoiseStrength * (uPhysicsMode == 3 ? 15.0 : 5.0);
-                    force += noiseOffset * currentNoiseStrength;
-                }
-
-                force += uGravity * 100.0;
-
+                vec3 force = -uStiffness * (pos - target);
                 vel += force * uDeltaTime;
                 vel *= (1.0 - uDamping);
-
-                float maxVel = 800.0;
-                if (length(vel) > maxVel) {
-                    vel = normalize(vel) * maxVel;
-                }
 
                 gl_FragColor = vec4(vel, 1.0);
             }
         `;
 
-        positionVariable = gpuCompute.addVariable("texturePosition", posShader, dtPosition);
-        velocityVariable = gpuCompute.addVariable("textureVelocity", velShader, dtVelocity);
+        let targetTex = new THREE.DataTexture(new Float32Array(W * H * 4), W, H, THREE.RGBAFormat, THREE.FloatType);
+
+        function updateGPGPUTargets() {
+            const data = targetTex.image.data;
+            for (let i = 0; i < W * H; i++) {
+                const idx = i * 4;
+                if (i < COUNT && i < targets.length) {
+                    const p = targets[i];
+                    data[idx] = p.x;
+                    data[idx + 1] = p.y;
+                    data[idx + 2] = p.z;
+                } else {
+                    data[idx] = 999999.0;
+                    data[idx + 1] = 999999.0;
+                    data[idx + 2] = 999999.0;
+                }
+                data[idx + 3] = 1.0;
+            }
+            targetTex.needsUpdate = true;
+        }
+
+        const positionVariable = gpuCompute.addVariable("texturePosition", posShader, dtPosition);
+        const velocityVariable = gpuCompute.addVariable("textureVelocity", velShader, dtVelocity);
 
         gpuCompute.setVariableDependencies(positionVariable, [positionVariable, velocityVariable]);
         gpuCompute.setVariableDependencies(velocityVariable, [positionVariable, velocityVariable]);
 
-        velocityUniforms = velocityVariable.material.uniforms;
-
+        const velocityUniforms = velocityVariable.material.uniforms;
         velocityUniforms.uTime = { value: 0.0 };
         velocityUniforms.uDeltaTime = { value: 0.016 };
-        velocityUniforms.uPhysicsMode = { value: 0 };
-        velocityUniforms.uMouseMode = { value: 0 };
-        velocityUniforms.uMouseInfluence = { value: MOUSE_INFLUENCE };
-        velocityUniforms.uMouse3D = { value: new THREE.Vector3() };
-        velocityUniforms.textureTarget = { value: targetTex };
         velocityUniforms.uStiffness = { value: STIFFNESS };
         velocityUniforms.uDamping = { value: DAMPING };
-        velocityUniforms.uNoiseStrength = { value: NOISE_STRENGTH };
-        velocityUniforms.uGravity = { value: new THREE.Vector3() };
-        velocityUniforms.uShockwaveCenter = { value: new THREE.Vector3() };
-        velocityUniforms.uShockwaveForce = { value: 0.0 };
-        velocityUniforms.uShockwaveRadius = { value: 0.0 };
+        velocityUniforms.textureTarget = { value: targetTex };
 
         gpuCompute.init();
 
-        const PARAMS = { "size": 62, "speed": 0.55, "warp": 0.72, "pulse": 0.16, "twist": 3.2 };
-        const addControl = (id, label, min, max, val) => PARAMS[id] !== undefined ? PARAMS[id] : val;
-
+        const PARAMS = { "size": 62, "speed": 0.45, "warp": 0.72, "pulse": 0.16, "twist": 3.2 };
         const clock = new THREE.Clock();
-        const raycaster = new THREE.Raycaster();
-        const mouse = new THREE.Vector2();
-        const dummyPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
-        const intersectPoint = new THREE.Vector3();
-
-        window.addEventListener('pointermove', (e) => {
-            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-        });
 
         function animate() {
             requestAnimationFrame(animate);
             const delta = clock.getDelta();
             const time = clock.getElapsedTime() * SPEED_MULT;
 
-            if (velocityUniforms) {
-                raycaster.setFromCamera(mouse, camera);
-                raycaster.ray.intersectPlane(dummyPlane, intersectPoint);
-                velocityUniforms.uMouse3D.value.copy(intersectPoint);
-            }
-
             controls.update();
 
-            const count = COUNT;
+            // Clifford Torus particle calculations with Rose Gold & Champagne palette
             for (let i = 0; i < COUNT; i++) {
-                const size = addControl("size", "Swarm Size", 20, 120, 62);
-                const speed = addControl("speed", "4D Rotation", 0, 2.5, 0.55);
-                const warp = addControl("warp", "Dimensional Warp", 0, 1.5, 0.72);
-                const pulse = addControl("pulse", "Breathing", 0, 0.45, 0.16);
-                const twist = addControl("twist", "Field Twist", 0, 8, 3.2);
+                const size = PARAMS.size;
+                const speed = PARAMS.speed;
+                const warp = PARAMS.warp;
+                const pulse = PARAMS.pulse;
+                const twist = PARAMS.twist;
 
-                const invCount = 1 / Math.max(count, 1);
+                const invCount = 1 / Math.max(COUNT, 1);
                 const u = i * invCount;
                 const g = i * 0.6180339887498949;
                 const f = g - Math.floor(g);
@@ -577,10 +831,11 @@
 
                 target.set(x, y, z);
 
+                // Romantic palette mapping: Rose Gold (HSL: 0.06, 0.5, 0.7) -> Champagne -> Ivory
                 const energy = 0.5 + 0.5 * Math.sin(phase + qw * 4.0);
-                const hue = u + 0.16 * Math.sin(b + time * 0.12) + 0.08 * qw;
-                const sat = 0.72 + energy * 0.25;
-                const light = 0.34 + energy * 0.28 + 0.06 * Math.abs(qw);
+                const hue = 0.04 + 0.06 * Math.sin(b + time * 0.08); // Rose Gold / Warm Amber range
+                const sat = 0.55 + energy * 0.35;
+                const light = 0.60 + energy * 0.25;
 
                 color.setHSL(hue, sat, light);
 
@@ -617,7 +872,6 @@
 
         animate();
 
-        // Responsive Window Resize Handler
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
@@ -628,25 +882,182 @@
             }
         });
 
-        // --- EFFICIENT SCROLL OBSERVER (INTERSECTION OBSERVER) ---
-        const glassPanel = document.getElementById('glassPanel');
-
-        const panelObserver = new IntersectionObserver((entries) => {
+        // --- SCROLL REVEAL OBSERVER ---
+        const revealPanels = document.querySelectorAll('.reveal-panel');
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    glassPanel.classList.add('is-visible');
-                    glassPanel.setAttribute('aria-hidden', 'false');
-                } else {
-                    glassPanel.classList.remove('is-visible');
-                    glassPanel.setAttribute('aria-hidden', 'true');
+                    entry.target.classList.add('is-visible');
                 }
             });
-        }, {
-            root: null,
-            threshold: 0.25 // Triggers entrance at ~25% scroll threshold
+        }, { threshold: 0.15 });
+
+        revealPanels.forEach(panel => observer.observe(panel));
+
+        // --- INTERACTIVE DASHBOARD DATA LOGIC ---
+
+        // 1. COUNTDOWN TIMER LOGIC
+        const targetDate = new Date('2026-10-24T16:00:00').getTime();
+        function updateTimer() {
+            const now = new Date().getTime();
+            const difference = Math.max(0, targetDate - now);
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('timer-days').innerText = String(days).padStart(2, '0');
+            document.getElementById('timer-hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('timer-mins').innerText = String(mins).padStart(2, '0');
+            document.getElementById('timer-secs').innerText = String(secs).padStart(2, '0');
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // 2. BUDGET TRACKER STATE & LOGIC
+        let totalBudget = 45000;
+        let expenses = [
+            { id: 1, title: 'Grand Palace Hall Reservation', category: 'Venue', amount: 18000 },
+            { id: 2, title: 'Lumière Atelier Photo & Film', category: 'Photography', amount: 6500 },
+            { id: 3, title: 'Custom Rose Gold Bridal Gown', category: 'Attire', amount: 4200 },
+            { id: 4, title: 'Artisan Catering 5-Course Dinner', category: 'Venue', amount: 9500 }
+        ];
+
+        function renderBudget() {
+            const spentTotal = expenses.reduce((sum, exp) => sum + exp.amount, 0);
+            const remaining = Math.max(0, totalBudget - spentTotal);
+            const percentage = Math.min(100, Math.round((spentTotal / totalBudget) * 100));
+
+            document.getElementById('spent-amount-display').innerText = `$${spentTotal.toLocaleString()}`;
+            document.getElementById('remaining-amount-display').innerText = `$${remaining.toLocaleString()}`;
+            document.getElementById('budget-progress-bar').style.width = `${percentage}%`;
+
+            const tbody = document.getElementById('expense-list-body');
+            tbody.innerHTML = expenses.map(item => `
+                <tr>
+                    <td class="py-3 font-medium text-white">${item.title}</td>
+                    <td class="py-3"><span class="px-2 py-0.5 rounded text-[10px] bg-rose-gold/10 text-rose-gold">${item.category}</span></td>
+                    <td class="py-3 text-right font-semibold text-white">$${item.amount.toLocaleString()}</td>
+                    <td class="py-3 text-center">
+                        <button onclick="removeExpense(${item.id})" class="text-xs text-rose-400 hover:text-rose-300">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        window.removeExpense = function(id) {
+            expenses = expenses.filter(e => e.id !== id);
+            renderBudget();
+        };
+
+        document.getElementById('add-expense-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('expense-title').value;
+            const category = document.getElementById('expense-category').value;
+            const amount = parseFloat(document.getElementById('expense-amount').value);
+
+            if (title && amount) {
+                expenses.push({ id: Date.now(), title, category, amount });
+                renderBudget();
+                e.target.reset();
+            }
+        });
+        renderBudget();
+
+        // 3. GUEST LIST STATE & LOGIC
+        let guests = [
+            { id: 1, name: 'Lady Eleanor Vance', status: 'Confirmed', notes: 'Vegetarian, Table 1' },
+            { id: 2, name: 'Lord Sterling Vance', status: 'Confirmed', notes: 'Table 1' },
+            { id: 3, name: 'Julian Hayes', status: 'Pending', notes: 'Plus One Requested' },
+            { id: 4, name: 'Clara Oswald', status: 'Declined', notes: 'Out of country' }
+        ];
+
+        function renderGuests(filter = '') {
+            const filtered = guests.filter(g => g.name.toLowerCase().includes(filter.toLowerCase()));
+            
+            const confirmed = guests.filter(g => g.status === 'Confirmed').length;
+            const pending = guests.filter(g => g.status === 'Pending').length;
+            const declined = guests.filter(g => g.status === 'Declined').length;
+
+            document.getElementById('count-confirmed').innerText = confirmed;
+            document.getElementById('count-pending').innerText = pending;
+            document.getElementById('count-declined').innerText = declined;
+            document.getElementById('total-guests').innerText = guests.length;
+
+            const tbody = document.getElementById('guest-list-body');
+            tbody.innerHTML = filtered.map(g => {
+                let badgeClass = 'bg-emerald-500/10 text-emerald-300 border-emerald-500/20';
+                if (g.status === 'Pending') badgeClass = 'bg-amber-500/10 text-amber-300 border-amber-500/20';
+                if (g.status === 'Declined') badgeClass = 'bg-rose-500/10 text-rose-300 border-rose-500/20';
+
+                return `
+                    <tr>
+                        <td class="py-3 font-medium text-white">${g.name}</td>
+                        <td class="py-3"><span class="px-2.5 py-1 rounded-full border text-[10px] ${badgeClass}">${g.status}</span></td>
+                        <td class="py-3 text-xs text-gray-400">${g.notes || '-'}</td>
+                        <td class="py-3 text-center">
+                            <button onclick="removeGuest(${g.id})" class="text-xs text-rose-400 hover:text-rose-300">Remove</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        window.removeGuest = function(id) {
+            guests = guests.filter(g => g.id !== id);
+            renderGuests(document.getElementById('guest-search').value);
+        };
+
+        document.getElementById('add-guest-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('guest-name').value;
+            const status = document.getElementById('guest-status').value;
+            const notes = document.getElementById('guest-notes').value;
+
+            if (name) {
+                guests.push({ id: Date.now(), name, status, notes });
+                renderGuests(document.getElementById('guest-search').value);
+                e.target.reset();
+            }
         });
 
-        panelObserver.observe(glassPanel);
+        document.getElementById('guest-search').addEventListener('input', (e) => {
+            renderGuests(e.target.value);
+        });
+        renderGuests();
+
+        // 4. CHECKLIST STATE & LOGIC
+        let checklistItems = [
+            { id: 1, text: 'Reserve Grand Palace Venue & Catering', done: true },
+            { id: 2, text: 'Finalize Photographer & Cinematographer Contract', done: true },
+            { id: 3, text: 'Send Out Official Rose Gold Embossed Invitations', done: false },
+            { id: 4, text: 'Schedule Cake Tasting & Floral Arch Mockup', done: false },
+            { id: 5, text: 'Finalize Seating Chart & Table Placements', done: false },
+            { id: 6, text: 'Rehearsal Dinner Confirmation', done: false }
+        ];
+
+        function renderChecklist() {
+            const completedCount = checklistItems.filter(item => item.done).length;
+            const percentage = Math.round((completedCount / checklistItems.length) * 100);
+
+            document.getElementById('checklist-progress-text').innerText = `${percentage}% Completed`;
+            document.getElementById('checklist-progress-bar').style.width = `${percentage}%`;
+
+            const container = document.getElementById('checklist-items-container');
+            container.innerHTML = checklistItems.map(item => `
+                <label class="flex items-center space-x-3 p-3 rounded-xl glass-input cursor-pointer hover:border-rose-gold/40 transition-colors">
+                    <input type="checkbox" onchange="toggleChecklist(${item.id})" ${item.done ? 'checked' : ''} class="w-4 h-4 accent-rose-gold bg-deep-navy border-rose-gold/40 rounded">
+                    <span class="text-sm ${item.done ? 'line-through text-gray-500' : 'text-gray-200'}">${item.text}</span>
+                </label>
+            `).join('');
+        }
+
+        window.toggleChecklist = function(id) {
+            checklistItems = checklistItems.map(item => item.id === id ? { ...item, done: !item.done } : item);
+            renderChecklist();
+        };
+        renderChecklist();
     </script>
 </body>
-</html>
+</html>s
