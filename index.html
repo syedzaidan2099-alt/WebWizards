@@ -40,8 +40,8 @@
         }
 
         body {
-            background-color: #080711;
-            color: #f1f5f9;
+            background-color: #0b0914;
+            color: #2c221e;
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
@@ -58,37 +58,43 @@
             display: block;
         }
 
-        /* Glassmorphism Styles */
+        /* Luxury Translucent Cream Glassmorphism Styles */
         .glass-panel {
-            background: rgba(15, 13, 29, 0.55);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(230, 184, 156, 0.18);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            background: rgba(253, 248, 240, 0.78);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            box-shadow: 0 25px 60px rgba(15, 12, 5, 0.35), 0 0 30px rgba(212, 175, 55, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.9);
         }
 
         .glass-card {
-            background: rgba(24, 21, 46, 0.45);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(230, 184, 156, 0.12);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 253, 248, 0.68);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 12px 30px rgba(184, 134, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
 
         .glass-card:hover {
-            border-color: rgba(230, 184, 156, 0.3);
+            border-color: rgba(212, 175, 55, 0.6);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.15);
         }
 
         .glass-input {
-            background: rgba(10, 8, 20, 0.6);
-            border: 1px solid rgba(230, 184, 156, 0.2);
-            color: #ffffff;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            color: #1c140e;
+        }
+
+        .glass-input::placeholder {
+            color: #8c786a;
         }
 
         .glass-input:focus {
             outline: none;
-            border-color: #e6b89c;
-            box-shadow: 0 0 15px rgba(230, 184, 156, 0.2);
+            border-color: #c59b27;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.35);
+            background: #ffffff;
         }
 
         /* Scroll trigger transition */
@@ -109,14 +115,14 @@
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: rgba(8, 7, 17, 0.8);
+            background: rgba(253, 248, 240, 0.6);
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(230, 184, 156, 0.3);
+            background: rgba(212, 175, 55, 0.4);
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(230, 184, 156, 0.6);
+            background: rgba(212, 175, 55, 0.7);
         }
     </style>
 
@@ -136,23 +142,23 @@
     <canvas id="bg-canvas"></canvas>
 
     <!-- Navigation Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 px-6 py-4 transition-all duration-300 backdrop-blur-md bg-deep-navy/30 border-b border-rose-gold/10">
+    <header class="fixed top-0 left-0 right-0 z-50 px-6 py-4 transition-all duration-300 backdrop-blur-md bg-white/40 border-b border-amber-600/20">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <span class="text-rose-gold text-2xl font-serif tracking-widest uppercase font-bold">Web Wizards</span>
-                <span class="text-xs px-2.5 py-0.5 rounded-full bg-rose-gold/10 text-rose-gold border border-rose-gold/20">Wedding Concierge</span>
+                <span class="text-amber-800 text-2xl font-serif tracking-widest uppercase font-bold">Web Wizards</span>
+                <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-900 border border-amber-600/30 font-medium">Wedding Concierge</span>
             </div>
-            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
-                <a href="#hero" class="hover:text-rose-gold transition-colors">Home</a>
-                <a href="#couple-setup" class="hover:text-rose-gold transition-colors">Setup</a>
-                <a href="#dashboard" class="hover:text-rose-gold transition-colors">Dashboard</a>
-                <a href="#budget" class="hover:text-rose-gold transition-colors">Budget</a>
-                <a href="#guests" class="hover:text-rose-gold transition-colors">Guests</a>
-                <a href="#checklist" class="hover:text-rose-gold transition-colors">Checklist</a>
-                <a href="#vendors" class="hover:text-rose-gold transition-colors">Vendors</a>
-                <a href="#timeline" class="hover:text-rose-gold transition-colors">Timeline</a>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-amber-950">
+                <a href="#hero" class="hover:text-amber-600 transition-colors">Home</a>
+                <a href="#couple-setup" class="hover:text-amber-600 transition-colors">Setup</a>
+                <a href="#dashboard" class="hover:text-amber-600 transition-colors">Dashboard</a>
+                <a href="#budget" class="hover:text-amber-600 transition-colors">Budget</a>
+                <a href="#guests" class="hover:text-amber-600 transition-colors">Guests</a>
+                <a href="#checklist" class="hover:text-amber-600 transition-colors">Checklist</a>
+                <a href="#vendors" class="hover:text-amber-600 transition-colors">Vendors</a>
+                <a href="#timeline" class="hover:text-amber-600 transition-colors">Timeline</a>
             </nav>
-            <a href="#dashboard" class="px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider bg-gradient-to-r from-rose-gold to-champagne text-deep-navy hover:shadow-lg hover:shadow-rose-gold/20 transition-all duration-300">
+            <a href="#dashboard" class="px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-stone-950 hover:shadow-lg hover:shadow-amber-500/30 transition-all duration-300 border border-amber-300">
                 Open Planner
             </a>
         </div>
@@ -161,28 +167,28 @@
     <!-- HERO SECTION -->
     <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center px-4 relative">
         <div class="max-w-3xl space-y-6 animate-fade-in">
-            <p class="text-rose-gold uppercase tracking-[0.3em] text-sm font-medium">The Ultimate Suite by Web Wizards</p>
-            <h1 id="hero-title-display" class="text-5xl md:text-7xl font-serif font-normal text-transparent bg-clip-text bg-gradient-to-r from-white via-champagne to-rose-gold leading-tight">
+            <p class="text-amber-400 uppercase tracking-[0.3em] text-sm font-semibold drop-shadow">The Ultimate Suite by Web Wizards</p>
+            <h1 id="hero-title-display" class="text-5xl md:text-7xl font-serif font-normal text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-200 to-amber-400 leading-tight drop-shadow-md">
                 Sophia & Alexander
             </h1>
-            <p id="hero-location-display" class="text-rose-gold/90 text-sm md:text-base tracking-widest uppercase">
+            <p id="hero-location-display" class="text-amber-200/90 text-sm md:text-base tracking-widest uppercase font-medium">
                 Grand Palace Hall &bull; Paris, France
             </p>
-            <p class="text-gray-400 text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed pt-2">
+            <p class="text-stone-300 text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed pt-2 drop-shadow-sm">
                 An intuitive, luxury wedding planning experience designed for both couples and professional wedding planners.
             </p>
             
             <div class="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#dashboard" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-rose-gold via-champagne to-rose-gold text-deep-navy font-semibold text-sm tracking-wider uppercase hover:scale-105 transition-transform duration-300 shadow-xl shadow-rose-gold/20">
+                <a href="#dashboard" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-stone-950 font-bold text-sm tracking-wider uppercase hover:scale-105 transition-transform duration-300 shadow-xl shadow-amber-500/20 border border-amber-200">
                     Open Command Center
                 </a>
             </div>
         </div>
 
         <!-- Scroll Indicator -->
-        <a href="#dashboard" class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-gray-400 hover:text-rose-gold transition-colors">
-            <span class="text-xs uppercase tracking-widest">Scroll to Dashboard</span>
-            <svg class="w-5 h-5 animate-bounce text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <a href="#dashboard" class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-amber-200/80 hover:text-amber-300 transition-colors">
+            <span class="text-xs uppercase tracking-widest font-medium">Scroll to Dashboard</span>
+            <svg class="w-5 h-5 animate-bounce text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
             </svg>
         </a>
@@ -190,61 +196,61 @@
 
     <!-- MAIN DASHBOARD CONTENT (GLASS PANEL CONTAINER) -->
     <main class="w-full px-4 sm:px-8 pb-24">
-        <div id="dashboard" class="glass-panel reveal-panel max-w-7xl mx-auto rounded-3xl p-6 sm:p-10 my-12 space-y-12">
+        <div id="dashboard" class="glass-panel reveal-panel max-w-7xl mx-auto rounded-3xl p-6 sm:p-10 my-12 space-y-12 text-stone-900">
             
             <!-- Dashboard Header & Countdown Bar -->
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-rose-gold/15 pb-8">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-amber-800/20 pb-8">
                 <div>
-                    <span class="text-rose-gold text-xs font-semibold uppercase tracking-widest">Live Overview</span>
-                    <h2 id="header-couple-display" class="text-3xl sm:text-4xl font-serif font-normal text-white mt-1">Sophia & Alexander's Wedding</h2>
-                    <p id="header-location-display" class="text-gray-400 text-sm mt-1">Target Date: October 24, 2026 &bull; Grand Palace Hall, Paris</p>
+                    <span class="text-amber-700 text-xs font-bold uppercase tracking-widest">Live Overview</span>
+                    <h2 id="header-couple-display" class="text-3xl sm:text-4xl font-serif font-normal text-stone-900 mt-1">Sophia & Alexander's Wedding</h2>
+                    <p id="header-location-display" class="text-stone-700 text-sm mt-1 font-medium">Target Date: October 24, 2026 &bull; Grand Palace Hall, Paris</p>
                 </div>
 
                 <!-- Countdown Timer Block -->
-                <div class="grid grid-cols-4 gap-3 text-center bg-deep-navy/60 p-4 rounded-2xl border border-rose-gold/20">
+                <div class="grid grid-cols-4 gap-3 text-center bg-amber-50/80 backdrop-blur-md p-4 rounded-2xl border border-amber-600/30 shadow-inner">
                     <div class="px-2 sm:px-4">
-                        <span id="timer-days" class="block text-2xl sm:text-3xl font-serif font-bold text-rose-gold">00</span>
-                        <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Days</span>
+                        <span id="timer-days" class="block text-2xl sm:text-3xl font-serif font-bold text-amber-900">00</span>
+                        <span class="text-[10px] sm:text-xs text-amber-800 uppercase tracking-wider font-semibold">Days</span>
                     </div>
-                    <div class="px-2 sm:px-4 border-l border-rose-gold/10">
-                        <span id="timer-hours" class="block text-2xl sm:text-3xl font-serif font-bold text-champagne">00</span>
-                        <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Hours</span>
+                    <div class="px-2 sm:px-4 border-l border-amber-600/20">
+                        <span id="timer-hours" class="block text-2xl sm:text-3xl font-serif font-bold text-amber-800">00</span>
+                        <span class="text-[10px] sm:text-xs text-amber-800 uppercase tracking-wider font-semibold">Hours</span>
                     </div>
-                    <div class="px-2 sm:px-4 border-l border-rose-gold/10">
-                        <span id="timer-mins" class="block text-2xl sm:text-3xl font-serif font-bold text-rose-gold">00</span>
-                        <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Mins</span>
+                    <div class="px-2 sm:px-4 border-l border-amber-600/20">
+                        <span id="timer-mins" class="block text-2xl sm:text-3xl font-serif font-bold text-amber-900">00</span>
+                        <span class="text-[10px] sm:text-xs text-amber-800 uppercase tracking-wider font-semibold">Mins</span>
                     </div>
-                    <div class="px-2 sm:px-4 border-l border-rose-gold/10">
-                        <span id="timer-secs" class="block text-2xl sm:text-3xl font-serif font-bold text-champagne">00</span>
-                        <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Secs</span>
+                    <div class="px-2 sm:px-4 border-l border-amber-600/20">
+                        <span id="timer-secs" class="block text-2xl sm:text-3xl font-serif font-bold text-amber-800">00</span>
+                        <span class="text-[10px] sm:text-xs text-amber-800 uppercase tracking-wider font-semibold">Secs</span>
                     </div>
                 </div>
             </div>
 
             <!-- SECTION 0: COUPLE & EVENT CUSTOMIZATION FORM -->
             <section id="couple-setup" class="glass-card p-6 rounded-2xl space-y-4">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-rose-gold/10 pb-3">
-                    <h3 class="text-xl font-serif text-white flex items-center gap-2">
-                        <svg class="w-5 h-5 text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-amber-800/15 pb-3">
+                    <h3 class="text-xl font-serif text-stone-900 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                         Customize Couple & Event Details
                     </h3>
-                    <span class="text-xs text-rose-gold/80">Editable for planners & couples</span>
+                    <span class="text-xs text-amber-800 font-medium">Editable for planners & couples</span>
                 </div>
                 <form id="setup-form" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
                     <div>
-                        <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Bride Name</label>
+                        <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Bride Name</label>
                         <input type="text" id="input-bride" value="Sophia" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                     </div>
                     <div>
-                        <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Groom Name</label>
+                        <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Groom Name</label>
                         <input type="text" id="input-groom" value="Alexander" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                     </div>
                     <div>
-                        <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Venue / Location</label>
+                        <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Venue / Location</label>
                         <input type="text" id="input-venue" value="Grand Palace Hall, Paris" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                     </div>
                     <div>
-                        <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Wedding Date</label>
+                        <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Wedding Date</label>
                         <input type="date" id="input-date" value="2026-10-24" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                     </div>
                 </form>
@@ -254,28 +260,28 @@
             <section id="budget" class="space-y-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h3 class="text-2xl font-serif text-white flex items-center gap-2">
-                            <svg class="w-6 h-6 text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 class="text-2xl font-serif text-stone-900 flex items-center gap-2">
+                            <svg class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             Budget Allocation & Expense Tracker
                         </h3>
-                        <p class="text-xs text-gray-400 mt-1">Monitor real-time spending versus your target allocation</p>
+                        <p class="text-xs text-stone-600 mt-1">Monitor real-time spending versus your target allocation</p>
                     </div>
                     <div class="flex items-center gap-3">
                         <div class="text-right">
-                            <span class="text-xs text-gray-400 block">Total Target Budget</span>
-                            <span id="total-budget-display" class="text-lg font-semibold text-rose-gold">$45,000</span>
+                            <span class="text-xs text-stone-600 font-medium block">Total Target Budget</span>
+                            <span id="total-budget-display" class="text-lg font-bold text-amber-900">$45,000</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Budget Bar -->
                 <div class="glass-card p-6 rounded-2xl space-y-4">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-gray-300">Spent: <strong id="spent-amount-display" class="text-white">$0</strong></span>
-                        <span class="text-gray-300">Remaining: <strong id="remaining-amount-display" class="text-rose-gold">$45,000</strong></span>
+                    <div class="flex justify-between text-sm font-medium">
+                        <span class="text-stone-800">Spent: <strong id="spent-amount-display" class="text-stone-950 font-bold">$0</strong></span>
+                        <span class="text-stone-800">Remaining: <strong id="remaining-amount-display" class="text-amber-900 font-bold">$45,000</strong></span>
                     </div>
-                    <div class="w-full bg-deep-navy/80 h-3 rounded-full overflow-hidden border border-rose-gold/10 p-0.5">
-                        <div id="budget-progress-bar" class="bg-gradient-to-r from-rose-gold to-champagne h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    <div class="w-full bg-amber-100/80 h-3 rounded-full overflow-hidden border border-amber-600/30 p-0.5">
+                        <div id="budget-progress-bar" class="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
                     </div>
                 </div>
 
@@ -283,14 +289,14 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Add Item Form -->
                     <div class="glass-card p-6 rounded-2xl space-y-4">
-                        <h4 class="text-lg font-serif text-white">Add New Expense</h4>
+                        <h4 class="text-lg font-serif text-stone-900">Add New Expense</h4>
                         <form id="add-expense-form" class="space-y-4">
                             <div>
-                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Expense Name</label>
+                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Expense Name</label>
                                 <input type="text" id="expense-title" placeholder="e.g. Venue Deposit" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                             </div>
                             <div>
-                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Category</label>
+                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Category</label>
                                 <select id="expense-category" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                                     <option value="Venue">Venue & Catering</option>
                                     <option value="Photography">Photography & Film</option>
@@ -301,10 +307,10 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Cost ($)</label>
+                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Cost ($)</label>
                                 <input type="number" id="expense-amount" min="1" placeholder="2500" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                             </div>
-                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-rose-gold to-champagne text-deep-navy font-semibold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity">
+                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-stone-950 font-bold text-xs uppercase tracking-wider hover:opacity-95 transition-opacity border border-amber-300 shadow-md">
                                 Add Expense Item
                             </button>
                         </form>
@@ -312,10 +318,10 @@
 
                     <!-- Expense Table -->
                     <div class="lg:col-span-2 glass-card p-6 rounded-2xl flex flex-col justify-between">
-                        <h4 class="text-lg font-serif text-white mb-4">Itemized Breakdown</h4>
+                        <h4 class="text-lg font-serif text-stone-900 mb-4">Itemized Breakdown</h4>
                         <div class="overflow-x-auto max-h-64 overflow-y-auto">
-                            <table class="w-full text-left text-sm text-gray-300">
-                                <thead class="text-xs text-gray-400 uppercase border-b border-rose-gold/10">
+                            <table class="w-full text-left text-sm text-stone-800">
+                                <thead class="text-xs text-amber-900 font-bold uppercase border-b border-amber-800/20">
                                     <tr>
                                         <th class="py-2">Item</th>
                                         <th class="py-2">Category</th>
@@ -323,7 +329,7 @@
                                         <th class="py-2 text-center">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="expense-list-body" class="divide-y divide-rose-gold/10">
+                                <tbody id="expense-list-body" class="divide-y divide-amber-800/15">
                                     <!-- Dynamic rows will render here -->
                                 </tbody>
                             </table>
@@ -336,32 +342,32 @@
             <section id="guests" class="space-y-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h3 class="text-2xl font-serif text-white flex items-center gap-2">
-                            <svg class="w-6 h-6 text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        <h3 class="text-2xl font-serif text-stone-900 flex items-center gap-2">
+                            <svg class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                             Guest List & RSVP Manager
                         </h3>
-                        <p class="text-xs text-gray-400 mt-1">Track RSVPs, dietary requirements, and headcounts</p>
+                        <p class="text-xs text-stone-600 mt-1">Track RSVPs, dietary requirements, and headcounts</p>
                     </div>
 
                     <!-- Summary Badges -->
                     <div class="flex items-center gap-2">
-                        <span class="px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-medium">Confirmed: <strong id="count-confirmed">0</strong></span>
-                        <span class="px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs font-medium">Pending: <strong id="count-pending">0</strong></span>
-                        <span class="px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs font-medium">Declined: <strong id="count-declined">0</strong></span>
+                        <span class="px-3 py-1.5 rounded-full bg-emerald-700/10 border border-emerald-700/30 text-emerald-900 text-xs font-semibold">Confirmed: <strong id="count-confirmed">0</strong></span>
+                        <span class="px-3 py-1.5 rounded-full bg-amber-700/10 border border-amber-700/30 text-amber-900 text-xs font-semibold">Pending: <strong id="count-pending">0</strong></span>
+                        <span class="px-3 py-1.5 rounded-full bg-rose-700/10 border border-rose-700/30 text-rose-900 text-xs font-semibold">Declined: <strong id="count-declined">0</strong></span>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Guest Form -->
                     <div class="glass-card p-6 rounded-2xl space-y-4">
-                        <h4 class="text-lg font-serif text-white">Add New Guest</h4>
+                        <h4 class="text-lg font-serif text-stone-900">Add New Guest</h4>
                         <form id="add-guest-form" class="space-y-4">
                             <div>
-                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Full Name</label>
+                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Full Name</label>
                                 <input type="text" id="guest-name" placeholder="Lady Eleanor Vance" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                             </div>
                             <div>
-                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">RSVP Status</label>
+                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">RSVP Status</label>
                                 <select id="guest-status" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                                     <option value="Confirmed">Confirmed</option>
                                     <option value="Pending">Pending</option>
@@ -369,10 +375,10 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Dietary / Notes</label>
+                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Dietary / Notes</label>
                                 <input type="text" id="guest-notes" placeholder="Vegetarian, Table 4" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                             </div>
-                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-rose-gold to-champagne text-deep-navy font-semibold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity">
+                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-stone-950 font-bold text-xs uppercase tracking-wider hover:opacity-95 transition-opacity border border-amber-300 shadow-md">
                                 Register Guest
                             </button>
                         </form>
@@ -382,12 +388,12 @@
                     <div class="lg:col-span-2 glass-card p-6 rounded-2xl space-y-4">
                         <div class="flex items-center justify-between gap-4">
                             <input type="text" id="guest-search" placeholder="Search guests..." class="w-full sm:w-64 px-4 py-2 rounded-xl glass-input text-xs">
-                            <span class="text-xs text-gray-400">Total: <strong id="total-guests" class="text-white">0</strong></span>
+                            <span class="text-xs text-stone-700 font-semibold">Total: <strong id="total-guests" class="text-stone-950">0</strong></span>
                         </div>
 
                         <div class="overflow-x-auto max-h-72 overflow-y-auto">
-                            <table class="w-full text-left text-sm text-gray-300">
-                                <thead class="text-xs text-gray-400 uppercase border-b border-rose-gold/10">
+                            <table class="w-full text-left text-sm text-stone-800">
+                                <thead class="text-xs text-amber-900 font-bold uppercase border-b border-amber-800/20">
                                     <tr>
                                         <th class="py-2">Name</th>
                                         <th class="py-2">Status</th>
@@ -395,7 +401,7 @@
                                         <th class="py-2 text-center">Remove</th>
                                     </tr>
                                 </thead>
-                                <tbody id="guest-list-body" class="divide-y divide-rose-gold/10">
+                                <tbody id="guest-list-body" class="divide-y divide-amber-800/15">
                                     <!-- Dynamic Rows -->
                                 </tbody>
                             </table>
@@ -408,22 +414,22 @@
             <section id="checklist" class="space-y-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h3 class="text-2xl font-serif text-white flex items-center gap-2">
-                            <svg class="w-6 h-6 text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 class="text-2xl font-serif text-stone-900 flex items-center gap-2">
+                            <svg class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             Wedding Milestones & Checklist
                         </h3>
-                        <p class="text-xs text-gray-400 mt-1">Keep track of key planning tasks leading to the wedding day</p>
+                        <p class="text-xs text-stone-600 mt-1">Keep track of key planning tasks leading to the wedding day</p>
                     </div>
                     <div class="text-right">
-                        <span class="text-xs text-gray-400 block">Progress</span>
-                        <span id="checklist-progress-text" class="text-lg font-semibold text-rose-gold">0% Completed</span>
+                        <span class="text-xs text-stone-600 font-medium block">Progress</span>
+                        <span id="checklist-progress-text" class="text-lg font-bold text-amber-900">0% Completed</span>
                     </div>
                 </div>
 
                 <div class="glass-card p-6 rounded-2xl space-y-4">
                     <!-- Progress Bar -->
-                    <div class="w-full bg-deep-navy/80 h-2.5 rounded-full overflow-hidden border border-rose-gold/10">
-                        <div id="checklist-progress-bar" class="bg-gradient-to-r from-rose-gold to-champagne h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    <div class="w-full bg-amber-100/80 h-2.5 rounded-full overflow-hidden border border-amber-600/30">
+                        <div id="checklist-progress-bar" class="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
                     </div>
 
                     <!-- Checklist Items Grid -->
@@ -437,37 +443,37 @@
             <section id="vendors" class="space-y-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h3 class="text-2xl font-serif text-white flex items-center gap-2">
-                            <svg class="w-6 h-6 text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V10m0 0V4.5M10 10l-2 2m2-2l2 2"></path></svg>
+                        <h3 class="text-2xl font-serif text-stone-900 flex items-center gap-2">
+                            <svg class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V10m0 0V4.5M10 10l-2 2m2-2l2 2"></path></svg>
                             Vendor Contacts & Directory
                         </h3>
-                        <p class="text-xs text-gray-400 mt-1">Curated team of creative professionals handling your big day</p>
+                        <p class="text-xs text-stone-600 mt-1">Curated team of creative professionals handling your big day</p>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Add Vendor Form -->
                     <div class="glass-card p-6 rounded-2xl space-y-4">
-                        <h4 class="text-lg font-serif text-white">Add New Vendor</h4>
+                        <h4 class="text-lg font-serif text-stone-900">Add New Vendor</h4>
                         <form id="add-vendor-form" class="space-y-3">
                             <div>
-                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Business Name</label>
+                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Business Name</label>
                                 <input type="text" id="vendor-name" placeholder="e.g. Lumière Atelier" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                             </div>
                             <div>
-                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Category</label>
+                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Category</label>
                                 <input type="text" id="vendor-category" placeholder="e.g. Photography, Catering" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                             </div>
                             <div>
-                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Contact Person</label>
+                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Contact Person</label>
                                 <input type="text" id="vendor-contact" placeholder="Marc Antoine" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                             </div>
                             <div>
-                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Phone / Email</label>
+                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Phone / Email</label>
                                 <input type="text" id="vendor-phone" placeholder="+1 (555) 876-5432" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                             </div>
                             <div>
-                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Booking Status</label>
+                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Booking Status</label>
                                 <select id="vendor-status" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                                     <option value="Booked">Booked</option>
                                     <option value="In Talks">In Talks</option>
@@ -475,10 +481,10 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Notes</label>
+                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Notes</label>
                                 <input type="text" id="vendor-notes" placeholder="10 Hours coverage + drone" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                             </div>
-                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-rose-gold to-champagne text-deep-navy font-semibold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity">
+                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-stone-950 font-bold text-xs uppercase tracking-wider hover:opacity-95 transition-opacity border border-amber-300 shadow-md">
                                 Add Vendor Entry
                             </button>
                         </form>
@@ -495,32 +501,32 @@
             <section id="timeline" class="space-y-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h3 class="text-2xl font-serif text-white flex items-center gap-2">
-                            <svg class="w-6 h-6 text-rose-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 class="text-2xl font-serif text-stone-900 flex items-center gap-2">
+                            <svg class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             Day-Of Schedule Timeline
                         </h3>
-                        <p class="text-xs text-gray-400 mt-1">Key event milestones scheduled for the wedding day</p>
+                        <p class="text-xs text-stone-600 mt-1">Key event milestones scheduled for the wedding day</p>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Timeline Input Form -->
                     <div class="glass-card p-6 rounded-2xl space-y-4">
-                        <h4 class="text-lg font-serif text-white">Add Schedule Event</h4>
+                        <h4 class="text-lg font-serif text-stone-900">Add Schedule Event</h4>
                         <form id="add-timeline-form" class="space-y-3">
                             <div>
-                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Time (e.g., 04:00 PM)</label>
+                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Time (e.g., 04:00 PM)</label>
                                 <input type="text" id="timeline-time" placeholder="04:00 PM" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                             </div>
                             <div>
-                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Activity / Stage</label>
+                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Activity / Stage</label>
                                 <input type="text" id="timeline-title" placeholder="Wedding Ceremony" required class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                             </div>
                             <div>
-                                <label class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Details / Responsible Party</label>
+                                <label class="text-xs text-stone-700 font-semibold uppercase tracking-wider block mb-1">Details / Responsible Party</label>
                                 <input type="text" id="timeline-desc" placeholder="Guests arrive at Main Pavilion" class="w-full px-4 py-2.5 rounded-xl glass-input text-sm">
                             </div>
-                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-rose-gold to-champagne text-deep-navy font-semibold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity">
+                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-stone-950 font-bold text-xs uppercase tracking-wider hover:opacity-95 transition-opacity border border-amber-300 shadow-md">
                                 Append Event
                             </button>
                         </form>
@@ -528,7 +534,7 @@
 
                     <!-- Dynamic Schedule Timeline Display -->
                     <div class="lg:col-span-2 glass-card p-6 rounded-2xl relative">
-                        <div id="timeline-events-container" class="space-y-6 border-l-2 border-rose-gold/30 ml-4 pl-6">
+                        <div id="timeline-events-container" class="space-y-6 border-l-2 border-amber-700/40 ml-4 pl-6">
                             <!-- Dynamic Timeline Items Rendered Here -->
                         </div>
                     </div>
@@ -539,8 +545,8 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-rose-gold/10 py-8 text-center text-xs text-gray-500">
-        <p>Crafted by <strong class="text-rose-gold font-serif">Web Wizards</strong> &bull; Wedding Concierge Platform</p>
+    <footer class="border-t border-amber-800/20 py-8 text-center text-xs text-amber-200/70">
+        <p>Crafted by <strong class="text-amber-300 font-serif">Web Wizards</strong> &bull; Wedding Concierge Platform</p>
     </footer>
 
     <!-- INTERACTIVE SCRIPT & CASBERRY THREE.JS PARTICLES INTEGRATION -->
@@ -969,7 +975,7 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // 2. BUDGET TRACKER STATE & LOGIC
+        // 1. BUDGET TRACKER STATE & LOGIC
         let totalBudget = 45000;
         let expenses = [
             { id: 1, title: 'Grand Palace Hall Reservation', category: 'Venue', amount: 18000 },
@@ -990,11 +996,11 @@
             const tbody = document.getElementById('expense-list-body');
             tbody.innerHTML = expenses.map(item => `
                 <tr>
-                    <td class="py-3 font-medium text-white">${item.title}</td>
-                    <td class="py-3"><span class="px-2 py-0.5 rounded text-[10px] bg-rose-gold/10 text-rose-gold">${item.category}</span></td>
-                    <td class="py-3 text-right font-semibold text-white">$${item.amount.toLocaleString()}</td>
+                    <td class="py-3 font-semibold text-stone-900">${item.title}</td>
+                    <td class="py-3"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-700/10 text-amber-900 font-bold border border-amber-700/20">${item.category}</span></td>
+                    <td class="py-3 text-right font-bold text-amber-950">$${item.amount.toLocaleString()}</td>
                     <td class="py-3 text-center">
-                        <button onclick="removeExpense(${item.id})" class="text-xs text-rose-400 hover:text-rose-300">Delete</button>
+                        <button onclick="removeExpense(${item.id})" class="text-xs text-rose-700 font-bold hover:text-rose-900">Delete</button>
                     </td>
                 </tr>
             `).join('');
@@ -1019,7 +1025,7 @@
         });
         renderBudget();
 
-        // 3. GUEST LIST STATE & LOGIC
+        // 2. GUEST LIST STATE & LOGIC
         let guests = [
             { id: 1, name: 'Lady Eleanor Vance', status: 'Confirmed', notes: 'Vegetarian, Table 1' },
             { id: 2, name: 'Lord Sterling Vance', status: 'Confirmed', notes: 'Table 1' },
@@ -1041,17 +1047,17 @@
 
             const tbody = document.getElementById('guest-list-body');
             tbody.innerHTML = filtered.map(g => {
-                let badgeClass = 'bg-emerald-500/10 text-emerald-300 border-emerald-500/20';
-                if (g.status === 'Pending') badgeClass = 'bg-amber-500/10 text-amber-300 border-amber-500/20';
-                if (g.status === 'Declined') badgeClass = 'bg-rose-500/10 text-rose-300 border-rose-500/20';
+                let badgeClass = 'bg-emerald-700/15 text-emerald-950 border-emerald-700/30';
+                if (g.status === 'Pending') badgeClass = 'bg-amber-700/15 text-amber-950 border-amber-700/30';
+                if (g.status === 'Declined') badgeClass = 'bg-rose-700/15 text-rose-950 border-rose-700/30';
 
                 return `
                     <tr>
-                        <td class="py-3 font-medium text-white">${g.name}</td>
-                        <td class="py-3"><span class="px-2.5 py-1 rounded-full border text-[10px] ${badgeClass}">${g.status}</span></td>
-                        <td class="py-3 text-xs text-gray-400">${g.notes || '-'}</td>
+                        <td class="py-3 font-semibold text-stone-900">${g.name}</td>
+                        <td class="py-3"><span class="px-2.5 py-1 rounded-full border text-[10px] font-bold ${badgeClass}">${g.status}</span></td>
+                        <td class="py-3 text-xs text-stone-700 font-medium">${g.notes || '-'}</td>
                         <td class="py-3 text-center">
-                            <button onclick="removeGuest(${g.id})" class="text-xs text-rose-400 hover:text-rose-300">Remove</button>
+                            <button onclick="removeGuest(${g.id})" class="text-xs text-rose-700 font-bold hover:text-rose-900">Remove</button>
                         </td>
                     </tr>
                 `;
@@ -1081,7 +1087,7 @@
         });
         renderGuests();
 
-        // 4. CHECKLIST STATE & LOGIC
+        // 3. CHECKLIST STATE & LOGIC
         let checklistItems = [
             { id: 1, text: 'Reserve Grand Palace Venue & Catering', done: true },
             { id: 2, text: 'Finalize Photographer & Cinematographer Contract', done: true },
@@ -1100,9 +1106,9 @@
 
             const container = document.getElementById('checklist-items-container');
             container.innerHTML = checklistItems.map(item => `
-                <label class="flex items-center space-x-3 p-3 rounded-xl glass-input cursor-pointer hover:border-rose-gold/40 transition-colors">
-                    <input type="checkbox" onchange="toggleChecklist(${item.id})" ${item.done ? 'checked' : ''} class="w-4 h-4 accent-rose-gold bg-deep-navy border-rose-gold/40 rounded">
-                    <span class="text-sm ${item.done ? 'line-through text-gray-500' : 'text-gray-200'}">${item.text}</span>
+                <label class="flex items-center space-x-3 p-3 rounded-xl glass-input cursor-pointer hover:border-amber-600/50 transition-colors">
+                    <input type="checkbox" onchange="toggleChecklist(${item.id})" ${item.done ? 'checked' : ''} class="w-4 h-4 accent-amber-600 bg-amber-50 border-amber-600/40 rounded">
+                    <span class="text-sm font-medium ${item.done ? 'line-through text-stone-500' : 'text-stone-900'}">${item.text}</span>
                 </label>
             `).join('');
         }
@@ -1113,7 +1119,7 @@
         };
         renderChecklist();
 
-        // 5. MANUAL VENDOR DIRECTORY MANAGEMENT
+        // 4. MANUAL VENDOR DIRECTORY MANAGEMENT
         let vendors = [
             { id: 1, name: 'Grand Palace Hall', category: 'Venue', contact: 'Julia Sterling', phone: '+1 (555) 234-5678', status: 'Booked', notes: 'Includes ballroom & outdoor garden setup.' },
             { id: 2, name: 'Lumière Atelier', category: 'Photography', contact: 'Marc Antoine', phone: '+1 (555) 876-5432', status: 'Booked', notes: '10 Hours coverage + drone cinematography.' },
@@ -1124,21 +1130,21 @@
         function renderVendors() {
             const container = document.getElementById('vendor-cards-container');
             container.innerHTML = vendors.map(v => {
-                let badgeClass = 'bg-emerald-500/20 text-emerald-300';
-                if (v.status === 'In Talks') badgeClass = 'bg-amber-500/20 text-amber-300';
-                if (v.status === 'Pending Deposit') badgeClass = 'bg-rose-500/20 text-rose-300';
+                let badgeClass = 'bg-emerald-700/15 text-emerald-950 border-emerald-700/30';
+                if (v.status === 'In Talks') badgeClass = 'bg-amber-700/15 text-amber-950 border-amber-700/30';
+                if (v.status === 'Pending Deposit') badgeClass = 'bg-rose-700/15 text-rose-950 border-rose-700/30';
 
                 return `
                     <div class="glass-card p-5 rounded-2xl space-y-3 relative group">
                         <div class="flex justify-between items-start">
-                            <span class="p-2 rounded-xl bg-rose-gold/10 text-rose-gold text-xs font-semibold">${v.category}</span>
-                            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded ${badgeClass}">${v.status}</span>
+                            <span class="p-2 rounded-xl bg-amber-700/10 text-amber-900 text-xs font-bold border border-amber-700/20">${v.category}</span>
+                            <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded border ${badgeClass}">${v.status}</span>
                         </div>
-                        <h4 class="text-base font-serif text-white">${v.name}</h4>
-                        <p class="text-xs text-gray-400">Contact: ${v.contact || 'N/A'}</p>
-                        <p class="text-xs text-rose-gold">${v.phone || 'N/A'}</p>
-                        <p class="text-xs text-gray-500 pt-2 border-t border-rose-gold/10">${v.notes || 'No extra notes'}</p>
-                        <button onclick="removeVendor(${v.id})" class="text-xs text-rose-400 hover:text-rose-300 pt-1 block">Remove Vendor</button>
+                        <h4 class="text-base font-serif font-bold text-stone-900">${v.name}</h4>
+                        <p class="text-xs text-stone-700 font-medium">Contact: ${v.contact || 'N/A'}</p>
+                        <p class="text-xs text-amber-900 font-bold">${v.phone || 'N/A'}</p>
+                        <p class="text-xs text-stone-600 pt-2 border-t border-amber-800/15">${v.notes || 'No extra notes'}</p>
+                        <button onclick="removeVendor(${v.id})" class="text-xs text-rose-700 font-bold hover:text-rose-900 pt-1 block">Remove Vendor</button>
                     </div>
                 `;
             }).join('');
@@ -1166,7 +1172,7 @@
         });
         renderVendors();
 
-        // 6. MANUAL DAY-OF TIMELINE MANAGEMENT
+        // 5. MANUAL DAY-OF TIMELINE MANAGEMENT
         let timelineEvents = [
             { id: 1, time: '09:00 AM', title: 'Bridal Suite Preparation', desc: 'Hair and makeup sessions begin for the bridal party.' },
             { id: 2, time: '01:30 PM', title: 'First Look & Portraits', desc: 'Private photography session in the botanical gardens.' },
@@ -1178,13 +1184,13 @@
             const container = document.getElementById('timeline-events-container');
             container.innerHTML = timelineEvents.map((evt, idx) => `
                 <div class="relative group">
-                    <span class="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full ${idx % 2 === 0 ? 'bg-rose-gold' : 'bg-champagne'} border-4 border-deep-navy"></span>
+                    <span class="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full ${idx % 2 === 0 ? 'bg-amber-600' : 'bg-amber-400'} border-4 border-amber-100 shadow"></span>
                     <div class="flex justify-between items-start">
-                        <span class="text-xs text-rose-gold font-semibold uppercase tracking-wider">${evt.time}</span>
-                        <button onclick="removeTimelineEvent(${evt.id})" class="text-xs text-rose-400 hover:text-rose-300 opacity-80 group-hover:opacity-100">Remove</button>
+                        <span class="text-xs text-amber-900 font-bold uppercase tracking-wider">${evt.time}</span>
+                        <button onclick="removeTimelineEvent(${evt.id})" class="text-xs text-rose-700 font-bold hover:text-rose-900 opacity-80 group-hover:opacity-100">Remove</button>
                     </div>
-                    <h4 class="text-base font-serif text-white mt-0.5">${evt.title}</h4>
-                    <p class="text-xs text-gray-400 mt-1">${evt.desc || 'No details provided.'}</p>
+                    <h4 class="text-base font-serif font-bold text-stone-900 mt-0.5">${evt.title}</h4>
+                    <p class="text-xs text-stone-600 mt-1 font-medium">${evt.desc || 'No details provided.'}</p>
                 </div>
             `).join('');
         }
